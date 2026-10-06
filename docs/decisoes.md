@@ -66,7 +66,7 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 ## DEC-008 a DEC-011 — Controles e tempo de cálculo
 
 - Clock global `MAX10_CLK1_50`, borda de subida. Reset lógico síncrono ativo alto por KEY1; KEY0 captura os coeficientes. Os KEY são ativos baixos; sincronização em duas etapas e evento único de captura foram aceitos em DEC-019.
-- Carregar `a`, `b`, `c` em três capturas de KEY0, nessa ordem, com deslocador de três estágios; não usar contador/enables sem prova de conformidade à regra sem FSM. O procedimento exige exatamente três capturas e não detecta entrada incorreta/incompleta/excedente.
+- **Histórico DEC-009:** carregamento por deslocador foi a escolha anterior; para a TASK-002, essa escolha foi supersedida pela ratificação posterior de contador/enables e bloqueio após a terceira captura em DEC-024.
 - `SW[9:8]` seleciona `00=x`, `01=y`, `10=x₁`, `11=x₂`. `SW[7:0]` fornece coeficientes durante a carga e `x` depois. A apresentação prioriza decimal com sinal; sem seletor HEX/DEC e sem botão EXECUTAR.
 - Coeficientes são sequenciais; cálculo e apresentação dos resultados são combinacionais e continuamente disponíveis depois da carga.
 - **Status:** decisões de equipe aceitas nas DEC-008 a DEC-011; fallback `------` aprovado em DEC-017.
@@ -89,7 +89,7 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 - `always` fora dos flip-flops, lógica comportamental de datapath/controle, FSM, `buf`, laços e geração continuam proibidos; demais conexões/cálculos são estruturais.
 - **Status:** consenso na Rodada 3 após autorização explícita do responsável e revisão independente.
 
-## DEC-015 a DEC-022 — Pendências restantes
+## DEC-015 a DEC-024 — Pendências restantes
 
 - **DEC-015 / PEN-004:** Z é zero do valor selecionado; C continua bloqueada até definir sua operação/estágio de origem.
 - **DEC-016 / PEN-010:** arredondar ao mais próximo, empate para longe de zero, somente ao reduzir precisão; preservar os bits enquanto possível. Aprovado pelo responsável.
@@ -99,3 +99,5 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 - **DEC-020 / PEN-019:** plano aprovado de comparar exaustivamente casos de raízes válidas com referência exata e acrescentar vetores dirigidos. Execução/evidência ainda pendente; F=16 não está validado.
 - **DEC-021 / PEN-016:** versão instalada identificada como Quartus Prime Standard Lite 25.1std.0 Build 1129 (21/10/2025), pelos comandos `quartus_sh --version` e `quartus_pgm --version`. Nenhuma compilação foi iniciada.
 - **DEC-022 / PEN-020:** adiada pelo responsável para a etapa posterior de preparação do relatório.
+- **DEC-023 / PEN-021:** consenso técnico sobre a fronteira externa `coefficient_input`; ratificada com clarificações em DEC-024.
+- **DEC-024 / PEN-005/PEN-021:** TASK-002 ratificada: contador linear com enables seleciona `a→b→c`; após a terceira captura, novas pressões são ignoradas até reset. Testbench comportamental autorizado somente em arquivo separado; exceções de escopo registradas em `regras.md`. TASK-002 está READY, ainda sem implementação/teste.

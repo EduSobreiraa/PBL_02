@@ -6,8 +6,8 @@ Este plano organiza a implementação futura; não aprova arquitetura adicional 
 
 | Sprint | Entrega principal | Pré-requisito | Estado inicial |
 |---|---|---|---|
-| 0 — Baseline e preparação | Documentação revisada e plano de tarefas pronto | Nenhum; é a sprint preparatória | Backlog aprovado; revisão humana ainda necessária para liberar implementação |
-| 1 — Clock, reset e armazenamento | Captura sincronizada e armazenamento de `a`, `b`, `c` | Sprint 0 concluída, baseline revisada e TASKs READY | Aguardando Sprint 0 e revisão humana |
+| 0 — Baseline e preparação | Documentação revisada e plano de tarefas pronto | Nenhum; é a sprint preparatória | Backlog aprovado; gate humano da baseline atendido ao autorizar a Sprint 1 |
+| 1 — Clock, reset e armazenamento | Captura sincronizada e armazenamento de `a`, `b`, `c` | Sprint 0 concluída, baseline revisada e TASK-002 READY | TASK-002 liberada para implementação/verificação; trabalho ainda não executado |
 | 2 — Aritmética e caminho de `y` | Unidades estruturais e cálculo de `y` | Sprint 0 concluída, baseline revisada; larguras/interfaces em TASKs | Planejada, depende de especificação revisada |
 | 3 — Discriminante e raízes | Caminho estrutural das raízes | Sprint 0 concluída, baseline revisada; evidência PEN-019 registrada e aprovada | Bloqueada por PEN-019 |
 | 4 — Seleção, displays e flags | Saída decimal, seleção e LEDs | Sprints 1–3 conforme dependências; decisão de C para fechar LED C | Parcialmente bloqueada por PEN-004 |
@@ -18,7 +18,7 @@ Este plano organiza a implementação futura; não aprova arquitetura adicional 
 
 | TASK | Escopo | Situação inicial |
 |---|---|---|
-| TASK-002 | Sincronização, reset e armazenamento `a`, `b`, `c` | BLOCKED por PEN-021 até contrato interno ser decidido |
+| TASK-002 | Sincronização, reset e armazenamento `a`, `b`, `c` | READY por ratificação humana em DEC-024; implementação/testbench ainda não iniciados |
 | TASK-003 | Soma/subtração estrutural | DRAFT; contrato de largura/flags precisa ser detalhado |
 | TASK-007 | Multiplicação estrutural | DRAFT; contrato de larguras/formato precisa ser detalhado |
 | TASK-004 | Caminho combinacional de `y` | DRAFT; depende das unidades e dos intermediários especificados |
@@ -41,7 +41,7 @@ Este plano organiza a implementação futura; não aprova arquitetura adicional 
 - O plano não substitui TASKs: cada módulo/unidade verificável deve ter TASK própria e critérios objetivos.
 - A Sprint 0 pode produzir documentação e TASKs antes da revisão humana; não liberar TASKs de implementação dependentes nem iniciar RTL/síntese antes da revisão da baseline, conforme `docs/planejamento.md`.
 - Fechar somente as pendências que bloqueiam a TASK específica. PEN-004 bloqueia a semântica/aceite de C, não deve bloquear trabalho independente. PEN-019 bloqueia validar e liberar a precisão F=16 para o caminho de raízes.
-- Respeitar `docs/regras.md` e `docs/convencoes_verilog.md`: lógica estrutural, sem FSM, `buf`, loops/geração ou comportamento fora da exceção de DFF autorizada.
+- Respeitar `docs/regras.md` e `docs/convencoes_verilog.md`: no DUT, lógica estrutural, sem FSM, `buf`, loops/geração ou comportamento fora das exceções autorizadas; testbench comportamental apenas em arquivo separado. A exceção do contador linear é restrita à TASK-002/DEC-024.
 - Usar os critérios e casos de `docs/verificacao.md`; registrar ferramentas, resultados e warnings nas TASKs.
 - Uma sprint termina quando seus critérios são evidenciados e as TASKs correspondentes chegam a APPROVED; impedimentos permanecem explícitos, sem aprovação parcial disfarçada.
 
