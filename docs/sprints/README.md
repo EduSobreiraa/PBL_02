@@ -7,7 +7,7 @@ Este plano organiza a implementação futura; não aprova arquitetura adicional 
 | Sprint | Entrega principal | Pré-requisito | Estado inicial |
 |---|---|---|---|
 | 0 — Baseline e preparação | Documentação revisada e plano de tarefas pronto | Nenhum; é a sprint preparatória | Backlog aprovado; gate humano da baseline atendido ao autorizar a Sprint 1 |
-| 1 — Clock, reset e armazenamento | Captura sincronizada e armazenamento de `a`, `b`, `c` | Sprint 0 concluída, baseline revisada e TASK-002 READY | TASK-002 liberada para implementação/verificação; trabalho ainda não executado |
+| 1 — Clock, reset e armazenamento | Captura sincronizada e armazenamento de `a`, `b`, `c` | Sprint 0 concluída, baseline revisada e TASK-002 READY | Concluída após DEC-025; TASK-002 APPROVED, TEST-001 PASS e auditoria independente aprovada |
 | 2 — Aritmética e caminho de `y` | Unidades estruturais e cálculo de `y` | Sprint 0 concluída, baseline revisada; larguras/interfaces em TASKs | Planejada, depende de especificação revisada |
 | 3 — Discriminante e raízes | Caminho estrutural das raízes | Sprint 0 concluída, baseline revisada; evidência PEN-019 registrada e aprovada | Bloqueada por PEN-019 |
 | 4 — Seleção, displays e flags | Saída decimal, seleção e LEDs | Sprints 1–3 conforme dependências; decisão de C para fechar LED C | Parcialmente bloqueada por PEN-004 |
@@ -18,7 +18,7 @@ Este plano organiza a implementação futura; não aprova arquitetura adicional 
 
 | TASK | Escopo | Situação inicial |
 |---|---|---|
-| TASK-002 | Sincronização, reset e armazenamento `a`, `b`, `c` | READY por ratificação humana em DEC-024; implementação/testbench ainda não iniciados |
+| TASK-002 | Sincronização, reset e armazenamento `a`, `b`, `c` | APPROVED após remoção de `if`/`else`, novo TEST-001 e auditoria independente |
 | TASK-003 | Soma/subtração estrutural | DRAFT; contrato de largura/flags precisa ser detalhado |
 | TASK-007 | Multiplicação estrutural | DRAFT; contrato de larguras/formato precisa ser detalhado |
 | TASK-004 | Caminho combinacional de `y` | DRAFT; depende das unidades e dos intermediários especificados |

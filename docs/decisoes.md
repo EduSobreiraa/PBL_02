@@ -85,7 +85,7 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 
 ## DEC-014 — Forma HDL do flip-flop
 
-- Descrever DFFs com `always @(posedge clk)` somente dentro da descrição/módulo de flip-flop, com reset síncrono/enable próprios conforme DEC-008/009.
+- Descrever DFFs com `always @(posedge clk)` incondicional somente dentro da descrição/módulo de flip-flop; reset e enable são combinados estruturalmente na entrada D (DEC-025).
 - `always` fora dos flip-flops, lógica comportamental de datapath/controle, FSM, `buf`, laços e geração continuam proibidos; demais conexões/cálculos são estruturais.
 - **Status:** consenso na Rodada 3 após autorização explícita do responsável e revisão independente.
 
@@ -100,4 +100,6 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 - **DEC-021 / PEN-016:** versão instalada identificada como Quartus Prime Standard Lite 25.1std.0 Build 1129 (21/10/2025), pelos comandos `quartus_sh --version` e `quartus_pgm --version`. Nenhuma compilação foi iniciada.
 - **DEC-022 / PEN-020:** adiada pelo responsável para a etapa posterior de preparação do relatório.
 - **DEC-023 / PEN-021:** consenso técnico sobre a fronteira externa `coefficient_input`; ratificada com clarificações em DEC-024.
-- **DEC-024 / PEN-005/PEN-021:** TASK-002 ratificada: contador linear com enables seleciona `a→b→c`; após a terceira captura, novas pressões são ignoradas até reset. Testbench comportamental autorizado somente em arquivo separado; exceções de escopo registradas em `regras.md`. TASK-002 está READY, ainda sem implementação/teste.
+- **DEC-024 / PEN-005/PEN-021:** TASK-002 ratificada: contador linear com enables seleciona `a→b→c`; após a terceira captura, novas pressões são ignoradas até reset. Testbench comportamental autorizado somente em arquivo separado; exceções de escopo registradas em `regras.md`.
+- **DEC-025:** proíbe as palavras-chave `if` e `else` em todos os fontes Verilog, inclusive testbench. No DUT, reset/enable são estruturais antes de um DFF com `always @(posedge clk)` incondicional. Architect/Reviewer aceitaram e o responsável ratificou; TASK-002 reaberta para atualização e nova verificação.
+- **DEC-026:** limita comportamento sequencial no DUT a módulos dedicados exclusivamente a flip-flops, com D calculado estruturalmente, e exige minimizar bits de armazenamento sem remover estado necessário. Architect/Reviewer aceitaram na Rodada 1; regras e convenções documentadas. Exceções de testbench e do contador da TASK-002 preservadas nos escopos já aprovados.

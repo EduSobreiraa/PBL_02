@@ -7,13 +7,14 @@ As restrições abaixo vêm de `docs/regras.md` e do enunciado PBL. Recomendaç�
 ## Regras obrigatórias do projeto
 
 - HDL estrutural dentro do escopo de sintaxe do PBL1, acrescido de flip-flops escolhidos para a lógica sequencial.
-- Não utilizar `buf`, Verilog comportamental ou FSM, com a exceção estrita de `always @(posedge clk)` apenas na descrição do DFF, autorizado em DEC-014. Reset síncrono e enable podem aparecer como condições desse flip-flop conforme DEC-008/009; fora da descrição do FF, lógica de datapath/controle continua estrutural.
+- Não utilizar `buf`, Verilog comportamental ou FSM no DUT, com a exceção estrita de `always @(posedge clk)` incondicional em módulos dedicados exclusivamente a flip-flops para capturar a entrada D já calculada, autorizado em DEC-014/025/026. Reset síncrono, enable, seleção e demais funções devem ser combinados estruturalmente na entrada D. As palavras-chave `if` e `else` são proibidas em todos os fontes Verilog, inclusive testbenches (DEC-025); a autorização comportamental de DEC-024 permite outras construções de estímulo/verificação no testbench separado. Não encapsular lógica de controle ou datapath comportamental em módulo chamado de flip-flop.
+- Utilizar o menor número de bits de armazenamento que cumpra a função e as decisões aprovadas, preservando sincronização e temporização. Justificar em cada TASK/revisão os estados/funções que exigem memória, estados distinguíveis e codificação adotada (DEC-026).
 - Não utilizar laços/geração `for`, `generate` ou `genvar`. `begin`/`end` só são permitidos na descrição do flip-flop e são proibidos fora dela.
 - Preferir arredondamento quando o requisito oficial não estabelecer outro comportamento. Para as raízes, o PDF literal exige truncamento; por autorização expressa do professor, DEC-007 adota arredondamento ao inteiro mais próximo, com empates para longe de zero, como exceção de implementação neste projeto. Preservar o texto do requisito e a exceção lado a lado; não descrever arredondamento como cumprimento literal da palavra “truncar”.
 - Em reduções necessárias de precisão intermediária, preservar os bits disponíveis enquanto possível e arredondar ao inteiro mais próximo, com empate para longe de zero (DEC-016). Essa política não valida por si só a precisão candidata F=16; verificação permanece em PEN-019.
 - Os módulos aritméticos de soma/subtração, multiplicação, raiz quadrada e divisão devem ser descritos estruturalmente (PBL §4, req. 8).
 
-O arquivo de regras usa “escopo do primeiro” sem enumerar uma lista normativa completa de construções. O HDL reformulado foi observado usando módulos, portas, `wire`, vetores, instanciações, `supply0`/`supply1` e primitivas `not`, `and`, `or`, `nor`, `xor`; isto é evidência do exemplo, não autorização automática de qualquer construção adicional. DEC-014 autoriza expressamente `always @(posedge clk)` apenas na descrição do DFF, incluindo reset síncrono/enable do próprio FF conforme decisões aplicáveis.
+O arquivo de regras usa “escopo do primeiro” sem enumerar uma lista normativa completa de construções. O HDL reformulado foi observado usando módulos, portas, `wire`, vetores, instanciações, `supply0`/`supply1` e primitivas `not`, `and`, `or`, `nor`, `xor`; isto é evidência do exemplo, não autorização automática de qualquer construção adicional. DEC-014/025 autorizam `always @(posedge clk)` incondicional apenas na descrição do DFF; reset síncrono e enable devem ser lógica estrutural na entrada D.
 
 DEC-006 restringiu `begin`/`end` à descrição do flip-flop. A autorização posterior em DEC-014 permite `always @(posedge clk)` somente nessa descrição; as demais construções comportamentais continuam proibidas.
 
@@ -23,7 +24,7 @@ DEC-006 restringiu `begin`/`end` à descrição do flip-flop. A autorização po
 - Nomear módulos e sinais de modo consistente e documentar finalidade, largura e sinal sempre que definidos.
 - Manter testbenches separados do HDL destinado à síntese; testbench não é parte dos entregáveis sintetizáveis e a compatibilidade com as regras deve ser confirmada com o responsável antes da sua redação.
 - Usar `wire` para conexões estruturais conforme estilo da base observada. A necessidade/uso de `reg` depende da forma sequencial que vier a ser aprovada; não implica autorização de `always`.
-- Não introduzir parâmetros, operadores aritméticos, construções condicionais ou módulos primitivos não confirmados como parte do escopo autorizado.
+- No DUT, não introduzir parâmetros, operadores aritméticos, construções condicionais ou módulos primitivos não confirmados como parte do escopo autorizado. Em testbench separado, `case` é permitido para comparação conforme DEC-025, sem uso de `if`/`else`.
 
 ## Reset e lógica sequencial
 
