@@ -98,7 +98,7 @@ module tb_top_module;
                 endcase
                 sinal_zero=(selecionado==0)&&!((selecao>=2)&&erro);
                 sinal_carry=(selecao==1)&&(progresso==3)&&(vai_um_sem_sinal==1);
-                leds_esperados={6'b0,erro,sinal_carry,sinal_zero,1'b0};
+                leds_esperados={6'b0,erro,sinal_carry,sinal_zero,(progresso==3)&&(selecao==1)&&((valor_y>999999)||(valor_y< -99999))};
                 mascarado=((selecao!=0)&&(progresso!=3))||((selecao>=2)&&erro);
                 fora_da_faixa=mascarado||(selecionado>999999)||(selecionado< -99999);
                 hex_esperado={6{7'b1111111}};

@@ -26,7 +26,7 @@ Aplicar `docs/regras.md` e `docs/agente_workflow.md`. Contratos matemáticos pre
 
 ## Arquivos permitidos
 
-rtl/status_flags.v (módulo flag_ov_err); testbench/tb_status_flags.v
+rtl/sinalizadores_status.v (módulo flag_ov_err); testbench/tb_status_flags.v
 
 ## Arquivos protegidos
 
@@ -56,7 +56,7 @@ DEC-001, DEC-003, DEC-012, DEC-030.
 
 ### Módulos envolvidos
 
-flag_ov_err no arquivo compartilhado status_flags.v.
+flag_ov_err no arquivo compartilhado sinalizadores_status.v.
 
 ### Interface
 
@@ -84,7 +84,7 @@ Todos os arquivos fora da lista permitida; incluindo RTL dependente já aprovado
 
 ### Arquivos permitidos
 
-rtl/status_flags.v, somente flag_ov_err e helpers privados necessários; testbench/tb_status_flags.v; resultados/auditoria na própria docs/tasks/TASK-010.md.
+rtl/sinalizadores_status.v, somente flag_ov_err e helpers privados necessários; testbench/tb_status_flags.v; resultados/auditoria na própria docs/tasks/TASK-010.md.
 
 ### Testes exigidos
 
@@ -110,11 +110,11 @@ Nenhuma escolha arquitetural aberta. Implementação, testes reais e auditoria d
 
 READY_FOR_IMPLEMENTATION. Brief derivado dos contratos em CONSENSUS e requisitos citados; interfaces, larguras, arquivos, testes e dependências conferidos. Nenhum RTL ou teste produzido nesta análise.
 
-Coordenar edição de status_flags.v/tb_status_flags.v entre TASK-010/018/019: um implementer pode executar os três briefs aprovados em conjunto, mantendo evidência por módulo/TASK. Não sobrescrever módulos das outras tarefas nem realizar edições concorrentes do mesmo arquivo.
+Coordenar edição de sinalizadores_status.v/tb_status_flags.v entre TASK-010/018/019: um implementer pode executar os três briefs aprovados em conjunto, mantendo evidência por módulo/TASK. Não sobrescrever módulos das outras tarefas nem realizar edições concorrentes do mesmo arquivo.
 
 ## Resultado da implementação
 
-Implementado somente flag_ov_err em rtl/status_flags.v, por OR/NOT/AND e constante OV0; zero FF. tb_status_flags.v testa o módulo isolado e integrado com coefficient_input_core, quadratic_roots e result_select aprovados. Nenhum módulo Z/C antecipado.
+Implementado somente flag_ov_err em rtl/sinalizadores_status.v, por OR/NOT/AND e constante OV0; zero FF. tb_status_flags.v testa o módulo isolado e integrado com coefficient_input_core, quadratic_roots e result_select aprovados. Nenhum módulo Z/C antecipado.
 
 ## Resultado das ferramentas
 
@@ -123,7 +123,7 @@ TEST-009 subset TASK010 PASS: isolated3584, integrated53, failures0. Icarus14.0 
 Isolado: todos256 valores de a × loaded0/1 × delta{-131072,-65536,-1,0,1,81408,131071}; delta=-1 testa a entrada signed18 do módulo de flag e não é alegado como discriminante alcançável. Integrado: captura de a0, erro por delta=-4, válido delta0;53 checks incluem carga parcial, retenção com16 mudançasSW/sel por cenário, reset e OV0. Raízes/seleção conectadas por portas normais, sem editar dependências.
 
 ```sh
-tar -cf - rtl/status_flags.v rtl/coefficient_input.v rtl/quadratic_roots.v rtl/arithmetic_cells.v rtl/add_sub.v rtl/multipliers.v rtl/sqrt_u17.v rtl/divide_u9_u8.v rtl/result_select.v testbench/tb_status_flags.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_status_flags -o /tmp/task010.vvp rtl/status_flags.v rtl/coefficient_input.v rtl/quadratic_roots.v rtl/arithmetic_cells.v rtl/add_sub.v rtl/multipliers.v rtl/sqrt_u17.v rtl/divide_u9_u8.v rtl/result_select.v testbench/tb_status_flags.v && vvp /tmp/task010.vvp' > /tmp/task010.log 2>&1
+tar -cf - rtl/sinalizadores_status.v rtl/entrada_coeficientes.v rtl/raizes_quadraticas.v rtl/somador_completo.v rtl/somador_subtrator.v rtl/multiplicadores.v rtl/raiz_quadrada_u17.v rtl/divisor_9_por_8.v rtl/seletor_resultado.v testbench/tb_status_flags.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_status_flags -o /tmp/task010.vvp rtl/sinalizadores_status.v rtl/entrada_coeficientes.v rtl/raizes_quadraticas.v rtl/somador_completo.v rtl/somador_subtrator.v rtl/multiplicadores.v rtl/raiz_quadrada_u17.v rtl/divisor_9_por_8.v rtl/seletor_resultado.v testbench/tb_status_flags.v && vvp /tmp/task010.vvp' > /tmp/task010.log 2>&1
 ```
 
 ```text
@@ -134,15 +134,15 @@ testbench/tb_status_flags.v:99: $finish called at 7340000 (1ps)
 SHA-256 dos artefatos executados:
 
 ```text
-716dc3da17d4eae30af99897fba31741bd4418db3217b7e8c63878d82176353c  rtl/status_flags.v
-b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c  rtl/coefficient_input.v
-4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e  rtl/quadratic_roots.v
-0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e  rtl/arithmetic_cells.v
-fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a  rtl/add_sub.v
-95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371  rtl/multipliers.v
-9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9  rtl/sqrt_u17.v
-3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb  rtl/divide_u9_u8.v
-1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23  rtl/result_select.v
+716dc3da17d4eae30af99897fba31741bd4418db3217b7e8c63878d82176353c  rtl/sinalizadores_status.v
+b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c  rtl/entrada_coeficientes.v
+4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e  rtl/raizes_quadraticas.v
+0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e  rtl/somador_completo.v
+fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a  rtl/somador_subtrator.v
+95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371  rtl/multiplicadores.v
+9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9  rtl/raiz_quadrada_u17.v
+3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb  rtl/divisor_9_por_8.v
+1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23  rtl/seletor_resultado.v
 5d6334295cc2a2197f4b892183939f844a4ff2be0e2829141657cd4dd9faf566  testbench/tb_status_flags.v
 63043ad56860ee34278ce809aa09d97696f08ccd068211437651fa0460bd81a0  /tmp/task010.log
 ```

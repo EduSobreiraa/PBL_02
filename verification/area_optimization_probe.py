@@ -11,9 +11,9 @@ BIN = Path('/home/edupires/altera_lite/25.1std/quartus/bin')
 OUT = ROOT / 'verification/results/quartus/optimization-probe'
 RUN = OUT / ('run-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ'))
 RTL = [f'rtl/{name}.v' for name in (
-    'coefficient_input', 'arithmetic_cells', 'add_sub', 'multipliers',
-    'polynomial_y', 'sqrt_u17', 'divide_u9_u8', 'quadratic_roots',
-    'result_select', 'decimal_display', 'status_flags', 'top_module')]
+    'entrada_coeficientes', 'somador_completo', 'somador_subtrator', 'multiplicadores',
+    'polinomio_y', 'raiz_quadrada_u17', 'divisor_9_por_8', 'raizes_quadraticas',
+    'seletor_resultado', 'exibicao_decimal', 'sinalizadores_status', 'modulo_principal')]
 PROJECT = [f'quartus/pbl02.{ext}' for ext in ('qpf', 'qsf', 'sdc')]
 
 ADD3 = '''module decimal_add3(input wire [3:0] digit,output wire [3:0] corrected);
@@ -118,7 +118,7 @@ def main():
             target = workspace / name
             target.parent.mkdir(parents=True, exist_ok=True)
             data = (ROOT / name).read_bytes()
-            if name == 'rtl/decimal_display.v':
+            if name == 'rtl/exibicao_decimal.v':
                 data = candidate(data.decode(), mode).encode()
             target.write_bytes(data)
             source_hashes[name] = hashlib.sha256(data).hexdigest()

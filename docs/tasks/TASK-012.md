@@ -26,7 +26,7 @@ Aplicar `docs/regras.md` e `docs/agente_workflow.md`. Contratos matemáticos pre
 
 ## Arquivos permitidos
 
-rtl/top_module.v; testbench/tb_top_module.v
+rtl/modulo_principal.v; testbench/tb_top_module.v
 
 ## Arquivos protegidos
 
@@ -79,7 +79,7 @@ Todo arquivo fora da lista permitida, especialmente requisitos, decisões e RTL 
 
 ### Arquivos permitidos
 
-rtl/top_module.v; testbench/tb_top_module.v; resultados/auditoria na própria TASK-012. Logs temporários em /tmp.
+rtl/modulo_principal.v; testbench/tb_top_module.v; resultados/auditoria na própria TASK-012. Logs temporários em /tmp.
 
 ### Testes exigidos
 
@@ -117,6 +117,10 @@ TEST-010/011 PASS:10cenários completos mais resets parcial/final;660 comparaç�
 
 **APPROVED — Code Auditor independente, ciclo 1, 11/10/2026.** Gate 1 PASS: top usa somente instâncias aprovadas, portas/assign estático, cores únicos sem duplicar wrappers, nenhum FF/clock derivado/construção proibida. Gate 2 PASS: máscara incompleto/raiz inválida, seleção e flags conferidas; teste independente pelas portas físicas modela carga, y/carry, raízes por fronteiras exatas e decimal por divisão/resto. Log final TEST-010/011 PASS10 cenários/660 comparações com rejeição X/Z, incluindo reset parcial/completo, pressão mantida, captura excedente, quatro seleções e ambos erros. Gate 3 PASS: portas físicas e LEDR0..3/9:4 corretos, loaded/carry por portas privadas normais, sem referência hierárquica; 13 hashes atuais coincidem com fontes executados. Hierarquia mantém31 FF por construção, sem alegar contagem física sintetizada. Nenhum finding. Sem repetição desnecessária de simulação; síntese/timing/placa continuam pendentes.
 
+## Clarificação posterior — DEC-039 / TASK-022
+
+DEC-039 revisou a semântica de LEDR0/OV: preserva `y` signed23, mas acende quando `y` está selecionado/carregado e não cabe na faixa decimal dos seis displays; HEX mostra `------`. TASK-022 implementou essa conexão por `overflow_exibicao`. A aprovação anterior de TASK-012 documenta a integração antes dessa mudança e não constitui auditoria da nova lógica; consultar o resultado/auditoria de TASK-022.
+
 ## Pendências de execução
 
 Nenhuma pendência desta implementação: dependências, TEST-010/011 e auditoria independente aprovados. Obrigações de síntese/timing/placa permanecem em suas TASKs, sem alegação de conclusão por esta simulação.
@@ -131,7 +135,7 @@ Nenhuma pendência desta implementação: dependências, TEST-010/011 e auditori
 ## Reprodução e evidências do Code Implementer — 11/10/2026
 
 ```sh
-tar -cf - rtl/coefficient_input.v rtl/arithmetic_cells.v rtl/add_sub.v rtl/multipliers.v rtl/polynomial_y.v rtl/sqrt_u17.v rtl/divide_u9_u8.v rtl/quadratic_roots.v rtl/result_select.v rtl/decimal_display.v rtl/status_flags.v rtl/top_module.v testbench/tb_top_module.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_top_module -o /tmp/task012.vvp rtl/coefficient_input.v rtl/arithmetic_cells.v rtl/add_sub.v rtl/multipliers.v rtl/polynomial_y.v rtl/sqrt_u17.v rtl/divide_u9_u8.v rtl/quadratic_roots.v rtl/result_select.v rtl/decimal_display.v rtl/status_flags.v rtl/top_module.v testbench/tb_top_module.v && vvp /tmp/task012.vvp' > /tmp/task-012.log 2>&1
+tar -cf - rtl/entrada_coeficientes.v rtl/somador_completo.v rtl/somador_subtrator.v rtl/multiplicadores.v rtl/polinomio_y.v rtl/raiz_quadrada_u17.v rtl/divisor_9_por_8.v rtl/raizes_quadraticas.v rtl/seletor_resultado.v rtl/exibicao_decimal.v rtl/sinalizadores_status.v rtl/modulo_principal.v testbench/tb_top_module.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_top_module -o /tmp/task012.vvp rtl/entrada_coeficientes.v rtl/somador_completo.v rtl/somador_subtrator.v rtl/multiplicadores.v rtl/polinomio_y.v rtl/raiz_quadrada_u17.v rtl/divisor_9_por_8.v rtl/raizes_quadraticas.v rtl/seletor_resultado.v rtl/exibicao_decimal.v rtl/sinalizadores_status.v rtl/modulo_principal.v testbench/tb_top_module.v && vvp /tmp/task012.vvp' > /tmp/task-012.log 2>&1
 ```
 
 Backend Docker hdlc/iverilog:latest, tag mutável; versão executada registrada abaixo. Primeira tentativa negada no socket Docker; reexecução escalada via tar/stdin. Log bruto temporário em /tmp/task-012.log, trecho funcional preservado nesta TASK. Nenhum módulo dependente foi alterado.
@@ -148,18 +152,18 @@ Compilação -Wall sem warnings. Cada observação compara os10LEDs e42segmentos
 ### SHA-256 dos fontes executados
 
 ```text
-b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c  rtl/coefficient_input.v
-0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e  rtl/arithmetic_cells.v
-fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a  rtl/add_sub.v
-95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371  rtl/multipliers.v
-b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7  rtl/polynomial_y.v
-9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9  rtl/sqrt_u17.v
-3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb  rtl/divide_u9_u8.v
-4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e  rtl/quadratic_roots.v
-1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23  rtl/result_select.v
-34a3a9a4be300d8f0f4ffc8074dc7c0c11b0909ca67a8e9469ff39a2ff891d8b  rtl/decimal_display.v
-33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339  rtl/status_flags.v
-3a0b6453f43c831966d2ed18359bb1d1c76f854c6d9280ee2e7ea4d38803c40c  rtl/top_module.v
+b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c  rtl/entrada_coeficientes.v
+0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e  rtl/somador_completo.v
+fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a  rtl/somador_subtrator.v
+95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371  rtl/multiplicadores.v
+b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7  rtl/polinomio_y.v
+9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9  rtl/raiz_quadrada_u17.v
+3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb  rtl/divisor_9_por_8.v
+4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e  rtl/raizes_quadraticas.v
+1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23  rtl/seletor_resultado.v
+34a3a9a4be300d8f0f4ffc8074dc7c0c11b0909ca67a8e9469ff39a2ff891d8b  rtl/exibicao_decimal.v
+33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339  rtl/sinalizadores_status.v
+3a0b6453f43c831966d2ed18359bb1d1c76f854c6d9280ee2e7ea4d38803c40c  rtl/modulo_principal.v
 7c3a5db50256cf0ef2179b472477173d80ff44f5704c0e3e3363d7992a59865b  testbench/tb_top_module.v
 ```
 

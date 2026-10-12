@@ -29,8 +29,8 @@ TASK-001 APPROVED e DEC-030 CONSENSUS. TASK-003 fornece full_adder compartilhado
 
 ## Arquivos permitidos
 
-- `rtl/multipliers.v`
-- `rtl/arithmetic_cells.v` apenas para reutilizar/adicionar helpers fixos coerentes com DEC-030, coordenando ownership com TASK-003; nenhuma mudança no full_adder aprovado
+- `rtl/multiplicadores.v`
+- `rtl/somador_completo.v` apenas para reutilizar/adicionar helpers fixos coerentes com DEC-030, coordenando ownership com TASK-003; nenhuma mudança no full_adder aprovado
 - `testbench/tb_multipliers.v`
 - `verification/reference_multipliers.py`, `verification/vectors/multipliers.txt`
 - `verification/results/task-007.md`, `verification/results/task-007.log`
@@ -60,7 +60,7 @@ TEST-003 compara com referência matemática independente:65536 pares s8×s8 e 4
 
 ## Resultado da implementação
 
-Implementados mul_s8_s8 e mul_s8_u15 em rtl/multipliers.v, 420 instâncias explícitas de full_adder aprovado, com portas AND para seleção das linhas. Zero FF, sem alterações no helper compartilhado. Referência e testbench independentes nos arquivos permitidos; execução exaustiva concluída.
+Implementados mul_s8_s8 e mul_s8_u15 em rtl/multiplicadores.v, 420 instâncias explícitas de full_adder aprovado, com portas AND para seleção das linhas. Zero FF, sem alterações no helper compartilhado. Referência e testbench independentes nos arquivos permitidos; execução exaustiva concluída.
 
 ## Resultado das ferramentas
 
@@ -114,8 +114,8 @@ Combinacional, sem clock/reset e zero FF.
 
 ### Arquivos permitidos
 
-- `rtl/multipliers.v`
-- `rtl/arithmetic_cells.v` apenas para reutilizar/adicionar helpers fixos coerentes com DEC-030, coordenando ownership com TASK-003; nenhuma mudança no full_adder aprovado
+- `rtl/multiplicadores.v`
+- `rtl/somador_completo.v` apenas para reutilizar/adicionar helpers fixos coerentes com DEC-030, coordenando ownership com TASK-003; nenhuma mudança no full_adder aprovado
 - `testbench/tb_multipliers.v`
 - `verification/reference_multipliers.py`, `verification/vectors/multipliers.txt`
 - `verification/results/task-007.md`, `verification/results/task-007.log`

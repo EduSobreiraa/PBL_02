@@ -1,8 +1,10 @@
 # Registro de decisões e esclarecimentos
 
-## Baseline atual — 11/10/2026
+## Baseline atual — 12/10/2026
 
 DEC-030 e DEC-031 estão em CONSENSUS (Reviewer ACCEPT na primeira rodada), adotadas sob delegação explícita. Fecham interfaces/topologias/roteamento/apresentação/integração e algoritmo de raízes. O conteúdo das decisões anteriores abaixo é histórico e deve ser lido com as supersessões indicadas.
+
+DEC-039 também está em CONSENSUS: mantém y signed23 exato, e LEDR0/OV acende quando y está selecionado/carregado e não cabe na faixa decimal dos seis displays. DEC-038 permanece como histórico da proposta 16-bit sticky rejeitada; não limita as operações do cálculo.
 
 - **DEC-030:** 31 FF; loaded/carry em cores privados com wrappers públicos preservados; ripple-carry e produtos parciais, s8×u15→s22 restrito a0..16384; double-dabble, flags combinacionais, top-level, timing e entrega especificados. Contador mantido por decisão local, sem confirmação acadêmica alegada.
 - **DEC-031:** F16 candidato substituído por sqrt inteiro com resíduo, divisão com resto e signed10/F1 acompanhado dos descritores até arredondamento final exato. Saídas signed9 e política de empates preservadas. Prova aceita; exaustão/RTL ainda exigem evidência TASK-005/008/009/011.
@@ -102,7 +104,7 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 
 - **DEC-015 / PEN-004:** Z é zero do valor selecionado, com raiz inválida sob ERR mascarada para Z=0. C é o carry-out da última soma de `y`, condicionado a `loaded` e seleção de `y`; rota estrutural interna conforme DEC-029, sem alterar interfaces públicas.
 - **DEC-016 / PEN-010:** arredondar ao mais próximo, empate para longe de zero, somente ao reduzir precisão; preservar os bits enquanto possível. Aprovado pelo responsável.
-- **DEC-017 / PEN-013:** mostrar `------` quando o valor decimal signed completo não couber; OV permanece independente. Aprovado por ora.
+- **DEC-017 / PEN-013:** mostrar `------` quando o valor decimal signed completo não couber. DEC-039 atualiza a semântica de LEDR0/OV para y selecionado/carregado fora da faixa dos displays; para x/raízes OV permanece baixo.
 - **DEC-018 / PEN-014:** adotar como baseline os pin assignments da documentação oficial já compilados em `docs/hardware.md`; QSF deve ser conferido quando houver top-level. Aprovado.
 - **DEC-019 / PEN-015:** KEY ativo baixo; segmentos ativos baixos, índices 0–6=a–g. Sincronização em duas etapas, uma captura por pressão de KEY0 e reset após energizar; aprovado sob restrição de sintaxe de DEC-014.
 - **DEC-020 / PEN-019:** plano aprovado de comparar exaustivamente casos de raízes válidas com referência exata e acrescentar vetores dirigidos. Execução/evidência ainda pendente; F=16 não está validado.
@@ -115,3 +117,5 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 - **DEC-027:** distingue a proibição arquitetural de FSM da sintaxe RTL: comportamento no DUT somente em módulos dedicados a FFs (`always @(posedge clk)` + NBA incondicional); contador/enables da TASK-002 permanecem permitidos por DEC-024 se estruturais. `if`/`else` seguem proibidos em todos os fontes Verilog e `buf` no DUT. Rodada 2 aceita por Architect/Reviewer, condicionada à validação acadêmica da distinção contador/FSM; sem alteração do enunciado.
 - **DEC-028:** análise aceita por Architect/Reviewer e cinco propostas ratificadas pelo responsável: soma signed23 e subtração signed18 simultâneas, multiplicadores signed 8×8→16 e signed8×unsigned15→signed22, fronteira matemática signed8→signed23 de `y`, sem truncamento e vetores independentes de TEST-006. PEN-004 e PEN-019 permanecem isoladas. TASK-003/007/004 não são promovidas automaticamente; detalhamento/auditoria ainda necessários.
 - **DEC-029:** CONSENSUS Architect/Reviewer e ratificação do responsável: Z é zero do valor selecionado; `loaded` deriva do estado 11 existente; C é o carry-out da última soma em `((a·x²)+(b·x))+c`, qualificado por `loaded` e seleção `y`. Carry e `loaded` devem ser roteados estruturalmente como conexões privadas documentadas, sem estado, pinos físicos ou alterações públicas. Detalhamento/auditoria precedem READY. F=16 permanece candidata; PEN-019 aberta até evidência executada e auditada.
+- **DEC-038:** ESCALATE histórico para limitação integral a 16 bits com OV sticky; supersedida em semântica de OV por DEC-039.
+- **DEC-039:** LEDR0/OV acompanha resultado `y` fora da faixa decimal signed visível (`0…999999`, `−99999…−1`) quando carregado e selecionado; HEX mostra `------`. Cálculo e resultado signed23 permanecem exatos. Implementação registrada na TASK-022; testes e auditoria funcional pendentes.

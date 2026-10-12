@@ -2,7 +2,7 @@
 
 ## Estado
 
-CONCLUÍDA — TASK-006, TASK-010, TASK-018 e TASK-019 estão APPROVED. As alterações do arquivo rtl/status_flags.v foram serializadas e auditadas.
+CONCLUÍDA — TASK-006, TASK-010, TASK-018 e TASK-019 estão APPROVED. As alterações do arquivo rtl/sinalizadores_status.v foram serializadas e auditadas.
 
 ## Escopo e sequência
 

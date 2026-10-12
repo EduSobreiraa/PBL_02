@@ -26,7 +26,7 @@ Aplicar `docs/regras.md` e `docs/agente_workflow.md`. Contratos matemáticos pre
 
 ## Arquivos permitidos
 
-rtl/result_select.v; rtl/decimal_display.v; testbench/tb_result_select.v; testbench/tb_decimal_display.v
+rtl/seletor_resultado.v; rtl/exibicao_decimal.v; testbench/tb_result_select.v; testbench/tb_decimal_display.v
 
 ## Arquivos protegidos
 
@@ -83,7 +83,7 @@ Todos os arquivos fora da lista permitida; incluindo RTL dependente já aprovado
 
 ### Arquivos permitidos
 
-rtl/result_select.v; rtl/decimal_display.v; testbench/tb_result_select.v; testbench/tb_decimal_display.v; resultados/auditoria na própria docs/tasks/TASK-006.md.
+rtl/seletor_resultado.v; rtl/exibicao_decimal.v; testbench/tb_result_select.v; testbench/tb_decimal_display.v; resultados/auditoria na própria docs/tasks/TASK-006.md.
 
 ### Testes exigidos
 
@@ -135,7 +135,7 @@ Nenhuma pendência desta implementação: dependências, TEST-008 e auditoria in
 ## Reprodução e evidências — Code Implementer, 11/10/2026
 
 ```sh
-tar -cf - rtl/result_select.v rtl/decimal_display.v testbench/tb_result_select.v testbench/tb_decimal_display.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_result_select -o /tmp/select.vvp rtl/result_select.v testbench/tb_result_select.v && vvp /tmp/select.vvp && iverilog -g2012 -Wall -s tb_decimal_display -o /tmp/display.vvp rtl/decimal_display.v testbench/tb_decimal_display.v && vvp /tmp/display.vvp' > /tmp/task-006.log 2>&1
+tar -cf - rtl/seletor_resultado.v rtl/exibicao_decimal.v testbench/tb_result_select.v testbench/tb_decimal_display.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_result_select -o /tmp/select.vvp rtl/seletor_resultado.v testbench/tb_result_select.v && vvp /tmp/select.vvp && iverilog -g2012 -Wall -s tb_decimal_display -o /tmp/display.vvp rtl/exibicao_decimal.v testbench/tb_decimal_display.v && vvp /tmp/display.vvp' > /tmp/task-006.log 2>&1
 ```
 
 Backend Docker hdlc/iverilog:latest, Icarus14.0 devel s20260301-394-g9edaf7b6a. Tag mutável; comparar versão registrada. Primeira tentativa sem escalonamento negada no socket Docker; reexecução escalada via tar/stdin. Log temporário em /tmp/task-006.log; resultado final real persistido abaixo.
@@ -147,8 +147,8 @@ Seletor:6048 casos; todas quatro seleções, varredura completa de entradas x si
 ### SHA-256 dos fontes executados
 
 ```text
-1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23  rtl/result_select.v
-34a3a9a4be300d8f0f4ffc8074dc7c0c11b0909ca67a8e9469ff39a2ff891d8b  rtl/decimal_display.v
+1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23  rtl/seletor_resultado.v
+34a3a9a4be300d8f0f4ffc8074dc7c0c11b0909ca67a8e9469ff39a2ff891d8b  rtl/exibicao_decimal.v
 153e73394d7d591114966f061f04b13ffe54da4f5f40e9e84f3544403ec68e06  testbench/tb_result_select.v
 83b0790681d588bf57978b3fcfbdbe8d9894e64c78c162c27d7574b5587038c0  testbench/tb_decimal_display.v
 ```

@@ -6,6 +6,7 @@ module modulo_principal(input wire MAX10_CLK1_50,input wire [1:0] KEY,input wire
     wire signed [17:0] delta;
     wire signed [8:0] raiz_x1,raiz_x2;
     wire coeficientes_carregados,vai_um_y,OV_polinomio_nao_utilizado,erro_dominio_nao_utilizado;
+    wire OV_aritmetico_nao_utilizado,overflow_exibicao,nao_selecionado_y,selecionado_y;
     wire resultado_selecionado,nao_carregado,incompleto,raiz_invalida,exibicao_invalida;
     entrada_coeficientes_nucleo captura_coeficientes(.clk(MAX10_CLK1_50),.key0_n(KEY[0]),.key1_n(KEY[1]),
         .sw(SW[7:0]),.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.loaded(coeficientes_carregados));
@@ -13,7 +14,7 @@ module modulo_principal(input wire MAX10_CLK1_50,input wire [1:0] KEY,input wire
         .OV(OV_polinomio_nao_utilizado),.carry_y(vai_um_y));
     raizes_quadraticas raizes(.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.delta(delta),.x1(raiz_x1),.x2(raiz_x2),.domain_error(erro_dominio_nao_utilizado));
     seletor_resultado selecionar_resultado(.x(SW[7:0]),.y(resultado_y),.x1(raiz_x1),.x2(raiz_x2),.sel(SW[9:8]),.value(valor));
-    sinaliza_overflow_erro erros(.loaded(coeficientes_carregados),.a(coeficiente_a),.delta(delta),.OV(LEDR[0]),.ERR(LEDR[3]));
+    sinaliza_overflow_erro erros(.loaded(coeficientes_carregados),.a(coeficiente_a),.delta(delta),.OV(OV_aritmetico_nao_utilizado),.ERR(LEDR[3]));
     sinaliza_zero zero(.value(valor),.sel(SW[9:8]),.ERR(LEDR[3]),.Z(LEDR[1]));
     sinaliza_carry vai_um(.carry_y(vai_um_y),.loaded(coeficientes_carregados),.sel(SW[9:8]),.C(LEDR[2]));
     and led4_off(LEDR[4],1'b0,1'b0);
@@ -27,6 +28,9 @@ module modulo_principal(input wire MAX10_CLK1_50,input wire [1:0] KEY,input wire
     and pendente(incompleto,resultado_selecionado,nao_carregado);
     and erro_raiz(raiz_invalida,SW[9],LEDR[3]);
     or invalidar_apresentacao(exibicao_invalida,incompleto,raiz_invalida);
-    exibicao_decimal apresentacao(.value(valor),.invalid(exibicao_invalida),
+    not sem_y(nao_selecionado_y,SW[9]);
+    and selecao_y(selecionado_y,nao_selecionado_y,SW[8]);
+    and qualificar_overflow_exibicao(LEDR[0],coeficientes_carregados,selecionado_y,overflow_exibicao);
+    exibicao_decimal apresentacao(.value(valor),.invalid(exibicao_invalida),.overflow_exibicao(overflow_exibicao),
         .HEX0(HEX0),.HEX1(HEX1),.HEX2(HEX2),.HEX3(HEX3),.HEX4(HEX4),.HEX5(HEX5));
 endmodule

@@ -10,9 +10,9 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES = [f"rtl/{name}.v" for name in (
-    "coefficient_input", "arithmetic_cells", "add_sub", "multipliers",
-    "polynomial_y", "sqrt_u17", "divide_u9_u8", "quadratic_roots",
-    "result_select", "decimal_display", "status_flags", "top_module",
+    "entrada_coeficientes", "somador_completo", "somador_subtrator", "multiplicadores",
+    "polinomio_y", "raiz_quadrada_u17", "divisor_9_por_8", "raizes_quadraticas",
+    "seletor_resultado", "exibicao_decimal", "sinalizadores_status", "modulo_principal",
 )] + ["testbench/tb_top_module.v"]
 RESULTS = ROOT / "verification/results"
 LOG = RESULTS / "system-icarus.log"

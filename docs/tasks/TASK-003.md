@@ -29,7 +29,7 @@ TASK-001 APPROVED e DEC-030 CONSENSUS. Não depende da implementação das raíz
 
 ## Arquivos permitidos
 
-- `rtl/arithmetic_cells.v`, `rtl/add_sub.v`
+- `rtl/somador_completo.v`, `rtl/somador_subtrator.v`
 - `testbench/tb_add_sub.v`
 - `verification/reference_add_sub.py`, `verification/vectors/add_sub.txt`
 - `verification/results/task-003.md`, `verification/results/task-003.log`
@@ -115,7 +115,7 @@ Combinacional: nenhuma porta clock/reset e zero FF.
 
 ### Arquivos permitidos
 
-- `rtl/arithmetic_cells.v`, `rtl/add_sub.v`
+- `rtl/somador_completo.v`, `rtl/somador_subtrator.v`
 - `testbench/tb_add_sub.v`
 - `verification/reference_add_sub.py`, `verification/vectors/add_sub.txt`
 - `verification/results/task-003.md`, `verification/results/task-003.log`

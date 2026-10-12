@@ -29,7 +29,7 @@ TASK-001 APPROVED; DEC-030 CONSENSUS fecha todos contratos desta composição. E
 
 ## Arquivos permitidos
 
-- `rtl/polynomial_y.v`
+- `rtl/polinomio_y.v`
 - `testbench/tb_polynomial_y.v`
 - `verification/reference_y.py`, `verification/vectors/y.txt`
 - `verification/results/task-004.md`, `verification/results/task-004.log`
@@ -60,7 +60,7 @@ TEST-006: modelo independente de inteiros de precisão ilimitada a*x*x+b*x+c; pr
 
 ## Resultado da implementação
 
-Implementado `rtl/polynomial_y.v`: wrapper público preservado e core privado; três multiplicadores simultâneos e duas somas estruturais, extensão de sinal explícita, carry somente da soma final, OV constante0 e zero FF. TEST-006 PASS em12413 vetores; fontes congelados para auditoria.
+Implementado `rtl/polinomio_y.v`: wrapper público preservado e core privado; três multiplicadores simultâneos e duas somas estruturais, extensão de sinal explícita, carry somente da soma final, OV constante0 e zero FF. TEST-006 PASS em12413 vetores; fontes congelados para auditoria.
 
 ## Resultado das ferramentas
 
@@ -116,7 +116,7 @@ Combinacional após alterações de entradas; nenhum clock/reset/FF.
 
 ### Arquivos permitidos
 
-- `rtl/polynomial_y.v`
+- `rtl/polinomio_y.v`
 - `testbench/tb_polynomial_y.v`
 - `verification/reference_y.py`, `verification/vectors/y.txt`
 - `verification/results/task-004.md`, `verification/results/task-004.log`

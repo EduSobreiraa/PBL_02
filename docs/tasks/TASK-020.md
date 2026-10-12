@@ -106,7 +106,7 @@ Remover as atribuições contínuas `assign` dos 11 arquivos RTL que atualmente 
 
 ### Módulos envolvidos
 
-Todos os módulos nos arquivos permitidos abaixo. Os contratos públicos documentados em `docs/interfaces.md` permanecem inalterados; a única exceção privada é o Double Dabble conforme DEC-035. O caminho `decimal_display` → BCD → HEX faz parte do DUT físico e deve permanecer funcional; BCD não é apenas dado de testbench. `rtl/arithmetic_cells.v` é dependência compilada pelo runner, mas não contém `assign` e não deve ser modificado.
+Todos os módulos nos arquivos permitidos abaixo. Os contratos públicos documentados em `docs/interfaces.md` permanecem inalterados; a única exceção privada é o Double Dabble conforme DEC-035. O caminho `decimal_display` → BCD → HEX faz parte do DUT físico e deve permanecer funcional; BCD não é apenas dado de testbench. `rtl/somador_completo.v` é dependência compilada pelo runner, mas não contém `assign` e não deve ser modificado.
 
 ### Interface
 
@@ -143,7 +143,7 @@ Não alterar lógica sequencial. `coefficient_input_core` usa `MAX10_CLK1_50`/cl
 
 ### Arquivos permitidos
 
-- RTL ativo com ocorrências de `assign` (11): `rtl/add_sub.v`, `rtl/coefficient_input.v`, `rtl/decimal_display.v`, `rtl/divide_u9_u8.v`, `rtl/multipliers.v`, `rtl/polynomial_y.v`, `rtl/quadratic_roots.v`, `rtl/result_select.v`, `rtl/sqrt_u17.v`, `rtl/status_flags.v`, `rtl/top_module.v`.
+- RTL ativo com ocorrências de `assign` (11): `rtl/somador_subtrator.v`, `rtl/entrada_coeficientes.v`, `rtl/exibicao_decimal.v`, `rtl/divisor_9_por_8.v`, `rtl/multiplicadores.v`, `rtl/polinomio_y.v`, `rtl/raizes_quadraticas.v`, `rtl/seletor_resultado.v`, `rtl/raiz_quadrada_u17.v`, `rtl/sinalizadores_status.v`, `rtl/modulo_principal.v`.
 - Cópia arquivada: `rtl/coefficient_input.v.save`.
 - `testbench/tb_decimal_display.v`: adaptar somente o caller direto `conversion_check` para a nova saída privada e recompor os 28 bits BCD no testbench conforme DEC-035; manter estímulos e todas as verificações.
 - Documentação e estado: `docs/regras.md`, `docs/convencoes_verilog.md`, `docs/decisions/DEC-030.md`, `docs/decisions/DEC-033.md`, `docs/decisions/DEC-035.md`, `docs/decisions/DEC-036.md`, `docs/sprints/README.md`, `docs/pendencias.md` e esta TASK.
@@ -152,13 +152,13 @@ Não alterar lógica sequencial. `coefficient_input_core` usa `MAX10_CLK1_50`/cl
 
 - `docs/decisions/DEC-034.md`, contratos P0, matemática, `docs/interfaces.md`, `docs/modulos.md`, pin assignments e quaisquer arquivos fora da lista permitida.
 - Todos os testbenches, exceto `testbench/tb_decimal_display.v`: executar como estão e não alterar. Migrar apenas o caller direto do conversor no testbench de display conforme DEC-035, mantendo estímulos e verificações independentes.
-- `rtl/arithmetic_cells.v`: dependência sem `assign`, não precisa de edição.
+- `rtl/somador_completo.v`: dependência sem `assign`, não precisa de edição.
 - Fontes de síntese/compilação: não adicionar o `.save`.
 
 ### Testes exigidos
 
 - Executar os testbenches existentes dos módulos afetados: `tb_add_sub.v`, `tb_coefficient_input.v`, `tb_decimal_display.v`, `tb_divide_u9_u8.v`, `tb_multipliers.v`, `tb_polynomial_y.v`, `tb_quadratic_roots.v`, `tb_result_select.v`, `tb_sqrt_u17.v`, `tb_status_flags.v` e `tb_top_module.v`. O único ajuste autorizado é a conexão/recomposição BCD do caller em `tb_decimal_display.v`, preservando estímulos, referência independente, contagem e verificações.
-- Executar `python3 verification/run_system.py`; esse runner usa lista explícita dos 12 RTL ativos, inclui `arithmetic_cells.v` como dependência e exclui `.save`.
+- Executar `python3 verification/run_system.py`; esse runner usa lista explícita dos 12 RTL ativos, inclui `somador_completo.v` como dependência e exclui `.save`.
 - Executar Compliance Gate e auditoria independente: zero `assign`/inicializador equivalente nos alvos, sem violações estruturais ou drivers duplicados, e sem findings HIGH/CRITICAL.
 - Registrar comandos, versões, fontes e contagens, cobertura/resultado e logs reais na TASK. Não alegar teste, síntese ou validação física que não tenha sido executada.
 
@@ -201,6 +201,6 @@ DEC-036 chegou a CONSENSUS na rodada 2. A interface privada de `sqrt_stage` pode
 ### Auditoria independente — 12/10/2026
 
 - **Compliance Gate: PASS.** Varredura dos 12 `.v` em `rtl/` e de `rtl/coefficient_input.v.save`: sem `assign`, inicializador de `wire`, `buf`, FSM, laços ou comportamento fora dos módulos dedicados de FF. `git diff --check` passou. A única atribuição contínua nova está em `testbench/tb_decimal_display.v`, autorizada pela DEC-033 e restrita à reconstrução da observação BCD do caller migrado.
-- **Integration Gate: PASS.** Comparação das declarações de portas contra `HEAD` não encontrou mudança em interfaces públicas; foram excluídas da comparação apenas as interfaces privadas remodeladas com consenso em DEC-035 (`decimal_dabble_stage`, `decimal_double_dabble`) e DEC-036 (`sqrt_stage`). Busca de callers confirmou a cadeia do Double Dabble só em `rtl/decimal_display.v` e no caller migrado do testbench, e nove instâncias de `sqrt_stage` dentro de `sqrt_u17`. `verification/run_system.py` passou com Icarus Verilog 14.0 devel, cobrindo 10 cenários e 660 verificações; a lista explícita de fontes exclui `.save`. Os artefatos gerados foram restaurados após registrar o resultado aqui. Não foram encontrados achados de integração.
+- **Integration Gate: PASS.** Comparação das declarações de portas contra `HEAD` não encontrou mudança em interfaces públicas; foram excluídas da comparação apenas as interfaces privadas remodeladas com consenso em DEC-035 (`decimal_dabble_stage`, `decimal_double_dabble`) e DEC-036 (`sqrt_stage`). Busca de callers confirmou a cadeia do Double Dabble só em `rtl/exibicao_decimal.v` e no caller migrado do testbench, e nove instâncias de `sqrt_stage` dentro de `sqrt_u17`. `verification/run_system.py` passou com Icarus Verilog 14.0 devel, cobrindo 10 cenários e 660 verificações; a lista explícita de fontes exclui `.save`. Os artefatos gerados foram restaurados após registrar o resultado aqui. Não foram encontrados achados de integração.
 - **Functional Gate: PASS.** As onze suítes requeridas emitiram marcadores PASS e contagens completas; o auditor independente aceitou o marcador final e a cobertura exaustiva de `tb_multipliers`, registrando separadamente o código 130 do wrapper.
 - **Resultado independente:** APPROVED, sem findings CRITICAL/HIGH. Síntese, STA e validação física não foram realizadas.

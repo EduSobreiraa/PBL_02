@@ -26,7 +26,7 @@ Implementação do DUT exclusivamente estrutural: portas, fios, módulos fixos e
 
 ## Arquivos permitidos
 
-- `rtl/sqrt_u17.v`
+- `rtl/raiz_quadrada_u17.v`
 - `testbench/tb_sqrt_u17.v`
 - `docs/tasks/TASK-008.md` (resultados e auditoria).
 
@@ -113,7 +113,7 @@ READY_FOR_IMPLEMENTATION. Contratos, formatos, arquivos, testes e critérios def
 
 ## Resultado da implementação
 
-Implementados sqrt_u17, sqrt_stage e sqrt_full_adder privados em rtl/sqrt_u17.v. Nove estágios espaciais explícitos, cada um com subtração11 por 11 full adders de portas, carry final como comparação unsigned e muxes de portas. Zero FF, sem comportamento/geração/parâmetros no DUT. O resto é produzido diretamente pela recorrência.
+Implementados sqrt_u17, sqrt_stage e sqrt_full_adder privados em rtl/raiz_quadrada_u17.v. Nove estágios espaciais explícitos, cada um com subtração11 por 11 full adders de portas, carry final como comparação unsigned e muxes de portas. Zero FF, sem comportamento/geração/parâmetros no DUT. O resto é produzido diretamente pela recorrência.
 
 Antes de cada estágio, S≤255 e R≤510: os bits S[8] e R[9] não contêm informação nesse ponto; T={R[8:0],pair} e S'={S[7:0],take} preservam magnitude. Se a subtração for aceita, resto≤722; se rejeitada, T<trial≤1021. Ambos cabem10 bits; o bit11 do carry informa ausência de borrow, sem contaminar a magnitude. Contrato total confirmado pela exaustão.
 
@@ -122,7 +122,7 @@ Antes de cada estágio, S≤255 e R≤510: os bits S[8] e R[9] não contêm info
 2026-10-11 — TEST-004 PASS, todos os131072 radicandos, zero divergências. Icarus Verilog14.0 (devel), s20260301-394-g9edaf7b6a via Docker hdlc/iverilog:latest; comando retornou0, compilação -Wall sem warnings. A tag é mutável; a versão executada e hashes abaixo identificam esta evidência. Log bruto da sessão em /tmp/task008.log; trecho final preservado abaixo para persistência. Nenhuma síntese, timing ou placa executados.
 
 ```sh
-tar -cf - rtl/sqrt_u17.v testbench/tb_sqrt_u17.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_sqrt_u17 -o /tmp/task008.vvp rtl/sqrt_u17.v testbench/tb_sqrt_u17.v && vvp /tmp/task008.vvp' > /tmp/task008.log 2>&1
+tar -cf - rtl/raiz_quadrada_u17.v testbench/tb_sqrt_u17.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_sqrt_u17 -o /tmp/task008.vvp rtl/raiz_quadrada_u17.v testbench/tb_sqrt_u17.v && vvp /tmp/task008.vvp' > /tmp/task008.log 2>&1
 ```
 
 Referência independente no testbench: busca inteira de quadrados consecutivos; compara S/E e verifica S²≤N<(S+1)², N=S²+E e E<2S+1. Inclui todos os casos dirigidos por exaustão; comparações de quatro estados rejeitam X/Z, falha termina com $fatal e contagem131072 é obrigatória.
@@ -145,7 +145,7 @@ testbench/tb_sqrt_u17.v:43: $finish called at 131072000 (1ps)
 SHA-256 dos arquivos executados:
 
 ```text
-9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9  rtl/sqrt_u17.v
+9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9  rtl/raiz_quadrada_u17.v
 17f18c4ac27f96dbddb1cba7a8a40aa7e150d2d84d4d5bd8a40883d9b55a3a98  testbench/tb_sqrt_u17.v
 108f642658b9e3e1d6cd24e2a227ed8b764856551e17646e06e622e3bd76bb9b  /tmp/task008.log
 ```

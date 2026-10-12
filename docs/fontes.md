@@ -20,7 +20,7 @@ Hierarquia factual exigida pelo responsável do projeto: P0 enunciado; P1 manual
 
 ## Evidência do arquivo PBL1
 
-O arquivo atual `Pbl1felipe.7z` lista `top_module.v`, `somadores - Copia.v`, `Muxes - Copia.v`, `flags - Copia.v`, `BCD - Copia.v` e `Display - Copia.v` sob `verilog/`. O conteúdo corresponde aos módulos centrais do ZIP antigo, mas exclui seu HDL monolítico, backups e bases de compilação. Nenhuma conclusão sobre funcionalidade PBL2 deve ser derivada apenas desse pacote.
+O arquivo atual `Pbl1felipe.7z` lista `modulo_principal.v`, `somadores - Copia.v`, `Muxes - Copia.v`, `flags - Copia.v`, `BCD - Copia.v` e `Display - Copia.v` sob `verilog/`. O conteúdo corresponde aos módulos centrais do ZIP antigo, mas exclui seu HDL monolítico, backups e bases de compilação. Nenhuma conclusão sobre funcionalidade PBL2 deve ser derivada apenas desse pacote.
 
 ## Referências citadas em documentos internos
 

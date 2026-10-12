@@ -26,7 +26,7 @@ Implementação do DUT exclusivamente estrutural: portas, fios, módulos fixos e
 
 ## Arquivos permitidos
 
-- `rtl/quadratic_roots.v`
+- `rtl/raizes_quadraticas.v`
 - `testbench/tb_quadratic_roots.v`
 - `docs/tasks/TASK-011.md` (resultados e auditoria).
 
@@ -138,7 +138,7 @@ Nenhuma pendência desta implementação: dependências, TEST-007 e auditoria in
 ## Reprodução e evidências do Code Implementer — 11/10/2026
 
 ```sh
-tar -cf - rtl/arithmetic_cells.v rtl/add_sub.v rtl/multipliers.v rtl/sqrt_u17.v rtl/divide_u9_u8.v rtl/quadratic_roots.v testbench/tb_quadratic_roots.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_quadratic_roots -o /tmp/task011.vvp rtl/arithmetic_cells.v rtl/add_sub.v rtl/multipliers.v rtl/sqrt_u17.v rtl/divide_u9_u8.v rtl/quadratic_roots.v testbench/tb_quadratic_roots.v && vvp /tmp/task011.vvp' > /tmp/task-011.log 2>&1
+tar -cf - rtl/somador_completo.v rtl/somador_subtrator.v rtl/multiplicadores.v rtl/raiz_quadrada_u17.v rtl/divisor_9_por_8.v rtl/raizes_quadraticas.v testbench/tb_quadratic_roots.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_quadratic_roots -o /tmp/task011.vvp rtl/somador_completo.v rtl/somador_subtrator.v rtl/multiplicadores.v rtl/raiz_quadrada_u17.v rtl/divisor_9_por_8.v rtl/raizes_quadraticas.v testbench/tb_quadratic_roots.v && vvp /tmp/task011.vvp' > /tmp/task-011.log 2>&1
 ```
 
 Backend Docker hdlc/iverilog:latest (tag mutável), Icarus14.0 devel s20260301-394-g9edaf7b6a. Primeira tentativa negada no socket; reexecução escalada via tar/stdin. Log bruto temporário em `/tmp/task-011.log`; trecho final persistido abaixo nesta TASK. Sem síntese/timing/validação física.
@@ -148,12 +148,12 @@ TEST-007 usa30 triplas dirigidas de `tests/vectors/roots_directed.json`, mantend
 ### SHA-256 dos artefatos executados
 
 ```text
-0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e  rtl/arithmetic_cells.v
-fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a  rtl/add_sub.v
-95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371  rtl/multipliers.v
-9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9  rtl/sqrt_u17.v
-3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb  rtl/divide_u9_u8.v
-4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e  rtl/quadratic_roots.v
+0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e  rtl/somador_completo.v
+fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a  rtl/somador_subtrator.v
+95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371  rtl/multiplicadores.v
+9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9  rtl/raiz_quadrada_u17.v
+3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb  rtl/divisor_9_por_8.v
+4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e  rtl/raizes_quadraticas.v
 48cecc3eb8153562e3b8e101d8f1694bf7327b9757731f127c8dd9f5229f6354  testbench/tb_quadratic_roots.v
 9fed7974bf632d30f13b7cdb26e2e913b9b48813f87dbe671ded72171db7c5a2  tests/vectors/roots_directed.json
 ```

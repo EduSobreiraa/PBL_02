@@ -26,7 +26,7 @@ Aplicar `docs/regras.md` e `docs/agente_workflow.md`. Contratos matemáticos pre
 
 ## Arquivos permitidos
 
-rtl/status_flags.v (módulo flag_z); testbench/tb_status_flags.v
+rtl/sinalizadores_status.v (módulo flag_z); testbench/tb_status_flags.v
 
 ## Arquivos protegidos
 
@@ -56,7 +56,7 @@ DEC-011, DEC-029, DEC-030.
 
 ### Módulos envolvidos
 
-flag_z no arquivo compartilhado status_flags.v.
+flag_z no arquivo compartilhado sinalizadores_status.v.
 
 ### Interface
 
@@ -83,7 +83,7 @@ Todos os arquivos fora da lista permitida; incluindo RTL dependente já aprovado
 
 ### Arquivos permitidos
 
-rtl/status_flags.v, somente flag_z e helpers privados necessários; testbench/tb_status_flags.v; resultados/auditoria na própria docs/tasks/TASK-018.md.
+rtl/sinalizadores_status.v, somente flag_z e helpers privados necessários; testbench/tb_status_flags.v; resultados/auditoria na própria docs/tasks/TASK-018.md.
 
 ### Testes exigidos
 
@@ -109,11 +109,11 @@ Nenhuma escolha arquitetural aberta. Implementação, testes reais e auditoria d
 
 READY_FOR_IMPLEMENTATION. Brief derivado dos contratos em CONSENSUS e requisitos citados; interfaces, larguras, arquivos, testes e dependências conferidos. Nenhum RTL ou teste produzido nesta análise.
 
-Coordenar edição de status_flags.v/tb_status_flags.v entre TASK-010/018/019: um implementer pode executar os três briefs aprovados em conjunto, mantendo evidência por módulo/TASK. Não sobrescrever módulos das outras tarefas nem realizar edições concorrentes do mesmo arquivo.
+Coordenar edição de sinalizadores_status.v/tb_status_flags.v entre TASK-010/018/019: um implementer pode executar os três briefs aprovados em conjunto, mantendo evidência por módulo/TASK. Não sobrescrever módulos das outras tarefas nem realizar edições concorrentes do mesmo arquivo.
 
 ## Resultado da implementação
 
-Adicionado somente flag_z ao status_flags.v: redução OR de23 bits, inversões e máscara de raiz inválida por portas, zero FF. flag_ov_err e top tb_status_flags de TASK010 foram preservados textualmente; teste018 em top separado tb_flag_z no mesmo arquivo permitido.
+Adicionado somente flag_z ao sinalizadores_status.v: redução OR de23 bits, inversões e máscara de raiz inválida por portas, zero FF. flag_ov_err e top tb_status_flags de TASK010 foram preservados textualmente; teste018 em top separado tb_flag_z no mesmo arquivo permitido.
 
 ## Resultado das ferramentas
 
@@ -122,7 +122,7 @@ TEST-009 subset TASK018 PASS240 checks, failures0. Icarus14.0 (devel) s20260301-
 Cobertura: quatro seleções × ERR0/1 ×30 padrões: zero,±1, extremos signed23,1000000,-100000 e23 padrões one-hot. Referência independente testa igualdade inteira e seleção; comparação case de quatro estados rejeita X/Z. Z mantém valor correto sob ERR com x/y e mascara somente raízes; não há entrada loaded nem limite visual no módulo.
 
 ```sh
-tar -cf - rtl/status_flags.v testbench/tb_status_flags.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_flag_z -o /tmp/task018.vvp rtl/status_flags.v testbench/tb_status_flags.v && vvp /tmp/task018.vvp' > /tmp/task018.log 2>&1
+tar -cf - rtl/sinalizadores_status.v testbench/tb_status_flags.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_flag_z -o /tmp/task018.vvp rtl/sinalizadores_status.v testbench/tb_status_flags.v && vvp /tmp/task018.vvp' > /tmp/task018.log 2>&1
 ```
 
 ```text
@@ -133,7 +133,7 @@ testbench/tb_status_flags.v:142: $finish called at 240000 (1ps)
 SHA-256 dos artefatos executados:
 
 ```text
-ed817cd55b6c66b0585e9432842c15dcf678e40deea1e9888d3cca7d838372e3  rtl/status_flags.v
+ed817cd55b6c66b0585e9432842c15dcf678e40deea1e9888d3cca7d838372e3  rtl/sinalizadores_status.v
 4e06a4b69a2e03119eab33891019cbf4cc771112ea38d8b71830432fdfe36acb  testbench/tb_status_flags.v
 8d74fd3d5606ceb738757687f642a58e72b245897e5901e4f9d547555680260c  /tmp/task018.log
 ```

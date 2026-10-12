@@ -26,7 +26,7 @@ Implementação do DUT exclusivamente estrutural: portas, fios, módulos fixos e
 
 ## Arquivos permitidos
 
-- `rtl/divide_u9_u8.v`
+- `rtl/divisor_9_por_8.v`
 - `testbench/tb_divide_u9_u8.v`
 - `docs/tasks/TASK-009.md` (resultados e auditoria).
 
@@ -113,7 +113,7 @@ READY_FOR_IMPLEMENTATION. Contratos, formatos, arquivos, testes e critérios def
 
 ## Resultado da implementação
 
-Implementados `rtl/divide_u9_u8.v` e `testbench/tb_divide_u9_u8.v`. Nove estágios combinacionais restauradores explícitos,81 full adders privados, comparação por carry de subtração e seleção por portas; divisor efetivo1 e máscaras no domínio zero. Nenhum FF, FSM ou operador aritmético comportamental no DUT. Teste exaustivo completo PASS; fontes congelados para auditoria.
+Implementados `rtl/divisor_9_por_8.v` e `testbench/tb_divide_u9_u8.v`. Nove estágios combinacionais restauradores explícitos,81 full adders privados, comparação por carry de subtração e seleção por portas; divisor efetivo1 e máscaras no domínio zero. Nenhum FF, FSM ou operador aritmético comportamental no DUT. Teste exaustivo completo PASS; fontes congelados para auditoria.
 
 ## Resultado das ferramentas
 
@@ -135,7 +135,7 @@ Nenhuma pendência desta implementação: TEST-005 e auditoria independente apro
 ## Reprodução e evidência do Code Implementer — 11/10/2026
 
 ```sh
-tar -cf - rtl/divide_u9_u8.v testbench/tb_divide_u9_u8.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_divide_u9_u8 -o /tmp/task009.vvp rtl/divide_u9_u8.v testbench/tb_divide_u9_u8.v && vvp /tmp/task009.vvp' > /tmp/task-009.log 2>&1
+tar -cf - rtl/divisor_9_por_8.v testbench/tb_divide_u9_u8.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_divide_u9_u8 -o /tmp/task009.vvp rtl/divisor_9_por_8.v testbench/tb_divide_u9_u8.v && vvp /tmp/task009.vvp' > /tmp/task-009.log 2>&1
 ```
 
 A tag Docker é mutável; comparar versão registrada para reprodução. Log temporário capturado em `/tmp/task-009.log`; versão e saída funcional persistidas abaixo para manter o escopo de arquivos autorizado. Não houve warnings de compilação ou falhas funcionais.
@@ -150,7 +150,7 @@ process exit code: 0
 ### SHA-256 dos fontes executados
 
 ```text
-3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb  rtl/divide_u9_u8.v
+3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb  rtl/divisor_9_por_8.v
 b7a5b32d0b0144481dd1f84d80f7144e9fa95eb18d263118da099b97f0c91e56  testbench/tb_divide_u9_u8.v
 ```
 

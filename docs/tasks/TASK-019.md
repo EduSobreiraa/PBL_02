@@ -26,7 +26,7 @@ Aplicar `docs/regras.md` e `docs/agente_workflow.md`. Contratos matemáticos pre
 
 ## Arquivos permitidos
 
-rtl/status_flags.v (módulo flag_c); testbench/tb_status_flags.v
+rtl/sinalizadores_status.v (módulo flag_c); testbench/tb_status_flags.v
 
 ## Arquivos protegidos
 
@@ -56,7 +56,7 @@ DEC-028, DEC-029, DEC-030.
 
 ### Módulos envolvidos
 
-flag_c no arquivo compartilhado status_flags.v.
+flag_c no arquivo compartilhado sinalizadores_status.v.
 
 ### Interface
 
@@ -83,7 +83,7 @@ Todos os arquivos fora da lista permitida; incluindo RTL dependente já aprovado
 
 ### Arquivos permitidos
 
-rtl/status_flags.v, somente flag_c e helpers privados necessários; testbench/tb_status_flags.v; resultados/auditoria na própria docs/tasks/TASK-019.md.
+rtl/sinalizadores_status.v, somente flag_c e helpers privados necessários; testbench/tb_status_flags.v; resultados/auditoria na própria docs/tasks/TASK-019.md.
 
 ### Testes exigidos
 
@@ -109,7 +109,7 @@ Nenhuma escolha arquitetural aberta. Implementação, testes reais e auditoria d
 
 READY_FOR_IMPLEMENTATION. Brief derivado dos contratos em CONSENSUS e requisitos citados; interfaces, larguras, arquivos, testes e dependências conferidos. Nenhum RTL ou teste produzido nesta análise.
 
-Coordenar edição de status_flags.v/tb_status_flags.v entre TASK-010/018/019: um implementer pode executar os três briefs aprovados em conjunto, mantendo evidência por módulo/TASK. Não sobrescrever módulos das outras tarefas nem realizar edições concorrentes do mesmo arquivo.
+Coordenar edição de sinalizadores_status.v/tb_status_flags.v entre TASK-010/018/019: um implementer pode executar os três briefs aprovados em conjunto, mantendo evidência por módulo/TASK. Não sobrescrever módulos das outras tarefas nem realizar edições concorrentes do mesmo arquivo.
 
 ## Resultado da implementação
 
@@ -122,7 +122,7 @@ TEST-009 subset TASK019 PASS:16 combinações isoladas e64 verificações integr
 Isolado cobre integralmente carry0/1 × loaded0/1 × quatro seleções. Integrado cobre oito quádruplas a,b,c,x × loaded0/1 × quatro seleções, verificando y exato,OV0,carry binário final eC. Referência independente usa inteiros para subtotal=ax²+bx e soma unsigned dos padrões23 de subtotal e c. Casos distinguem primeira/última soma: (a,b,c,x)=(0,-1,1,1) gera primeiro carry0/final1; (1,-1,0,1) gera primeiro carry1/final0. Inclui y mínimo/máximo e sinais mistos. Sem acesso hierárquico ou recomputação no DUT.
 
 ```sh
-tar -cf - rtl/status_flags.v rtl/polynomial_y.v rtl/multipliers.v rtl/add_sub.v rtl/arithmetic_cells.v testbench/tb_status_flags.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_flag_c -o /tmp/task019.vvp rtl/status_flags.v rtl/polynomial_y.v rtl/multipliers.v rtl/add_sub.v rtl/arithmetic_cells.v testbench/tb_status_flags.v && vvp /tmp/task019.vvp' > /tmp/task019.log 2>&1
+tar -cf - rtl/sinalizadores_status.v rtl/polinomio_y.v rtl/multiplicadores.v rtl/somador_subtrator.v rtl/somador_completo.v testbench/tb_status_flags.v | docker run --rm -i hdlc/iverilog:latest sh -c 'mkdir -p /tmp/work; cd /tmp/work; tar -xf -; iverilog -V; iverilog -g2012 -Wall -s tb_flag_c -o /tmp/task019.vvp rtl/sinalizadores_status.v rtl/polinomio_y.v rtl/multiplicadores.v rtl/somador_subtrator.v rtl/somador_completo.v testbench/tb_status_flags.v && vvp /tmp/task019.vvp' > /tmp/task019.log 2>&1
 ```
 
 ```text
@@ -133,11 +133,11 @@ testbench/tb_status_flags.v:205: $finish called at 80000 (1ps)
 SHA-256 dos artefatos executados:
 
 ```text
-33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339  rtl/status_flags.v
-b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7  rtl/polynomial_y.v
-95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371  rtl/multipliers.v
-fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a  rtl/add_sub.v
-0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e  rtl/arithmetic_cells.v
+33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339  rtl/sinalizadores_status.v
+b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7  rtl/polinomio_y.v
+95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371  rtl/multiplicadores.v
+fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a  rtl/somador_subtrator.v
+0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e  rtl/somador_completo.v
 9c64c0d140dcd50f28887b814102076505145a8f4c0c9ebe4cec0b2a3c136839  testbench/tb_status_flags.v
 226a25a0e3ffe26be57bf39d3200d682c4792a2b39ffeb0cb0e67a861093674b  /tmp/task019.log
 ```

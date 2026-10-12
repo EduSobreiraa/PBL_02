@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-module exibicao_decimal(input wire signed [22:0] value, input wire invalid,
+module exibicao_decimal(input wire signed [22:0] value, input wire invalid, output wire overflow_exibicao,
     output wire [6:0] HEX0,HEX1,HEX2,HEX3,HEX4,HEX5);
     wire [22:0] modulo_sinalizado;
     wire [26:0] bcd_corrigido;
@@ -16,6 +16,7 @@ module exibicao_decimal(input wire signed [22:0] value, input wire invalid,
     or nonzero5(digito_nao_zero[5],bcd_corrigido[19],bcd_corrigido[20],bcd_corrigido[21],bcd_corrigido[22]);
     or nonzero6(digito_nao_zero[6],bcd_corrigido[23],bcd_corrigido[24],bcd_corrigido[25],bcd_corrigido[26]);
     and negative_range(estouro_negativo,value[22],digito_nao_zero[5]);
+    or presentation_overflow(overflow_exibicao,digito_nao_zero[6],estouro_negativo);
     or out_of_range(fora_da_faixa,invalid,digito_nao_zero[6],estouro_negativo);
     not valid_range(faixa_valida,fora_da_faixa);
     and visible0(digitos_visiveis[0],1'b1,1'b1);
