@@ -2,70 +2,62 @@
 
 ## Objetivo
 
-Consolidar a documentação final do PBL com metodologia, módulos, conexões, resultados de síntese, testes e análise.
+Implementar/verificar o escopo especificado abaixo segundo as decisões aprovadas.
 
 ## Status
 
-DRAFT
+BLOCKED
 
 ## Requisitos relacionados
 
-- REQ-012, REQ-015, REQ-016
+REQ-012/015/016
 
 ## Decisões relacionadas
 
-- DEC-007, DEC-022
+DEC-007/022/030/031
 
 ## Dependências
 
-- Resultados disponíveis de TASK-013 (simulação), TASK-015 (síntese) e TASK-014 (validação física).
-- Modelo/instruções de relatório fornecidos pelo tutor, se aplicável.
+Evidências TASK-013/014/015; modelo do tutor deve ser obtido/aplicado para entrega final, sem bloquear redação do conteúdo.
 
 ## Restrições aplicáveis
 
-- Distinguir resultados medidos, simulação e expectativas.
-- Relatar a exceção de arredondamento de DEC-007 junto ao texto literal de REQ-006.
-- Não afirmar que pendências ou caminhos não validados foram aprovados.
+Aplicar `docs/regras.md` e `docs/agente_workflow.md`. Contratos matemáticos preservados; DUT estrutural, comportamento somente nos FF dedicados; nenhum novo estado sem decisão explícita. Delegação de 11/10/2026 substitui gates anteriores de consulta humana. READY exige brief e confirmação de contexto; APPROVED exige evidência real e auditoria independente.
 
 ## Arquivos permitidos
 
-- A definir no planejamento para relatório e apresentação.
+docs/relatorio/conteudo.md; docs/relatorio/ (figuras, matriz de evidências e entrega)
 
 ## Arquivos protegidos
 
-- Requisitos, decisões e código aprovado, salvo correções autorizadas em TASK própria.
+Requisitos P0, RTL fora do escopo, pinagem oficial e contratos não revisados pelas decisões citadas.
 
-## Plano
+## Plano e contrato fechado
 
-- Organizar introdução contextualizada, metodologia, descrição de periféricos/módulos/conexões, funções, síntese/LEs, testes e análise conforme REQ-016.
-- Registrar limitações, pendências residuais e evidências correspondentes.
+Conteúdo decidido: introdução, metodologia fundamentada, circuito mínimo e 31FF justificados, periféricos/módulos/conexões/funções, LEs/FF/timing, testes/análise/limitações/fontes e matriz REQ→TEST→evidência. Declarar exceção DEC-007 junto ao texto original de REQ-006. PEN-020 fechada como organização local, mantendo obrigação externa de formato oficial; não inventar modelo do tutor.
 
-## Critérios de aceite
+## Critérios de aceite e testes
 
-- Todos os itens de REQ-016 estão presentes e sustentados por evidência registrada.
-- Divergências e pendências são descritas sem convertê-las em resultados positivos.
-
-## Testes
-
-- Revisão de completude contra REQ-016 e consistência das referências a resultados.
+Revisão de completude REQ-016, rastreabilidade e aplicação real do modelo externo; sem dados de síntese/placa fabricados.
 
 ## Resultado da implementação
 
-Não iniciado.
+Rascunho técnico criado em `docs/relatorio/conteudo.md` com descrição, resultados funcionais, síntese, temporização e limitações. O conteúdo declara a divergência autorizada de arredondamento e não alega validação física.
 
 ## Resultado das ferramentas
 
-Não executado.
+Revisão de conteúdo concluída contra requisitos, TASKs aprovadas e relatórios arquivados. O modelo oficial do tutor não está no repositório e não foi aplicado.
 
 ## Resultado da revisão
 
-Pendente.
+Arquitetura aceita em DEC-030/031 conforme aplicável. Auditoria da implementação permanece futura.
 
-## Pendências
+## Pendências de execução
 
-- Modelo/instruções do tutor podem ajustar estrutura e formatação.
-- DEC-022/PEN-020 segue adiada para a fase de relatório.
+Aplicar o conteúdo ao modelo oficial e às instruções do tutor quando forem obtidos. Incorporar resultados físicos após TASK-014. Estado BLOCKED para a entrega final; este rascunho não afirma conformidade de formato nem conclusão do relatório.
 
 ## Histórico
 
 - 2026-10-06 — TASK candidata criada na Sprint 0; status DRAFT.
+- 2026-10-11 — Contratos, arquivos e critérios fechados sob delegação em DEC-030/031; planejamento reconciliado, sem declarar implementação ou testes.
+- 2026-10-11 — Rascunho técnico preparado com evidências existentes; entrega final BLOCKED pelo modelo do tutor e pela validação física.

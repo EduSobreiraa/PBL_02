@@ -1,0 +1,29 @@
+{
+  "tool": "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sh",
+  "modes": {
+    "add3": {
+      "exit_code": 0,
+      "source_sha256": "bbd0780468fe2df8d5b8187b84d141c53e3d6969a8efec9161faa183cd6cd5ad",
+      "compile_log": "verification/results/quartus/optimization-probe/run-20261012T005610Z/add3/compile.log",
+      "fit_summary": "Fitter Status : Successful - Sun Oct 11 21:56:40 2026\nQuartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition\nRevision Name : pbl02\nTop-level Entity Name : top_module\nFamily : MAX 10\nDevice : 10M50DAF484C7G\nTiming Models : Final\nTotal logic elements : 2,207 / 49,760 ( 4 % )\n    Total combinational functions : 2,195 / 49,760 ( 4 % )\n    Dedicated logic registers : 31 / 49,760 ( < 1 % )\nTotal registers : 31\nTotal pins : 65 / 360 ( 18 % )\nTotal virtual pins : 0\nTotal memory bits : 0 / 1,677,312 ( 0 % )\nEmbedded Multiplier 9-bit elements : 0 / 288 ( 0 % )\nTotal PLLs : 0 / 4 ( 0 % )\nUFM blocks : 0 / 1 ( 0 % )\nADC blocks : 0 / 2 ( 0 % )\n",
+      "timing_exit_code": 0,
+      "timing_log": "verification/results/quartus/optimization-probe/run-20261012T005610Z/add3/timing.log"
+    },
+    "decoder": {
+      "exit_code": 0,
+      "source_sha256": "326bb441467173914e52c0b01f57978fcecb622a5143fee866b6f348f60c5fca",
+      "compile_log": "verification/results/quartus/optimization-probe/run-20261012T005610Z/decoder/compile.log",
+      "fit_summary": "Fitter Status : Successful - Sun Oct 11 21:57:18 2026\nQuartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition\nRevision Name : pbl02\nTop-level Entity Name : top_module\nFamily : MAX 10\nDevice : 10M50DAF484C7G\nTiming Models : Final\nTotal logic elements : 2,179 / 49,760 ( 4 % )\n    Total combinational functions : 2,172 / 49,760 ( 4 % )\n    Dedicated logic registers : 31 / 49,760 ( < 1 % )\nTotal registers : 31\nTotal pins : 65 / 360 ( 18 % )\nTotal virtual pins : 0\nTotal memory bits : 0 / 1,677,312 ( 0 % )\nEmbedded Multiplier 9-bit elements : 0 / 288 ( 0 % )\nTotal PLLs : 0 / 4 ( 0 % )\nUFM blocks : 0 / 1 ( 0 % )\nADC blocks : 0 / 2 ( 0 % )\n",
+      "timing_exit_code": 0,
+      "timing_log": "verification/results/quartus/optimization-probe/run-20261012T005610Z/decoder/timing.log"
+    },
+    "both": {
+      "exit_code": 0,
+      "source_sha256": "a730624f2ced0ef99f9ce73a09e20cb9d4136b41223c8ea261fc2d34dc9e605b",
+      "compile_log": "verification/results/quartus/optimization-probe/run-20261012T005610Z/both/compile.log",
+      "fit_summary": "Fitter Status : Successful - Sun Oct 11 21:57:58 2026\nQuartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition\nRevision Name : pbl02\nTop-level Entity Name : top_module\nFamily : MAX 10\nDevice : 10M50DAF484C7G\nTiming Models : Final\nTotal logic elements : 2,200 / 49,760 ( 4 % )\n    Total combinational functions : 2,184 / 49,760 ( 4 % )\n    Dedicated logic registers : 31 / 49,760 ( < 1 % )\nTotal registers : 31\nTotal pins : 65 / 360 ( 18 % )\nTotal virtual pins : 0\nTotal memory bits : 0 / 1,677,312 ( 0 % )\nEmbedded Multiplier 9-bit elements : 0 / 288 ( 0 % )\nTotal PLLs : 0 / 4 ( 0 % )\nUFM blocks : 0 / 1 ( 0 % )\nADC blocks : 0 / 2 ( 0 % )\n",
+      "timing_exit_code": 0,
+      "timing_log": "verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing.log"
+    }
+  }
+}

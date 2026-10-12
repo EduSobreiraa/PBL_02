@@ -19,8 +19,8 @@ Preparar unidades de trabalho rastreáveis e confirmar que os documentos usados 
 ## Critérios de conclusão
 
 - **Entrega documental da sprint:** TASKs do backlog inicial criadas em DRAFT/PLANNED/BLOCKED com requisitos, decisões, dependências e bloqueios rastreados; inconsistências corrigidas; nenhuma pendência convertida em decisão sem o fluxo aplicável.
-- **Gate de liberação das sprints de implementação:** revisão humana da baseline registrada; só então TASKs sem outros bloqueios podem ser avaliadas para READY.
+- **Gate de liberação:** baseline já aprovada; delegação de 11/10/2026 e DEC-030/031 satisfazem a ratificação das escolhas atuais. Confirmar os critérios técnicos de cada TASK antes de READY.
 
 ## Bloqueios
 
-O backlog e a documentação podem ser preparados antes da revisão. Sem revisão humana da baseline, nenhuma sprint de implementação pode começar, conforme `docs/planejamento.md`.
+A revisão da baseline original foi registrada. DEC-030/031 e a delegação de 11/10/2026 permitem executar as TASKs READY sem consulta adicional; resultados reais e auditoria continuam obrigatórios.

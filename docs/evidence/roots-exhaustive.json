@@ -1,0 +1,39 @@
+{
+  "task": "TASK-005",
+  "decision": "DEC-031",
+  "kind": "software_model_exhaustion_not_rtl",
+  "result": "PASS",
+  "started_utc": "2026-10-11T14:36:48.602502+00:00",
+  "duration_seconds": 48.125,
+  "command": "python3 scripts/verify_roots_exact.py",
+  "python": "3.14.8 (main, Oct  1 2026, 00:00:00) [GCC 16.2.1 20260819 (Red Hat 16.2.1-2)]",
+  "platform": "Linux-7.2.9-200.fc44.x86_64-x86_64-with-glibc2.43",
+  "git": {
+    "head": "47b1e30c9bd38d9a6dbc2d7d517449fda002ebc6",
+    "worktree_dirty": true
+  },
+  "script_sha256": "bf915d7816fca85e6804f592b3a3a9cdd83c5deb82e7222d0f41c073d1184bd8",
+  "vectors_sha256": "9fed7974bf632d30f13b7cdb26e2e913b9b48813f87dbe671ded72171db7c5a2",
+  "primitive_domains": {
+    "sqrt_u17_cases": 131072,
+    "divide_u9_u8_cases": 131072,
+    "result": "PASS"
+  },
+  "counts": {
+    "total": 16777216,
+    "valid": 10463208,
+    "invalid": 6314008,
+    "a_zero": 65536,
+    "negative_delta_nonzero_a": 6248472,
+    "root_comparisons": 20926416,
+    "divergences": 0
+  },
+  "directed_vector_count": 30,
+  "divergence_examples": [],
+  "candidate": "9 restoring stages per primitive, cached complete domains, exact residues retained",
+  "oracle": "signed integer comparisons at half-integer boundaries, exact squared thresholds",
+  "limitations": [
+    "No RTL simulation, synthesis, timing, or board validation performed.",
+    "F16 is superseded and is not being validated."
+  ]
+}

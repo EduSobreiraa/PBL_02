@@ -16,9 +16,11 @@ O objetivo do workflow é garantir que:
 - o estado do projeto permaneça persistido no repositório;
 - o processo possa ser auditado posteriormente.
 
-Este fluxo não substitui a revisão humana.
+## Autonomia delegada em 11/10/2026
 
-A aprovação final de decisões arquiteturais, exceções e mudanças de escopo permanece sob responsabilidade do desenvolvedor.
+O responsável delegou o fechamento das escolhas técnicas aos agentes, sem consultas adicionais, dentro das restrições já aprovadas. Architect propõe, Reviewer independente audita e Orchestrator registra o consenso e seus impactos antes da implementação. Essa autorização satisfaz os gates anteriores de ratificação humana para escolhas compatíveis e preparação das TASKs; não dispensa critérios de READY, testes ou auditoria.
+
+Esta regra tem precedência sobre menções anteriores a aprovação humana neste workflow e nos papéis. Exceções às restrições, alteração do enunciado, fabricação de evidência ou alegação de aprovação acadêmica não estão autorizadas. Falta de acesso físico ou evidência é registrada como trabalho de validação; não é uma nova escolha que o usuário precise confirmar. Persistindo conflito técnico após três rodadas, registrar ESCALATE, isolar o impacto e continuar o restante.
 
 ---
 
@@ -599,7 +601,7 @@ A intenção é reduzir viés de autocorreção e aumentar a probabilidade de en
 
 # 17. Human-in-the-loop
 
-As seguintes situações exigem aprovação humana:
+As situações abaixo exigem registro explícito no Decision Workflow. Escolhas compatíveis estão cobertas pela delegação de 11/10/2026; mudanças de requisitos ou exceções às restrições continuam fora dessa autorização:
 
 - mudança arquitetural;
 - alteração de interface previamente aprovada;
@@ -611,7 +613,7 @@ As seguintes situações exigem aprovação humana:
 - resolução de conflito entre fontes;
 - decisão baseada em informação de hardware ainda pendente.
 
-Nesses casos, o agente deve interromper o fluxo e registrar a pendência.
+Registrar a decisão e o impacto antes de implementar. Interromper apenas a TASK cujo conflito permaneça sem solução compatível.
 
 ---
 
@@ -789,7 +791,7 @@ A especialização deve resolver um problema observado no workflow atual.
       ↓
    TASK planejada
 
-3. Desenvolvedor resolve/aprova decisões necessárias.
+3. Architect/Reviewer fecham decisões sob a delegação; Orchestrator registra o consenso.
 
 4. TASK → READY.
 
@@ -839,7 +841,7 @@ a prioridade é preservar os requisitos, restrições e rastreabilidade.
 
 Para resolver pendências técnicas, aplicar o fluxo específico de `AGENTS.md`:
 
-1. Orchestrator lê `agents/orchestrator.md` e o registro em `docs/pendencias.md`.
+1. Orchestrator lê `agents/decision/orchestrator.md` e o registro em `docs/pendencias.md`.
 2. Decision Architect propõe e atualiza apenas `docs/decisions/DEC-XXX.md`.
 3. Decision Reviewer faz revisão independente e registra parecer no mesmo DEC.
 4. Limite de três rodadas Architect → Reviewer por decisão. Encerrar ao atingir CONSENSUS, BLOCKED ou ESCALATE, conforme instruções do Orchestrator e do usuário.

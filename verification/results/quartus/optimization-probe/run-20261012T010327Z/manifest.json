@@ -1,0 +1,114 @@
+{
+  "tool": "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sh",
+  "version": "Quartus Prime Shell\nVersion 25.1std.0 Build 1129 10/21/2025 SC Lite Edition\nCopyright (C) 2025  Altera Corporation. All rights reserved.",
+  "modes": {
+    "add3": {
+      "exit_code": 0,
+      "input_source_sha256": {
+        "rtl/coefficient_input.v": "b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c",
+        "rtl/arithmetic_cells.v": "0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e",
+        "rtl/add_sub.v": "fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a",
+        "rtl/multipliers.v": "95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371",
+        "rtl/polynomial_y.v": "b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7",
+        "rtl/sqrt_u17.v": "9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9",
+        "rtl/divide_u9_u8.v": "3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb",
+        "rtl/quadratic_roots.v": "4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e",
+        "rtl/result_select.v": "1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23",
+        "rtl/decimal_display.v": "bbd0780468fe2df8d5b8187b84d141c53e3d6969a8efec9161faa183cd6cd5ad",
+        "rtl/status_flags.v": "33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339",
+        "rtl/top_module.v": "3a0b6453f43c831966d2ed18359bb1d1c76f854c6d9280ee2e7ea4d38803c40c",
+        "quartus/pbl02.qpf": "040af5158b3f534c6d02a936eb72ec9fa7a5a6a1f985a6c2dfa23af412d60241",
+        "quartus/pbl02.qsf": "357bee0b9019a0d0619c621d9f316b6177548bc3e237fadb4ddbc30f10c8663f",
+        "quartus/pbl02.sdc": "5d312adadd2323c71f49f01d3027c793454baff5b96bbfa9ecc5a9fa88923c7e"
+      },
+      "command": [
+        "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sh",
+        "--flow",
+        "compile",
+        "pbl02"
+      ],
+      "compile_log": "verification/results/quartus/optimization-probe/run-20261012T010327Z/add3/compile.log",
+      "fit_summary": "Fitter Status : Successful - Sun Oct 11 22:03:56 2026\nQuartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition\nRevision Name : pbl02\nTop-level Entity Name : top_module\nFamily : MAX 10\nDevice : 10M50DAF484C7G\nTiming Models : Final\nTotal logic elements : 2,207 / 49,760 ( 4 % )\n    Total combinational functions : 2,195 / 49,760 ( 4 % )\n    Dedicated logic registers : 31 / 49,760 ( < 1 % )\nTotal registers : 31\nTotal pins : 65 / 360 ( 18 % )\nTotal virtual pins : 0\nTotal memory bits : 0 / 1,677,312 ( 0 % )\nEmbedded Multiplier 9-bit elements : 0 / 288 ( 0 % )\nTotal PLLs : 0 / 4 ( 0 % )\nUFM blocks : 0 / 1 ( 0 % )\nADC blocks : 0 / 2 ( 0 % )\n",
+      "timing_exit_code": 0,
+      "timing_command": [
+        "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sta",
+        "-t",
+        "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/report_timing.tcl",
+        "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T010327Z/add3/timing"
+      ],
+      "timing_log": "verification/results/quartus/optimization-probe/run-20261012T010327Z/add3/timing.log"
+    },
+    "decoder": {
+      "exit_code": 0,
+      "input_source_sha256": {
+        "rtl/coefficient_input.v": "b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c",
+        "rtl/arithmetic_cells.v": "0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e",
+        "rtl/add_sub.v": "fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a",
+        "rtl/multipliers.v": "95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371",
+        "rtl/polynomial_y.v": "b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7",
+        "rtl/sqrt_u17.v": "9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9",
+        "rtl/divide_u9_u8.v": "3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb",
+        "rtl/quadratic_roots.v": "4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e",
+        "rtl/result_select.v": "1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23",
+        "rtl/decimal_display.v": "326bb441467173914e52c0b01f57978fcecb622a5143fee866b6f348f60c5fca",
+        "rtl/status_flags.v": "33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339",
+        "rtl/top_module.v": "3a0b6453f43c831966d2ed18359bb1d1c76f854c6d9280ee2e7ea4d38803c40c",
+        "quartus/pbl02.qpf": "040af5158b3f534c6d02a936eb72ec9fa7a5a6a1f985a6c2dfa23af412d60241",
+        "quartus/pbl02.qsf": "357bee0b9019a0d0619c621d9f316b6177548bc3e237fadb4ddbc30f10c8663f",
+        "quartus/pbl02.sdc": "5d312adadd2323c71f49f01d3027c793454baff5b96bbfa9ecc5a9fa88923c7e"
+      },
+      "command": [
+        "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sh",
+        "--flow",
+        "compile",
+        "pbl02"
+      ],
+      "compile_log": "verification/results/quartus/optimization-probe/run-20261012T010327Z/decoder/compile.log",
+      "fit_summary": "Fitter Status : Successful - Sun Oct 11 22:04:36 2026\nQuartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition\nRevision Name : pbl02\nTop-level Entity Name : top_module\nFamily : MAX 10\nDevice : 10M50DAF484C7G\nTiming Models : Final\nTotal logic elements : 2,179 / 49,760 ( 4 % )\n    Total combinational functions : 2,172 / 49,760 ( 4 % )\n    Dedicated logic registers : 31 / 49,760 ( < 1 % )\nTotal registers : 31\nTotal pins : 65 / 360 ( 18 % )\nTotal virtual pins : 0\nTotal memory bits : 0 / 1,677,312 ( 0 % )\nEmbedded Multiplier 9-bit elements : 0 / 288 ( 0 % )\nTotal PLLs : 0 / 4 ( 0 % )\nUFM blocks : 0 / 1 ( 0 % )\nADC blocks : 0 / 2 ( 0 % )\n",
+      "timing_exit_code": 0,
+      "timing_command": [
+        "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sta",
+        "-t",
+        "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/report_timing.tcl",
+        "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T010327Z/decoder/timing"
+      ],
+      "timing_log": "verification/results/quartus/optimization-probe/run-20261012T010327Z/decoder/timing.log"
+    },
+    "both": {
+      "exit_code": 0,
+      "input_source_sha256": {
+        "rtl/coefficient_input.v": "b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c",
+        "rtl/arithmetic_cells.v": "0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e",
+        "rtl/add_sub.v": "fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a",
+        "rtl/multipliers.v": "95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371",
+        "rtl/polynomial_y.v": "b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7",
+        "rtl/sqrt_u17.v": "9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9",
+        "rtl/divide_u9_u8.v": "3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb",
+        "rtl/quadratic_roots.v": "4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e",
+        "rtl/result_select.v": "1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23",
+        "rtl/decimal_display.v": "a730624f2ced0ef99f9ce73a09e20cb9d4136b41223c8ea261fc2d34dc9e605b",
+        "rtl/status_flags.v": "33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339",
+        "rtl/top_module.v": "3a0b6453f43c831966d2ed18359bb1d1c76f854c6d9280ee2e7ea4d38803c40c",
+        "quartus/pbl02.qpf": "040af5158b3f534c6d02a936eb72ec9fa7a5a6a1f985a6c2dfa23af412d60241",
+        "quartus/pbl02.qsf": "357bee0b9019a0d0619c621d9f316b6177548bc3e237fadb4ddbc30f10c8663f",
+        "quartus/pbl02.sdc": "5d312adadd2323c71f49f01d3027c793454baff5b96bbfa9ecc5a9fa88923c7e"
+      },
+      "command": [
+        "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sh",
+        "--flow",
+        "compile",
+        "pbl02"
+      ],
+      "compile_log": "verification/results/quartus/optimization-probe/run-20261012T010327Z/both/compile.log",
+      "fit_summary": "Fitter Status : Successful - Sun Oct 11 22:05:14 2026\nQuartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition\nRevision Name : pbl02\nTop-level Entity Name : top_module\nFamily : MAX 10\nDevice : 10M50DAF484C7G\nTiming Models : Final\nTotal logic elements : 2,200 / 49,760 ( 4 % )\n    Total combinational functions : 2,184 / 49,760 ( 4 % )\n    Dedicated logic registers : 31 / 49,760 ( < 1 % )\nTotal registers : 31\nTotal pins : 65 / 360 ( 18 % )\nTotal virtual pins : 0\nTotal memory bits : 0 / 1,677,312 ( 0 % )\nEmbedded Multiplier 9-bit elements : 0 / 288 ( 0 % )\nTotal PLLs : 0 / 4 ( 0 % )\nUFM blocks : 0 / 1 ( 0 % )\nADC blocks : 0 / 2 ( 0 % )\n",
+      "timing_exit_code": 0,
+      "timing_command": [
+        "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sta",
+        "-t",
+        "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/report_timing.tcl",
+        "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T010327Z/both/timing"
+      ],
+      "timing_log": "verification/results/quartus/optimization-probe/run-20261012T010327Z/both/timing.log"
+    }
+  }
+}

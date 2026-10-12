@@ -1,0 +1,28 @@
+{
+  "workspace": "/tmp/pbl02-quartus-lyvpk1z2",
+  "status": "COMPILED",
+  "sources": {
+    "rtl/coefficient_input.v": "b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c",
+    "rtl/arithmetic_cells.v": "0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e",
+    "rtl/add_sub.v": "fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a",
+    "rtl/multipliers.v": "95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371",
+    "rtl/polynomial_y.v": "b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7",
+    "rtl/sqrt_u17.v": "9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9",
+    "rtl/divide_u9_u8.v": "3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb",
+    "rtl/quadratic_roots.v": "4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e",
+    "rtl/result_select.v": "1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23",
+    "rtl/decimal_display.v": "34a3a9a4be300d8f0f4ffc8074dc7c0c11b0909ca67a8e9469ff39a2ff891d8b",
+    "rtl/status_flags.v": "33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339",
+    "rtl/top_module.v": "3a0b6453f43c831966d2ed18359bb1d1c76f854c6d9280ee2e7ea4d38803c40c",
+    "quartus/pbl02.qpf": "040af5158b3f534c6d02a936eb72ec9fa7a5a6a1f985a6c2dfa23af412d60241",
+    "quartus/pbl02.qsf": "202ee1c6c5d4c44e4261c9521c7d66dd8ae5aa7474a46196e792f59ddd336709",
+    "quartus/pbl02.sdc": "5d312adadd2323c71f49f01d3027c793454baff5b96bbfa9ecc5a9fa88923c7e"
+  },
+  "command": [
+    "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sh",
+    "--flow",
+    "compile",
+    "pbl02"
+  ],
+  "exit_code": 0
+}

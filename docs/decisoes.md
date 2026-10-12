@@ -1,5 +1,13 @@
 # Registro de decisões e esclarecimentos
 
+## Baseline atual — 11/10/2026
+
+DEC-030 e DEC-031 estão em CONSENSUS (Reviewer ACCEPT na primeira rodada), adotadas sob delegação explícita. Fecham interfaces/topologias/roteamento/apresentação/integração e algoritmo de raízes. O conteúdo das decisões anteriores abaixo é histórico e deve ser lido com as supersessões indicadas.
+
+- **DEC-030:** 31 FF; loaded/carry em cores privados com wrappers públicos preservados; ripple-carry e produtos parciais, s8×u15→s22 restrito a0..16384; double-dabble, flags combinacionais, top-level, timing e entrega especificados. Contador mantido por decisão local, sem confirmação acadêmica alegada.
+- **DEC-031:** F16 candidato substituído por sqrt inteiro com resíduo, divisão com resto e signed10/F1 acompanhado dos descritores até arredondamento final exato. Saídas signed9 e política de empates preservadas. Prova aceita; exaustão/RTL ainda exigem evidência TASK-005/008/009/011.
+- PEN-019/020/022 têm escolhas locais fechadas; evidências, modelo externo e risco acadêmico são rastreados em `pendencias.md`. Nenhum teste ou aceite externo é inferido.
+
 Somente decisões explícitas do responsável/projeto são registradas como aprovadas. Requisitos P0 prevalecem, salvo exceção expressamente autorizada pelo docente; nesses casos, preservar o texto oficial e registrar a divergência.
 
 ## DEC-001 — Comportamento quando as raízes não existem
@@ -81,17 +89,18 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 
 - Usar os limites e larguras de `Δ`, produtos, radicando e quociente registrados em DEC-013; `y` signed 23 bits.
 - Raízes intermediárias: signed 25-bit com 16 bits fracionários (`F=16`), como recomendação de projeto; precisão correta precisa de evidência futura em PEN-019.
-- **Status:** consenso técnico; a precisão requer evidência em PEN-019 e a origem de C segue PEN-004.
+- **Status:** consenso técnico; a precisão requer evidência em PEN-019. A origem de C foi fechada posteriormente em DEC-029.
 
 ## DEC-014 — Forma HDL do flip-flop
 
-- Descrever DFFs com `always @(posedge clk)` incondicional somente dentro da descrição/módulo de flip-flop; reset e enable são combinados estruturalmente na entrada D (DEC-025).
-- `always` fora dos flip-flops, lógica comportamental de datapath/controle, FSM, `buf`, laços e geração continuam proibidos; demais conexões/cálculos são estruturais.
+- Descrever DFFs com `always @(posedge clk)` incondicional e NBA somente em módulo dedicado a flip-flop; reset e enable são combinados estruturalmente na entrada D (DEC-025/027).
+- A proibição arquitetural de FSM não proíbe circuitos sequenciais ou contadores estruturais; contadores e demais blocos fora dos módulos FF devem ser compostos por FFs e lógica combinacional estrutural. O contador de TASK-002 permanece sob DEC-024, com validação acadêmica da distinção pendente (DEC-027).
+- `always` fora dos flip-flops, lógica comportamental de datapath/controle, `buf`, laços e geração continuam proibidos; demais conexões/cálculos são estruturais.
 - **Status:** consenso na Rodada 3 após autorização explícita do responsável e revisão independente.
 
 ## DEC-015 a DEC-024 — Pendências restantes
 
-- **DEC-015 / PEN-004:** Z é zero do valor selecionado; C continua bloqueada até definir sua operação/estágio de origem.
+- **DEC-015 / PEN-004:** Z é zero do valor selecionado, com raiz inválida sob ERR mascarada para Z=0. C é o carry-out da última soma de `y`, condicionado a `loaded` e seleção de `y`; rota estrutural interna conforme DEC-029, sem alterar interfaces públicas.
 - **DEC-016 / PEN-010:** arredondar ao mais próximo, empate para longe de zero, somente ao reduzir precisão; preservar os bits enquanto possível. Aprovado pelo responsável.
 - **DEC-017 / PEN-013:** mostrar `------` quando o valor decimal signed completo não couber; OV permanece independente. Aprovado por ora.
 - **DEC-018 / PEN-014:** adotar como baseline os pin assignments da documentação oficial já compilados em `docs/hardware.md`; QSF deve ser conferido quando houver top-level. Aprovado.
@@ -103,3 +112,6 @@ Somente decisões explícitas do responsável/projeto são registradas como apro
 - **DEC-024 / PEN-005/PEN-021:** TASK-002 ratificada: contador linear com enables seleciona `a→b→c`; após a terceira captura, novas pressões são ignoradas até reset. Testbench comportamental autorizado somente em arquivo separado; exceções de escopo registradas em `regras.md`.
 - **DEC-025:** proíbe as palavras-chave `if` e `else` em todos os fontes Verilog, inclusive testbench. No DUT, reset/enable são estruturais antes de um DFF com `always @(posedge clk)` incondicional. Architect/Reviewer aceitaram e o responsável ratificou; TASK-002 reaberta para atualização e nova verificação.
 - **DEC-026:** limita comportamento sequencial no DUT a módulos dedicados exclusivamente a flip-flops, com D calculado estruturalmente, e exige minimizar bits de armazenamento sem remover estado necessário. Architect/Reviewer aceitaram na Rodada 1; regras e convenções documentadas. Exceções de testbench e do contador da TASK-002 preservadas nos escopos já aprovados.
+- **DEC-027:** distingue a proibição arquitetural de FSM da sintaxe RTL: comportamento no DUT somente em módulos dedicados a FFs (`always @(posedge clk)` + NBA incondicional); contador/enables da TASK-002 permanecem permitidos por DEC-024 se estruturais. `if`/`else` seguem proibidos em todos os fontes Verilog e `buf` no DUT. Rodada 2 aceita por Architect/Reviewer, condicionada à validação acadêmica da distinção contador/FSM; sem alteração do enunciado.
+- **DEC-028:** análise aceita por Architect/Reviewer e cinco propostas ratificadas pelo responsável: soma signed23 e subtração signed18 simultâneas, multiplicadores signed 8×8→16 e signed8×unsigned15→signed22, fronteira matemática signed8→signed23 de `y`, sem truncamento e vetores independentes de TEST-006. PEN-004 e PEN-019 permanecem isoladas. TASK-003/007/004 não são promovidas automaticamente; detalhamento/auditoria ainda necessários.
+- **DEC-029:** CONSENSUS Architect/Reviewer e ratificação do responsável: Z é zero do valor selecionado; `loaded` deriva do estado 11 existente; C é o carry-out da última soma em `((a·x²)+(b·x))+c`, qualificado por `loaded` e seleção `y`. Carry e `loaded` devem ser roteados estruturalmente como conexões privadas documentadas, sem estado, pinos físicos ou alterações públicas. Detalhamento/auditoria precedem READY. F=16 permanece candidata; PEN-019 aberta até evidência executada e auditada.

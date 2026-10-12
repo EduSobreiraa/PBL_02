@@ -1,8 +1,8 @@
-# TASK-002 — Sincronização de controles e armazenamento de coeficientes
+# TASK-002 — Extensão estrutural de carga completa
 
 ## Objetivo
 
-Implementar o caminho sequencial de controles e o armazenamento de `a`, `b` e `c` após três capturas ordenadas.
+Preservar captura a→b→c e disponibilizar loaded pelo core privado, mantendo wrapper público e 31 FF.
 
 ## Status
 
@@ -10,71 +10,198 @@ APPROVED
 
 ## Requisitos relacionados
 
-- REQ-001, REQ-002, REQ-011
+REQ-001, REQ-002, REQ-011.
 
 ## Decisões relacionadas
 
-- DEC-008, DEC-009, DEC-014, DEC-019, DEC-023, DEC-024, DEC-025, DEC-026
+DEC-008/014/019/023/024/025/026/027/029/030.
 
 ## Dependências
 
-- TASK-001 concluída; gate humano da baseline atendido conforme registrado em TASK-001.
-- Contrato DEC-023 ratificado com clarificações em DEC-024.
-- Testbench comportamental autorizado exclusivamente em arquivo separado, conforme DEC-024 e `docs/regras.md`.
+TASK-001 APPROVED; DEC-030 CONSENSUS resolve encapsulamento e autorização local do contador. Independente das unidades aritméticas e das raízes.
 
 ## Restrições aplicáveis
 
-- Sem `if`/`else` em qualquer fonte Verilog (DEC-025); sem FSM, `buf`, loops/geração ou comportamento fora das exceções autorizadas.
-- DFF descrito por `always @(posedge clk)` incondicional; reset síncrono e enable montados estruturalmente na entrada D.
-- Comportamento sequencial do DUT somente nos módulos dedicados exclusivamente a flip-flops; esses módulos capturam incondicionalmente D já calculado. Não encapsular lógica de controle/datapath comportamental em módulos FF.
-- Minimizar bits de armazenamento preservando interface, temporização, sincronização e comportamento DEC-024; documentar funções/estados com memória, estados distinguíveis e codificação. Não remover estado necessário.
-- Não incluir debounce nesta TASK.
-- Não usar FSM; o contador linear de progresso e seus enables são a exceção local autorizada por DEC-024 e `docs/regras.md`.
+- DUT estrutural: portas lógicas e instâncias explícitas; sem FSM, `buf`, `if`/`else`, `for`, `generate`, `genvar`, operadores aritméticos/condicionais ou `begin/end` fora do DFF. Comportamento só no FF dedicado com captura incondicional na borda positiva.
+- `assign` apenas para fios/constantes/concatenação/seleção estática. Extensão de sinal explícita; sem truncamento implícito.
+- Testbench separado pode ter estímulos, comparação, laços e aritmética de referência, mas não `if`/`else`; comparação por `case`.
+- Preservar interfaces públicas, pinagem e arquivos fora do escopo. Sem referência hierárquica para obter status privado.
 
 ## Arquivos permitidos
 
-- `rtl/coefficient_input.v` (novo módulo local a esta TASK).
-- `testbench/tb_coefficient_input.v` (testbench separado; sintaxe comportamental autorizada por DEC-024).
-- `docs/tasks/TASK-002.md` e `docs/verificacao.md` para evidências/planejamento desta TASK.
+- `rtl/coefficient_input.v`
+- `testbench/tb_coefficient_input.v`
+- `verification/results/task-002.md` e `verification/results/task-002.log`
+- `docs/tasks/TASK-002.md`
 
 ## Arquivos protegidos
 
-- Documentos canônicos, pin assignments e RTL fora do escopo aprovado.
+Todo arquivo fora da lista permitida, especialmente requisitos, decisões, interfaces públicas, pinagem, Quartus e `rtl/coefficient_input.v.save`.
 
 ## Plano
 
-- Implementar somente o módulo interno `coefficient_input`, sem alterar `top_module`, pin assignments ou interfaces canônicas.
-- Contrato local ratificado em DEC-023/024: entradas `clk` (clock de 50 MHz), `key0_n`/`key1_n` (KEY físicos ativos baixos) e `sw[7:0]`; saídas `a[7:0]`, `b[7:0]`, `c[7:0]` signed.
-- Sincronizar KEYs em duas etapas; gerar um evento interno por transição sincronizada de KEY0 para pressionado. Usar contador linear de progresso com enables para gravar sucessivamente `a`, `b` e `c`; após a terceira captura, ignorar novas pressões até reset.
-- KEY1 sincronizado produz reset síncrono lógico ativo alto; reset limpa os coeficientes, ignora captura e prepara o histórico do detector de KEY0 como liberado. O sincronizador de KEY1 não é resetado pela própria saída.
-- Vetores/expectativas de TEST-001 estão definidos nesta TASK; sequência física exige KEY1 após energizar antes da carga. Não inferir inicialização de power-on.
+1. Mover a lógica existente ao core e conservar nomes/funções dos FF, equações e enable/reset.
+2. Conectar loaded à decodificação existente de progresso11. Manter estados00→01→10→11 e bloqueio de novas capturas.
+3. Wrapper público instancia core; status extra é apenas porta do core privado. Top-level não é editado nesta TASK.
+4. Preservar 24FF coeficientes +2 progresso +5 sincronização/histórico=31. Nenhuma sincronização SW, debounce adicional, latch ou FF de loaded.
+5. Atualizar teste para validar core/loaded e equivalência de coeficientes do wrapper. Duplicação de DUT no testbench para comparação não faz parte do sistema sintetizado.
 
 ## Critérios de aceite
 
-- DEC-023/024 ratificadas pelo responsável; testbench comportamental autorizado exclusivamente fora do DUT.
-- DUT e testbench não contêm as palavras-chave `if`/`else`; testbench usa outra construção autorizada para comparação.
-- Reset síncrono, captura por enable e retenção sem enable preservam a semântica aprovada após remoção de condicionais procedurais.
-- Após três capturas de `8'h80` (−128), `8'h01` (+1), `8'h7F` (+127), saídas estáveis são `a=8'h80`, `b=8'h01`, `c=8'h7F`.
-- Alterar `sw` sem nova captura mantém os três valores.
-- Após as três capturas iniciais (`80,01,7F`), manter KEY0 pressionado com `sw=8'h2A` por pelo menos oito bordas não altera as saídas: novas capturas ficam bloqueadas até reset, conforme DEC-024.
-- Liberar KEY0, esperar pelo menos quatro bordas e pressionar novamente com `sw=8'hD6` também mantém `a=8'h80`, `b=8'h01`, `c=8'h7F` até reset, conforme DEC-024.
-- Manter KEY1 pressionado (ativo baixo) e estável por pelo menos seis bordas de clock resulta em `a=b=c=0`; uma pressão simultânea de KEY0 é ignorada. Após liberar KEY1/KEY0 e aguardar a estabilização, não há captura espúria.
-- Revisão estrutural confirma que o sincronizador de KEY1 não recebe reset derivado dele próprio, KEY0 tem uma captura por transição e o DFF é a única descrição sequencial permitida.
-- Operação física confirma reset após energizar e captura ordenada; fica para TASK-014/TEST-012/015.
-- Uma quarta pressão e as seguintes, antes de reset, não alteram `a`, `b` ou `c`.
+- Interface do wrapper idêntica à baseline e porta loaded somente no core privado; sem referências hierárquicas.
+- TEST-001 passa após refatoração para todos casos e loaded; registro anterior não prova extensão.
+- Auditoria confirma 31 FF e lógica estrutural, ordem/captura única/reset/bloqueio inalterados.
+- Nenhum HIGH/CRITICAL; evidências reais antes de APPROVED.
 
 ## Testes
 
-- Reexecutar TEST-001 em simulação após a alteração; incluir confirmação de reset simultâneo a enable, captura com enable e retenção sem enable.
-- Revisão estática comprova ausência de `if`/`else` em todos os fontes Verilog e conformidade com DEC-025. Revisão estática geral em TEST-013/TASK-017; integração posterior em TEST-010 e teste físico em TEST-012/015.
+TEST-001 completo em Icarus/vvp (local ou container DEC-030), cobrindo core e wrapper, com teste de loaded; TEST-013/auditoria de sintaxe/estado. Validação física posterior TASK-014 não bloqueia simulação isolada.
 
 ## Resultado da implementação
+
+Extensão DEC-030 implementada em 11/10/2026. Wrapper público preservado, core privado exporta loaded por fio ao decode existente; 31 FF mantidos. TEST-001 compara wrapper/core e loaded em 15 verificações. Evidência: `verification/results/task-002.md` e `.log`. Aguardando Code Auditor.
+
+## Resultado das ferramentas
+
+TEST-001 PASS em Icarus Verilog 14.0 via Docker, 15 verificações, fim em 3391000 ps, compilação -Wall sem warnings. Inspeção estática do Implementer: 31 FF e ausência de palavras-chave proibidas. Fontes, digest, comandos, falhas ambientais de bind mount e logs em `verification/results/task-002.md` e `.log`.
+
+## Resultado da revisão
+
+Code Auditor independente, ciclo 1, 11/10/2026: **APPROVED**. Gate 1 PASS: diff restrito ao wrapper/core e conexão loaded, portas públicas preservadas, comportamento apenas nos FF dedicados, sem construções proibidas. Gate 2 PASS: inspeção das equações preservadas e dos 31 FF; TEST-001 registrado passa 15 verificações incluindo carga parcial/completa, retenção, reset e equivalência wrapper/core; SHA256 dos dois fontes confere com evidência. Gate 3 PASS: loaded usa decode11 privado e não altera top-level/pinagem nem cria estado. Nenhum finding aberto. Não reexecutei simulação, pois os logs e fontes conferem e não surgiu dúvida funcional concreta. Síntese e placa continuam futuras.
+
+## Pendências
+
+Nenhuma pendência de implementação desta extensão. Auditoria independente APPROVED; síntese/validação física pertencem às TASKs posteriores. Risco acadêmico da interpretação do contador registrado em DEC-030, sem afirmar aprovação do tutor.
+
+## Implementation Brief
+
+### Objetivo
+
+Preservar captura a→b→c e disponibilizar loaded pelo core privado, mantendo wrapper público e 31 FF.
+
+### Requisitos
+
+REQ-001, REQ-002, REQ-011.
+
+### Decisões aplicáveis
+
+DEC-008/014/019/023/024/025/026/027/029/030.
+
+### Módulos envolvidos
+
+`coefficient_input` (wrapper público), `coefficient_input_core` (lógica existente e loaded), `pbl_dff_plain`, `pbl_dff_sync_reset` (FF existentes).
+
+### Interface
+
+| Sinal | Direção | Largura/formato | Semântica |
+|---|---|---|---|
+| clk | entrada dos dois módulos | 1 | clock 50MHz |
+| key0_n,key1_n | entradas | 1 cada | níveis físicos ativos baixos |
+| sw | entrada | 8 | dados de coeficiente em complemento de dois |
+| a,b,c | saídas | signed8 cada | três capturas ordenadas, congeladas após c |
+| loaded | saída SOMENTE core privado | 1 | progress_1 AND progress_0, zero até c, um até reset |
+
+Wrapper preserva exatamente a lista de portas original. Instancia um core e deixa loaded privado não consumido. Integração futura instancia somente core, sem duplicar wrapper e core como circuitos independentes. Não publicar evento/reset/progresso.
+
+### Clock e reset
+
+Borda positiva de clk=MAX10_CLK1_50. KEYs sincronizados em duas etapas; KEY1 sincronizado/invertido produz reset síncrono ativo alto prioritário. KEY1 não se reseta pela própria saída; reset põe a,b,c/progresso em zero e histórico/estágios KEY0 em liberado. Exigir reset após energização, sem supor estado inicial.
+
+### Restrições
+
+- DUT estrutural: portas lógicas e instâncias explícitas; sem FSM, `buf`, `if`/`else`, `for`, `generate`, `genvar`, operadores aritméticos/condicionais ou `begin/end` fora do DFF. Comportamento só no FF dedicado com captura incondicional na borda positiva.
+- `assign` apenas para fios/constantes/concatenação/seleção estática. Extensão de sinal explícita; sem truncamento implícito.
+- Testbench separado pode ter estímulos, comparação, laços e aritmética de referência, mas não `if`/`else`; comparação por `case`.
+- Preservar interfaces públicas, pinagem e arquivos fora do escopo. Sem referência hierárquica para obter status privado.
+
+### Arquivos permitidos
+
+- `rtl/coefficient_input.v`
+- `testbench/tb_coefficient_input.v`
+- `verification/results/task-002.md` e `verification/results/task-002.log`
+- `docs/tasks/TASK-002.md`
+
+### Arquivos protegidos
+
+Todo arquivo não listado; contratos públicos e pinagem congelados. O implementer registra conflito novo, sem redefinir arquitetura.
+
+### Implementação e instâncias
+
+1. Mover a lógica existente ao core e conservar nomes/funções dos FF, equações e enable/reset.
+2. Conectar loaded à decodificação existente de progresso11. Manter estados00→01→10→11 e bloqueio de novas capturas.
+3. Wrapper público instancia core; status extra é apenas porta do core privado. Top-level não é editado nesta TASK.
+4. Preservar 24FF coeficientes +2 progresso +5 sincronização/histórico=31. Nenhuma sincronização SW, debounce adicional, latch ou FF de loaded.
+5. Atualizar teste para validar core/loaded e equivalência de coeficientes do wrapper. Duplicação de DUT no testbench para comparação não faz parte do sistema sintetizado.
+
+### Testes exigidos
+
+TEST-001 completo em Icarus/vvp (local ou container DEC-030), cobrindo core e wrapper, com teste de loaded; TEST-013/auditoria de sintaxe/estado. Validação física posterior TASK-014 não bloqueia simulação isolada.
+
+### Casos de borda
+
+- KEY1 baixo ≥6 bordas: a=b=c=0 e loaded0; KEY0 durante reset não captura.
+- Soltar teclas/estabilizar e capturar 80,01,7F: a=-128,b=1,c=127; loaded0 depois de a/b e loaded1 depois de c.
+- Pressão longa ≥8 bordas e quarta/quinta pressões após liberação ≥4 bordas não alteram coeficientes/loaded.
+- SW muda sem evento: retenção. Reset parcial/completo limpa tudo e permite nova sequência sem captura espúria.
+- Sincronizador KEY1 independente do reset que produz; reset prioritário mesmo com enable/evento.
+
+### Critérios de aceite
+
+- Interface do wrapper idêntica à baseline e porta loaded somente no core privado; sem referências hierárquicas.
+- TEST-001 passa após refatoração para todos casos e loaded; registro anterior não prova extensão.
+- Auditoria confirma 31 FF e lógica estrutural, ordem/captura única/reset/bloqueio inalterados.
+- Nenhum HIGH/CRITICAL; evidências reais antes de APPROVED.
+
+### Dependências
+
+TASK-001 APPROVED; DEC-030 CONSENSUS resolve encapsulamento e autorização local do contador. Independente das unidades aritméticas e das raízes.
+
+### Pendências
+
+Nenhuma decisão técnica aberta. Implementação e nova simulação concluídas; auditoria independente pendente. Risco acadêmico da interpretação do contador registrado em DEC-030, sem afirmar aprovação do tutor.
+
+### Resultado do Context Analyst — 11/10/2026
+
+**READY_FOR_IMPLEMENTATION.** Contrato privado, memória mínima, clock/reset, arquivos e critérios definidos e auditados na decisão. TASK passa a READY; não exige nova consulta.
+
+## Histórico
+
+- 2026-10-11 — Code Implementer concluiu wrapper/core/loaded com 31 FF; TEST-001 PASS (15 verificações), fontes e evidência registrados. Status IMPLEMENTED; encaminhada ao Code Auditor, sem autopromoção para APPROVED.
+
+- 2026-10-11 — DEC-030 em CONSENSUS; brief vigente substitui planejamento anterior, fecha contratos privados/topologia/arquivos/testes. Estado READY; sem RTL ou testes nesta preparação. Autonomia delegada dispensa nova ratificação humana de escolhas compatíveis.
+
+- 2026-10-09 — Reaberta após DEC-029 para especificar `loaded` como saída lógica interna derivada de `progress_1 AND progress_0`, sem FF adicional, mantendo `00→01→10→11` e sem alterar pinos físicos/interface pública do top-level. Status PLANNED até revisão documental, implementação e auditoria independentes; RTL ainda não foi atualizado.
+- 2026-10-07 — Code Auditor concluiu revisão independente pós-DEC-026: Gate 1 PASS (comportamento sequencial restrito aos módulos dedicados a FFs e entrada D calculada estruturalmente); Gate 2 PASS (TEST-001 Icarus aprovado segundo evidência registrada; contagem conferida em 31 bits, sem redundância identificada); Gate 3 PASS (interface e escopo preservados). Nenhum finding aberto; status **APPROVED**.
+
+- 2026-10-07 — Code Implementer revalidou a implementação existente após DEC-026. Não encontrou defeito concreto nem fez refactor: o DUT mantém `always @(posedge clk)` incondicional somente em `pbl_dff_plain` e `pbl_dff_sync_reset`, módulos compostos apenas pelo armazenamento; lógica de controle e cálculo de D permanecem estruturais. A contagem é 31 bits (24 coeficientes, 5 sincronização/histórico, 2 progresso), sem armazenamento excedente identificado. TEST-001 passou com Icarus Verilog: `PASS TEST-001 coefficient_input`, término normal em 2751000 (1 ps). A primeira execução montando o workspace falhou por `Permission denied`; cópias dos fontes em `/tmp` executaram com sucesso no container Icarus. Encaminhada para auditoria independente.
+- 2026-10-07 — Após DEC-026, TASK-002 reaberta e movida de APPROVED para READY para revalidar os módulos atuais. Context Analyst documentou o limite de 31 bits (24 coeficientes, 5 sincronização/histórico e 2 progresso), não identificou correção de RTL necessária e encaminhou confirmação independente ao Code Auditor.
+- 2026-10-06 — TASK candidata criada na Sprint 0; status DRAFT.
+- 2026-10-06 — Bloqueada até DEC-023 definir contrato interno suficiente para implementação e revisão.
+- 2026-10-06 — DEC-023 chegou a CONSENSUS; critérios/vetores foram detalhados. TASK segue BLOCKED aguardando ratificação humana do contrato e autorização do testbench.
+- 2026-10-06 — Responsável ratificou DEC-023 com as clarificações de DEC-024; TASK passou a READY. DUT/testbench ainda não implementados nem executados.
+- 2026-10-06 — Context Analyst confirmou READY_FOR_IMPLEMENTATION; implementação iniciada pelo fluxo.
+- 2026-10-06 — Implementação e compilação concluídas; TEST-001 bloqueado pela indisponibilidade de licença do simulador. Status BLOCKED até obter execução funcional.
+- 2026-10-06 — Code Auditor aprovou o Compliance Gate e a inspeção estática, mas classificou a TASK como BLOCKED porque TEST-001 não executou: `vsim` não obteve licença. Nenhum defeito concreto de código encontrado; aprovação funcional depende da execução do teste.
+- 2026-10-06 — Orchestrator executou TEST-001 no container `hdlc/iverilog:latest` com Icarus Verilog 14.0; saída `PASS TEST-001 coefficient_input`, término normal em 2751000 (1 ps). Code Auditor atualizou Gate 2; TASK aprovada. A falha de licença do Questa permanece registrada, sem bloquear a evidência alternativa.
+- 2026-10-06 — DEC-025 ratificada após solicitação do responsável: proibição de `if`/`else` em todo fonte Verilog. TASK-002 reaberta e retornou a READY para recalcular D estruturalmente, substituir comparação condicional do testbench, reexecutar TEST-001 e auditar.
+- 2026-10-06 — Context Analyst reavaliou a reabertura sob DEC-025: **READY_FOR_IMPLEMENTATION**. `docs/regras.md`, interface e comportamento permanecem definidos; o RTL requer substituir o controle `if/else` de `pbl_dff_sync_reset` por muxes estruturais na entrada D, preservando reset síncrono prioritário, captura por enable e retenção por realimentação. O testbench requer substituir sua comparação condicional por `case` sem as palavras-chave proibidas. Restrições: preservar interface/comportamento DEC-023/024; nenhum `if`/`else` em qualquer fonte Verilog; manter `always @(posedge clk)` incondicional somente nos DFFs; sem `?:`, FSM, `buf`, loops/geração no DUT ou alterações fora dos arquivos permitidos. TEST-001 deve ser recompilado e executado no Icarus Docker após a mudança, cobrindo reset simultâneo a enable, captura, retenção e todos os casos existentes; a auditoria estática deve confirmar ausência de `if`/`else` em todo Verilog.
+- 2026-10-06 — Code Implementer removeu as palavras-chave proibidas do DUT e testbench. `pbl_dff_sync_reset` agora monta reset síncrono prioritário e mux de enable/hold com primitivas `not`, `and`, `or`; mantém apenas `always @(posedge clk) q <= d_next`. A tarefa `check_values` compara com `case`/`default`. `rg -n '\\b(if|else)\\b' --glob '*.v' rtl testbench` não encontrou ocorrências e `git diff --check` passou. TEST-001 não foi executado: a chamada Docker autorizada falhou lendo o arquivo montado (`rtl/coefficient_input.v: Permission denied`, `Preprocessor failed with 1 error(s)`, exit code 1). Uma repetição com UID 1000 foi interrompida antes da execução; portanto, não há resultado funcional novo. Revisão independente e execução do TEST-001 seguem pendentes.
+- 2026-10-06 — Code Auditor realizou revisão independente pós-DEC-025: Gate 1 PASS (sem `if`/`else` em todos os fontes Verilog; mux estrutural de reset/enable correto; restrições e interface respeitadas); Gate 2 PASS (TEST-001 Icarus 14.0 passou, incluindo reset simultâneo a enable nos estágios de KEY0, captura, retenção e comparação por `case`); Gate 3 PASS (sem impacto de integração fora da fronteira autorizada). Nenhum finding aberto; parecer **APPROVED**.
+- 2026-10-06 — Orchestrator reexecutou os fontes atualizados no container Icarus com cópia em `/tmp` montada somente para leitura e `--security-opt label=disable`; TEST-001 terminou com `PASS TEST-001 coefficient_input` em `2751000` (1 ps). `docs/verificacao.md` atualizado para a nova evidência. Após os três gates aprovados pelo Code Auditor, TASK-002 voltou a **APPROVED** e a Sprint 1 foi concluída novamente.
+
+
+## Evidências históricas da baseline anterior à extensão DEC-030
+
+O conteúdo abaixo preserva rastreabilidade de execuções/revisões anteriores. Não comprova core/loaded; estados e gates antigos estão supersedidos pelo brief vigente de 11/10/2026.
+
+
+**Limite da baseline aprovada:** o RTL atualmente registrado implementa o contador e decodifica `progress_done` internamente, mas ainda não disponibiliza `loaded` aos consumidores. A mudança autorizada por DEC-029 não foi implementada nem testada; TASK-002 permanece PLANNED até atualização e auditoria.
 
 Implementado `coefficient_input` com sincronizadores KEY0/KEY1 de duas etapas, detecção de transição sincronizada de KEY0, contador linear estrutural de progresso e três bancos de registradores com enables. O sincronizador de KEY1 não recebe reset derivado de si próprio. Os estágios de KEY0 e o histórico são preparados como liberados durante o reset; reset mantém os coeficientes em zero e limpa o progresso. Após a terceira captura, eventos adicionais são ignorados.
 
 Os casos antigos de deslocamento nas capturas posteriores à terceira conflitam com DEC-024. Para esta TASK, prevalece a retenção dos três coeficientes até reset; TEST-001 foi ajustado nesse ponto, sem alterar a decisão.
 
-## Resultado das ferramentas
+### Ferramentas históricas
 
 Questa Altera Starter FPGA Edition `vlog 2025.2 Compiler 2025.05` compilou DUT e testbench sem erros e sem warnings:
 
@@ -94,7 +221,7 @@ vvp /tmp/test001.vvp
 
 Resultado: `PASS TEST-001 coefficient_input`; término normal em tempo de simulação `2751000` (unidade de precisão do testbench: 1 ps). A simulação aprovada cobre reset inicial e simultaneidade, ausência de captura espúria na liberação, três capturas ordenadas incluindo `-128` e `+127`, retenção ao mudar SW, pressão longa, bloqueio de capturas excedentes até reset, reset após carga completa/parcial e nova sequência após reset. A execução funcional passou com Icarus; a limitação de licença do Questa não bloqueia mais TEST-001.
 
-## Resultado da revisão
+### Revisão histórica
 
 **APPROVED — auditoria independente após DEC-026 (2026-10-07).** Os três gates foram aprovados; nenhum finding aberto.
 
@@ -139,143 +266,3 @@ O módulo manteve a fronteira local prevista e não alterou top-level, interface
 ### Findings
 
 Nenhum finding aberto. A validação de placa permanece fora desta TASK.
-
-## Pendências
-
-- Validação física posterior na TASK de placa.
-
-## Implementation Brief
-
-### Objetivo
-
-Implementar somente o módulo interno `coefficient_input`: sincronizar KEY0/KEY1, gerar uma captura por pressão de KEY0 e armazenar os três valores signed de 8 bits em ordem `a`, `b`, `c` por contador linear de progresso e enables. Depois da terceira captura, ignorar novas pressões até reset. O bloco é uma fronteira local desta TASK; não altera a interface física ou o top-level aprovado.
-
-### Requisitos
-
-- REQ-001 — reset do sistema.
-- REQ-002 — entrada ordenada dos coeficientes.
-- REQ-011 — implementação estrutural compatível com as restrições do projeto.
-
-### Decisões aplicáveis
-
-- DEC-008 — `MAX10_CLK1_50`, reset lógico síncrono ativo alto, amostrado na borda de subida; reset dos coeficientes.
-- DEC-009 — registro histórico; a arquitetura do deslocador foi supersedida para esta TASK por DEC-024.
-- DEC-014 — `always @(posedge clk)` somente na descrição dos DFFs; lógica combinacional/controle permanece estrutural.
-- DEC-019 — KEY ativos baixos; sincronização em duas etapas; evento único de KEY0 na transição sincronizada para pressionado; preparação do histórico de KEY0 como liberado durante reset; KEY1 não é reinicializado pela saída do seu próprio sincronizador; exige reset via KEY1 após energizar.
-- DEC-023 — contrato externo local de `coefficient_input`, ratificado com clarificações em DEC-024.
-- DEC-024 — contador linear com enables, proteção após terceira captura e autorização de testbench comportamental separado.
-- DEC-025 — proíbe `if`/`else` em todos os fontes Verilog; no DUT, cálculo estrutural de D e DFF incondicional.
-- DEC-026 — restringe o comportamento sequencial do DUT a módulos exclusivos de flip-flops e exige o mínimo de bits de armazenamento que preserve as funções/decisões aprovadas.
-
-### Módulos envolvidos
-
-- Novo módulo local `coefficient_input` em `rtl/coefficient_input.v`.
-- Não alterar `top_module`, criar submódulos fora do escopo ou introduzir FSM. O contador linear e a condição interna de concluído são autorizados por DEC-024; não expor sinal `complete` na interface.
-
-### Interface local ratificada (DEC-023/024)
-
-| Sinal | Direção | Largura | Semântica |
-|---|---|---:|---|
-| `clk` | entrada | 1 | Clock `MAX10_CLK1_50`, 50 MHz; amostragem na borda de subida. |
-| `key0_n` | entrada | 1 | Nível físico ativo baixo de KEY0; sincronizado em duas etapas; transição sincronizada liberado `1` para pressionado `0` gera uma captura. |
-| `key1_n` | entrada | 1 | Nível físico ativo baixo de KEY1; sincronizado em duas etapas; pressionado solicita reset lógico síncrono ativo alto após sincronização. |
-| `sw` | entrada | 8 | `SW[7:0]`, padrão de bits signed em complemento de dois, amostrado no evento de captura. |
-| `a` | saída | 8 | Coeficiente signed mais antigo após a terceira captura ordenada. |
-| `b` | saída | 8 | Coeficiente signed intermediário após a terceira captura ordenada. |
-| `c` | saída | 8 | Coeficiente signed mais recente após a terceira captura ordenada. |
-
-Evento de captura, reset lógico e estado do detector permanecem internos; não expor portas adicionais sem revisão do contrato. Após capturar sucessivamente `a`, `b`, `c`, as saídas devem corresponder a esses valores nessa ordem.
-
-### Clock e reset
-
-- Clock: `MAX10_CLK1_50`; borda ativa de subida.
-- KEY0 e KEY1 chegam como sinais físicos ativos baixos e são sincronizados em duas etapas.
-- Reset de coeficientes: síncrono, lógico ativo alto, produzido pelo KEY1 sincronizado. Limpa `a`, `b`, `c`, ignora captura enquanto ativo e prepara amostra/histórico do detector de KEY0 para liberado (`1`).
-- O sincronizador de KEY1 não recebe reset derivado de sua própria saída. Não presumir inicialização de power-on; o procedimento exige pressionar KEY1 após energizar e antes de carregar.
-
-### Restrições
-
-- Datapath e lógica de sincronização/detecção combinacional estrutural; sem FSM, `buf`, `for`, `generate`, `genvar`, `if` ou `else`.
-- `begin/end` somente dentro da descrição do flip-flop; `always @(posedge clk)` incondicional somente para armazenamento. Reset síncrono e enable são muxados estruturalmente antes do DFF.
-- Os módulos `pbl_dff_plain` e `pbl_dff_sync_reset` devem conter somente armazenamento; nenhuma lógica de controle/datapath comportamental pode ser colocada neles. A exceção local de contador/enables DEC-024 permanece limitada à TASK-002 e sua lógica combinacional atual é estrutural.
-- Usar o mínimo de bits de armazenamento compatível com a função e com as decisões aprovadas; não remover sincronização, histórico de borda, estado de progresso ou coeficientes exigidos.
-- Não usar KEY como clock, não adicionar reset assíncrono, nem inferir inicialização de power-on.
-- Não sincronizar `SW` nem incluir debounce. Após a terceira captura, ignorar captura excedente até reset; não expor sinal de validade/completude.
-- Não alterar interfaces canônicas, pin assignments ou outros arquivos RTL.
-
-### Arquivos permitidos
-
-- `rtl/coefficient_input.v` — novo módulo desta TASK, após liberação.
-- `testbench/tb_coefficient_input.v` — autorizado; construções comportamentais permitidas apenas no testbench, separadas do DUT.
-- `docs/tasks/TASK-002.md` — brief, plano e evidências desta TASK.
-- `docs/verificacao.md` — registro/planejamento de evidências do TEST-001 relacionadas a esta TASK.
-
-### Arquivos protegidos
-
-- Outros RTL, `top_module`, interfaces e documentos canônicos fora das permissões acima.
-- Requisitos, decisões, pin assignments e arquivos Quartus.
-
-### Testes exigidos
-
-- TEST-001; inicializar explicitamente o testbench, sem pressupor estado power-on.
-- Revisão estática estrutural conforme TEST-013/TASK-017 quando executada; integração posterior em TEST-010 e validação física em TEST-012/015 na TASK de placa.
-
-### Casos de borda e expectativas de TEST-001
-
-- KEY1 baixo por pelo menos seis bordas, aguardando a sincronização: `a=b=c=0`; KEY0 pressionado durante reset não captura.
-- Após reset e estabilização, capturar `8'h80`, `8'h01`, `8'h7F` em pressões separadas: ao final `a=8'h80`, `b=8'h01`, `c=8'h7F`.
-- Alterar `sw` sem nova pressão mantém as saídas.
-- Após a terceira captura, manter KEY0 pressionado por pelo menos oito bordas com `sw=8'h2A` não altera `a=8'h80`, `b=8'h01`, `c=8'h7F`.
-- Liberar KEY0 por pelo menos quatro bordas e pressionar com `sw=8'hD6` também não altera os coeficientes até reset.
-- Depois das três capturas válidas, apresentar ao menos mais dois valores distintos e pressionar KEY0; `a`, `b` e `c` devem permanecer inalterados até reset.
-- Reset posterior limpa os três valores; comprovar que o sincronizador de KEY1 não é reinicializado por sua saída e que não há captura espúria após liberação/estabilização dos KEYs.
-- Reset durante progresso parcial limpa o contador e os registradores; a próxima sequência de três pressões grava nova tripla na ordem correta.
-
-### Justificativa de minimização de flip-flops (DEC-026)
-
-O RTL atual usa 31 bits de armazenamento: 2 estágios do sincronizador de KEY1; 2 estágios do sincronizador de KEY0 e 1 bit de histórico para detectar sua transição sincronizada; 2 bits no contador para distinguir as quatro condições `nenhuma`, `uma`, `duas` e `concluída`; e 24 bits para reter os três coeficientes de 8 bits. Cada grupo atende uma função/estado distinto aprovado. As quatro condições do contador exigem ao menos 2 bits; os coeficientes exigem 24 bits; os sincronizadores de duas etapas e o histórico do detector seguem DEC-019. A codificação atual do contador é `00→01→10→11`, portanto não há bit de progresso excedente identificado nesta análise estática.
-
-### Revalidação do Context Analyst — DEC-026
-
-**READY_FOR_IMPLEMENTATION.** A TASK foi reaberta para revalidar os módulos atuais contra DEC-026. A inspeção de `rtl/coefficient_input.v` encontrou ambos os `always @(posedge clk)` apenas nos módulos dedicados `pbl_dff_plain` e `pbl_dff_sync_reset`, capturando suas entradas D sem condicionais. A lógica de reset/enable, detecção, decodificação e contador é estrutural. A análise de estado acima contabiliza 31 bits e não identificou registrador redundante sem contrariar requisitos ou decisões. Portanto, não há correção concreta de RTL indicada pelo Context Analyst; o Code Auditor deve confirmar a conformidade e a contagem antes de retornar a TASK a APPROVED. Nenhuma mudança arquitetural ou informação pendente foi identificada.
-
-### Critérios de aceite
-
-- DEC-023/024 ratificadas; autorização humana para testbench registrada.
-- Interface, ordem, larguras e clock/reset locais correspondem ao contrato ratificado e às DEC-008/009/014/019/024.
-- TEST-001 passa para os casos acima após autorizado; revisão estrutural confirma DFF como única descrição sequencial e respeita as demais restrições.
-- Evidência documentada confirmando bloqueio de capturas posteriores à terceira e sem alegar inicialização de power-on.
-- Validação física permanece fora desta TASK e é requisito posterior, não critério para implementação/simulação isolada.
-
-### Dependências
-
-- TASK-001 concluída; o gate humano de revisão da baseline foi atendido conforme registrado em TASK-001.
-- TEST-001 para verificar esta unidade; integração e teste de placa ficam nas TASKs posteriores indicadas acima.
-
-### Pendências
-
-- Teste físico posterior em TASK-014/TASK de placa; não bloqueia a implementação isolada após os gates acima.
-
-### Resultado anterior do Context Analyst
-
-**READY_FOR_IMPLEMENTATION (2026-10-06).** O responsável ratificou DEC-023 com as clarificações de DEC-024 e autorizou o testbench comportamental separado. Contrato, entradas/saídas e critérios mínimos estavam definidos antes da implementação original.
-
-## Histórico
-
-- 2026-10-07 — Code Auditor concluiu revisão independente pós-DEC-026: Gate 1 PASS (comportamento sequencial restrito aos módulos dedicados a FFs e entrada D calculada estruturalmente); Gate 2 PASS (TEST-001 Icarus aprovado segundo evidência registrada; contagem conferida em 31 bits, sem redundância identificada); Gate 3 PASS (interface e escopo preservados). Nenhum finding aberto; status **APPROVED**.
-
-- 2026-10-07 — Code Implementer revalidou a implementação existente após DEC-026. Não encontrou defeito concreto nem fez refactor: o DUT mantém `always @(posedge clk)` incondicional somente em `pbl_dff_plain` e `pbl_dff_sync_reset`, módulos compostos apenas pelo armazenamento; lógica de controle e cálculo de D permanecem estruturais. A contagem é 31 bits (24 coeficientes, 5 sincronização/histórico, 2 progresso), sem armazenamento excedente identificado. TEST-001 passou com Icarus Verilog: `PASS TEST-001 coefficient_input`, término normal em 2751000 (1 ps). A primeira execução montando o workspace falhou por `Permission denied`; cópias dos fontes em `/tmp` executaram com sucesso no container Icarus. Encaminhada para auditoria independente.
-- 2026-10-07 — Após DEC-026, TASK-002 reaberta e movida de APPROVED para READY para revalidar os módulos atuais. Context Analyst documentou o limite de 31 bits (24 coeficientes, 5 sincronização/histórico e 2 progresso), não identificou correção de RTL necessária e encaminhou confirmação independente ao Code Auditor.
-- 2026-10-06 — TASK candidata criada na Sprint 0; status DRAFT.
-- 2026-10-06 — Bloqueada até DEC-023 definir contrato interno suficiente para implementação e revisão.
-- 2026-10-06 — DEC-023 chegou a CONSENSUS; critérios/vetores foram detalhados. TASK segue BLOCKED aguardando ratificação humana do contrato e autorização do testbench.
-- 2026-10-06 — Responsável ratificou DEC-023 com as clarificações de DEC-024; TASK passou a READY. DUT/testbench ainda não implementados nem executados.
-- 2026-10-06 — Context Analyst confirmou READY_FOR_IMPLEMENTATION; implementação iniciada pelo fluxo.
-- 2026-10-06 — Implementação e compilação concluídas; TEST-001 bloqueado pela indisponibilidade de licença do simulador. Status BLOCKED até obter execução funcional.
-- 2026-10-06 — Code Auditor aprovou o Compliance Gate e a inspeção estática, mas classificou a TASK como BLOCKED porque TEST-001 não executou: `vsim` não obteve licença. Nenhum defeito concreto de código encontrado; aprovação funcional depende da execução do teste.
-- 2026-10-06 — Orchestrator executou TEST-001 no container `hdlc/iverilog:latest` com Icarus Verilog 14.0; saída `PASS TEST-001 coefficient_input`, término normal em 2751000 (1 ps). Code Auditor atualizou Gate 2; TASK aprovada. A falha de licença do Questa permanece registrada, sem bloquear a evidência alternativa.
-- 2026-10-06 — DEC-025 ratificada após solicitação do responsável: proibição de `if`/`else` em todo fonte Verilog. TASK-002 reaberta e retornou a READY para recalcular D estruturalmente, substituir comparação condicional do testbench, reexecutar TEST-001 e auditar.
-- 2026-10-06 — Context Analyst reavaliou a reabertura sob DEC-025: **READY_FOR_IMPLEMENTATION**. `docs/regras.md`, interface e comportamento permanecem definidos; o RTL requer substituir o controle `if/else` de `pbl_dff_sync_reset` por muxes estruturais na entrada D, preservando reset síncrono prioritário, captura por enable e retenção por realimentação. O testbench requer substituir sua comparação condicional por `case` sem as palavras-chave proibidas. Restrições: preservar interface/comportamento DEC-023/024; nenhum `if`/`else` em qualquer fonte Verilog; manter `always @(posedge clk)` incondicional somente nos DFFs; sem `?:`, FSM, `buf`, loops/geração no DUT ou alterações fora dos arquivos permitidos. TEST-001 deve ser recompilado e executado no Icarus Docker após a mudança, cobrindo reset simultâneo a enable, captura, retenção e todos os casos existentes; a auditoria estática deve confirmar ausência de `if`/`else` em todo Verilog.
-- 2026-10-06 — Code Implementer removeu as palavras-chave proibidas do DUT e testbench. `pbl_dff_sync_reset` agora monta reset síncrono prioritário e mux de enable/hold com primitivas `not`, `and`, `or`; mantém apenas `always @(posedge clk) q <= d_next`. A tarefa `check_values` compara com `case`/`default`. `rg -n '\\b(if|else)\\b' --glob '*.v' rtl testbench` não encontrou ocorrências e `git diff --check` passou. TEST-001 não foi executado: a chamada Docker autorizada falhou lendo o arquivo montado (`rtl/coefficient_input.v: Permission denied`, `Preprocessor failed with 1 error(s)`, exit code 1). Uma repetição com UID 1000 foi interrompida antes da execução; portanto, não há resultado funcional novo. Revisão independente e execução do TEST-001 seguem pendentes.
-- 2026-10-06 — Code Auditor realizou revisão independente pós-DEC-025: Gate 1 PASS (sem `if`/`else` em todos os fontes Verilog; mux estrutural de reset/enable correto; restrições e interface respeitadas); Gate 2 PASS (TEST-001 Icarus 14.0 passou, incluindo reset simultâneo a enable nos estágios de KEY0, captura, retenção e comparação por `case`); Gate 3 PASS (sem impacto de integração fora da fronteira autorizada). Nenhum finding aberto; parecer **APPROVED**.
-- 2026-10-06 — Orchestrator reexecutou os fontes atualizados no container Icarus com cópia em `/tmp` montada somente para leitura e `--security-opt label=disable`; TEST-001 terminou com `PASS TEST-001 coefficient_input` em `2751000` (1 ps). `docs/verificacao.md` atualizado para a nova evidência. Após os três gates aprovados pelo Code Auditor, TASK-002 voltou a **APPROVED** e a Sprint 1 foi concluída novamente.

@@ -1,0 +1,306 @@
+{
+  "decision": "DEC-031",
+  "oracle": "integer half-boundary comparisons",
+  "vectors": [
+    {
+      "category": "a_zero",
+      "a": 0,
+      "b": -128,
+      "c": 127,
+      "delta": 16384,
+      "x1": 0,
+      "x2": 0,
+      "domain_error": true
+    },
+    {
+      "category": "negative_discriminant",
+      "a": 1,
+      "b": 0,
+      "c": 1,
+      "delta": -4,
+      "x1": 0,
+      "x2": 0,
+      "domain_error": true
+    },
+    {
+      "category": "zero_discriminant",
+      "a": 1,
+      "b": 2,
+      "c": 1,
+      "delta": 0,
+      "x1": -1,
+      "x2": -1,
+      "domain_error": false
+    },
+    {
+      "category": "positive_half_tie",
+      "a": 2,
+      "b": -3,
+      "c": 1,
+      "delta": 1,
+      "x1": 1,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "negative_half_tie",
+      "a": 2,
+      "b": 3,
+      "c": 1,
+      "delta": 1,
+      "x1": -1,
+      "x2": -1,
+      "domain_error": false
+    },
+    {
+      "category": "negative_a_branch_order",
+      "a": -1,
+      "b": 0,
+      "c": 1,
+      "delta": 4,
+      "x1": -1,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "zero_root_and_positive_128",
+      "a": 1,
+      "b": -128,
+      "c": 0,
+      "delta": 16384,
+      "x1": 128,
+      "x2": 0,
+      "domain_error": false
+    },
+    {
+      "category": "minimum_coefficients",
+      "a": -128,
+      "b": -128,
+      "c": -128,
+      "delta": -49152,
+      "x1": 0,
+      "x2": 0,
+      "domain_error": true
+    },
+    {
+      "category": "maximum_discriminant",
+      "a": -128,
+      "b": -128,
+      "c": 127,
+      "delta": 81408,
+      "x1": -2,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "minimum_discriminant",
+      "a": -128,
+      "b": 0,
+      "c": -128,
+      "delta": -65536,
+      "x1": 0,
+      "x2": 0,
+      "domain_error": true
+    },
+    {
+      "category": "maximum_coefficients",
+      "a": 127,
+      "b": 127,
+      "c": 127,
+      "delta": -48387,
+      "x1": 0,
+      "x2": 0,
+      "domain_error": true
+    },
+    {
+      "category": "sqrt_perfect",
+      "a": 1,
+      "b": 0,
+      "c": -4,
+      "delta": 16,
+      "x1": 2,
+      "x2": -2,
+      "domain_error": false
+    },
+    {
+      "category": "sqrt_nonperfect",
+      "a": 1,
+      "b": 0,
+      "c": -2,
+      "delta": 8,
+      "x1": 1,
+      "x2": -1,
+      "domain_error": false
+    },
+    {
+      "category": "mixed_sign_roots",
+      "a": 1,
+      "b": 1,
+      "c": -1,
+      "delta": 5,
+      "x1": 1,
+      "x2": -2,
+      "domain_error": false
+    },
+    {
+      "category": "branch_plus_r0_perfect_positive_correction_odd_quotient",
+      "a": -128,
+      "b": -128,
+      "c": -32,
+      "delta": 0,
+      "x1": -1,
+      "x2": -1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_minus_r0_perfect_nonpositive_correction_odd_quotient",
+      "a": -128,
+      "b": -128,
+      "c": -32,
+      "delta": 0,
+      "x1": -1,
+      "x2": -1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_plus_r0_perfect_positive_correction_even_quotient",
+      "a": -128,
+      "b": -128,
+      "c": 0,
+      "delta": 16384,
+      "x1": -1,
+      "x2": 0,
+      "domain_error": false
+    },
+    {
+      "category": "branch_minus_r0_perfect_nonpositive_correction_even_quotient",
+      "a": -128,
+      "b": -128,
+      "c": 0,
+      "delta": 16384,
+      "x1": -1,
+      "x2": 0,
+      "domain_error": false
+    },
+    {
+      "category": "branch_minus_r0_perfect_positive_correction_odd_quotient",
+      "a": -128,
+      "b": -128,
+      "c": 96,
+      "delta": 65536,
+      "x1": -2,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_plus_r0_irrational_positive_correction_odd_quotient",
+      "a": -128,
+      "b": -128,
+      "c": 97,
+      "delta": 66048,
+      "x1": -2,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_minus_r0_irrational_positive_correction_odd_quotient",
+      "a": -128,
+      "b": -128,
+      "c": 97,
+      "delta": 66048,
+      "x1": -2,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_plus_r0_perfect_nonpositive_correction_even_quotient",
+      "a": -128,
+      "b": 0,
+      "c": 0,
+      "delta": 0,
+      "x1": 0,
+      "x2": 0,
+      "domain_error": false
+    },
+    {
+      "category": "branch_minus_r0_perfect_positive_correction_even_quotient",
+      "a": -128,
+      "b": 1,
+      "c": 127,
+      "delta": 65025,
+      "x1": -1,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_plus_r0_irrational_positive_correction_even_quotient",
+      "a": -126,
+      "b": 0,
+      "c": 127,
+      "delta": 64008,
+      "x1": -1,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_minus_r0_irrational_positive_correction_even_quotient",
+      "a": -126,
+      "b": 0,
+      "c": 127,
+      "delta": 64008,
+      "x1": -1,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_plus_r0_perfect_nonpositive_correction_odd_quotient",
+      "a": -126,
+      "b": 127,
+      "c": -32,
+      "delta": 1,
+      "x1": 1,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_minus_r0_irrational_nonpositive_correction_odd_quotient",
+      "a": -83,
+      "b": -128,
+      "c": -43,
+      "delta": 2108,
+      "x1": -1,
+      "x2": 0,
+      "domain_error": false
+    },
+    {
+      "category": "branch_plus_r0_irrational_nonpositive_correction_odd_quotient",
+      "a": -83,
+      "b": 126,
+      "c": -42,
+      "delta": 1932,
+      "x1": 0,
+      "x2": 1,
+      "domain_error": false
+    },
+    {
+      "category": "branch_minus_r0_irrational_nonpositive_correction_even_quotient",
+      "a": -64,
+      "b": -128,
+      "c": 1,
+      "delta": 16640,
+      "x1": -2,
+      "x2": 0,
+      "domain_error": false
+    },
+    {
+      "category": "branch_plus_r0_irrational_nonpositive_correction_even_quotient",
+      "a": -63,
+      "b": 126,
+      "c": 1,
+      "delta": 16128,
+      "x1": 0,
+      "x2": 2,
+      "domain_error": false
+    }
+  ]
+}

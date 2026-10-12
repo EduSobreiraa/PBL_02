@@ -9,6 +9,25 @@ module coefficient_input (
     output wire signed [7:0] b,
     output wire signed [7:0] c
 );
+    wire unused_loaded;
+
+    coefficient_input_core core (
+        .clk(clk), .key0_n(key0_n), .key1_n(key1_n), .sw(sw),
+        .a(a), .b(b), .c(c), .loaded(unused_loaded)
+    );
+endmodule
+
+// Private integration contract, DEC-030. No additional storage.
+module coefficient_input_core (
+    input wire clk,
+    input wire key0_n,
+    input wire key1_n,
+    input wire [7:0] sw,
+    output wire signed [7:0] a,
+    output wire signed [7:0] b,
+    output wire signed [7:0] c,
+    output wire loaded
+);
     wire key1_meta;
     wire key1_sync;
     wire key0_meta;
@@ -116,6 +135,7 @@ module coefficient_input (
     pbl_dff_sync_reset coefficient_c_bit_6 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[6]), .q(c_value[6]));
     pbl_dff_sync_reset coefficient_c_bit_7 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[7]), .q(c_value[7]));
 
+    assign loaded = progress_done;
     assign a = a_value;
     assign b = b_value;
     assign c = c_value;

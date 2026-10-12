@@ -1,0 +1,45 @@
+{
+  "workspace": "/tmp/pbl02-quartus-8z6s__4m",
+  "status": "COMPILED",
+  "sources": {
+    "rtl/coefficient_input.v": "b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c",
+    "rtl/arithmetic_cells.v": "0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e",
+    "rtl/add_sub.v": "fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a",
+    "rtl/multipliers.v": "95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371",
+    "rtl/polynomial_y.v": "b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7",
+    "rtl/sqrt_u17.v": "9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9",
+    "rtl/divide_u9_u8.v": "3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb",
+    "rtl/quadratic_roots.v": "4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e",
+    "rtl/result_select.v": "1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23",
+    "rtl/decimal_display.v": "34a3a9a4be300d8f0f4ffc8074dc7c0c11b0909ca67a8e9469ff39a2ff891d8b",
+    "rtl/status_flags.v": "33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339",
+    "rtl/top_module.v": "3a0b6453f43c831966d2ed18359bb1d1c76f854c6d9280ee2e7ea4d38803c40c",
+    "quartus/pbl02.qpf": "040af5158b3f534c6d02a936eb72ec9fa7a5a6a1f985a6c2dfa23af412d60241",
+    "quartus/pbl02.qsf": "357bee0b9019a0d0619c621d9f316b6177548bc3e237fadb4ddbc30f10c8663f",
+    "quartus/pbl02.sdc": "5d312adadd2323c71f49f01d3027c793454baff5b96bbfa9ecc5a9fa88923c7e"
+  },
+  "command": [
+    "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sh",
+    "--flow",
+    "compile",
+    "pbl02"
+  ],
+  "exit_code": 0,
+  "timing_detail_command": [
+    "/home/edupires/altera_lite/25.1std/quartus/bin/quartus_sta",
+    "-t",
+    "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/report_timing.tcl",
+    "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus"
+  ],
+  "timing_detail_exit_code": 0,
+  "evidence_sha256": {
+    "run_compile.py": "6820487c7d1054b22cee5dcd46acad44c1c0d5f1a7a35b69e8bb89dcbb57afce",
+    "report_timing.tcl": "3aa8e7edf4af087f0abc582fd33ee81ec4265a72419882900ad2857c0d8d2430",
+    "compile.log": "91a65a6362fb3b5ba9a6a4ae5d2c3af3e35529bcc50c247d9645366b7eb6b559",
+    "timing-detail.log": "094fe40541744c53664488b43f39b40d3a3a0c8b3a026e9d184ab5622fc14a6a",
+    "pins-audit.json": "78060204a115cd2b7ec28a360cdda5e32fea9f00243a3c9d1ab89827c2bdacc2",
+    "output_files/pbl02.fit.rpt": "868a321c7ed2048d8de029afebfbfb738f0a17bf69bbee75501ee24a9677a7f6",
+    "output_files/pbl02.sta.rpt": "cd1f235a29c53fbd85539a9f466f58b000881b6b3893b935bca090477af9e69e",
+    "output_files/pbl02.sof": "ed9131aa6fd47764ba4f3f2ff1a83ce2f57208a1928714f7515cd0e02851413b"
+  }
+}

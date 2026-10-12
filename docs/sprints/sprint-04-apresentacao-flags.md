@@ -1,29 +1,26 @@
 # Sprint 4 — Seleção, displays e flags
 
-## Objetivo
+## Estado
 
-Apresentar o valor selecionado por SW[9:8] nos seis displays e encaminhar as flags acordadas aos LEDs.
+CONCLUÍDA — TASK-006, TASK-010, TASK-018 e TASK-019 estão APPROVED. As alterações do arquivo rtl/status_flags.v foram serializadas e auditadas.
 
-## Escopo planejado
+## Escopo e sequência
 
-- Seletor contínuo `x`, `y`, `x₁`, `x₂` na ordem definida em DEC-011.
-- Conversão signed para decimal, sinal e fallback `------` quando o valor completo não couber nos seis displays (DEC-017/019).
-- Integração das saídas de OV, Z, C e ERR com o mapeamento de LEDs documentado.
-- Revisão de padrões ativos baixos e ordem de segmentos a–g, sem alterar pin assignments.
+TASK-006 implementa result_select e decimal_display (double-dabble espacial); TASK-010/018/019 implementam flag_ov_err/flag_z/flag_c em arquivo compartilhado, sequencialmente para evitar conflito. Podem testar com entradas controladas antes da integração das Sprints1–3.
 
-## Dependências
+## Contratos
 
-- Interfaces finais do seletor e da apresentação especificadas nas TASKs.
-- Caminhos de resultado disponíveis nas Sprints 1–3; componentes de apresentação podem avançar antes, com entradas de teste controladas.
-- Decisão de PEN-004 para liberar aceite completo da flag C.
+Seleção x/y/x1/x2, value signed23; faixa decimal0..999999 e -99999..-1; zeros iniciais apagados, sinal em HEX5, inválido/excesso em seis traços. Z segue valor e máscara raiz inválida; C carry final de y AND loaded AND seleção y; ERR carregado e persistente pelos coeficientes congelados, nenhum FF novo. Interfaces completas em docs/interfaces.md e DEC-030.
 
 ## Critérios de conclusão
 
-- TEST-008 cobre seleção, conversão, sinal, limites dos displays e fallback.
-- TEST-009 cobre flags cuja semântica está fechada; flag C só é aprovada após fechamento de PEN-004.
-- Mapeamento lógico de LEDs e segmentos confere com interfaces/hardware documentados.
+TEST-008/009 com limites, polaridade, máscaras, seleções e flags; todas TASKs aprovadas pelo Auditor. A integração das raízes depende de TASK-011 aprovada. Nenhuma decisão de origem C ou F16 permanece em aberto.
 
-## Bloqueios e limites
+## Resultado — 11/10/2026
 
-- PEN-004 bloqueia a definição/aceite de C; não inferir estágio de carry.
-- PEN-019 também impede validar a apresentação de raízes até o caminho da Sprint 3 ser liberado.
+- TASK-006 APPROVED: seletor 6.048 casos; display 10.032 casos e 16 padrões BCD/add3; sem warnings.
+- TASK-010 APPROVED: OV/ERR 3.584 casos isolados e 53 integrados; sem warnings.
+- TASK-018 APPROVED: Z 240 casos; sem warnings.
+- TASK-019 APPROVED: C 16 casos isolados e 64 integrados, incluindo distinção entre carry intermediário e carry da soma final; sem warnings.
+
+Icarus14, exit0. Cada TASK contém os comandos, hashes e evidências; todas passaram pelos três gates do Code Auditor no primeiro ciclo. Nenhum FF foi adicionado. Sprint5 pode iniciar com integração do sistema.

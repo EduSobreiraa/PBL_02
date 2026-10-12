@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "executed_at_utc": "2026-10-12T00:21:24.884300+00:00",
+  "backend": "Icarus Verilog/vvp via Docker",
+  "image_tag_requested": "hdlc/iverilog:latest",
+  "image_id_executed": "sha256:80bee5d44cb0fe60fa98f020b9c1ea18c857a4a92185158f7cd2d7076f8598d0",
+  "repo_digests": [
+    "hdlc/iverilog@sha256:80bee5d44cb0fe60fa98f020b9c1ea18c857a4a92185158f7cd2d7076f8598d0"
+  ],
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "-i",
+    "sha256:80bee5d44cb0fe60fa98f020b9c1ea18c857a4a92185158f7cd2d7076f8598d0",
+    "sh",
+    "-c",
+    "mkdir -p /tmp/work && cd /tmp/work && tar -xf - && iverilog -V && iverilog -g2012 -Wall -s tb_top_module -o /tmp/system.vvp rtl/coefficient_input.v rtl/arithmetic_cells.v rtl/add_sub.v rtl/multipliers.v rtl/polynomial_y.v rtl/sqrt_u17.v rtl/divide_u9_u8.v rtl/quadratic_roots.v rtl/result_select.v rtl/decimal_display.v rtl/status_flags.v rtl/top_module.v testbench/tb_top_module.v && vvp /tmp/system.vvp"
+  ],
+  "source_sha256": {
+    "rtl/coefficient_input.v": "b83d645e41ca77f69daecbeb4ddb27e4560cc6a6e9137d26b7f7b077b6f0801c",
+    "rtl/arithmetic_cells.v": "0e9e393098a238cf0e5992a187834922fea4506eea13d4cdc635debf7376098e",
+    "rtl/add_sub.v": "fad812f3d306bc60b327a464946f96a2915c28f0dbb44b01a782d212dc75da3a",
+    "rtl/multipliers.v": "95d8de13e7cab690e72544c5b4c89efe7c956f46eadcc714a112f80123ddc371",
+    "rtl/polynomial_y.v": "b3d2788521b3e646eb585813e0a3a50390eaa8b71c7edb07f5b3392369477fb7",
+    "rtl/sqrt_u17.v": "9c2dd06c7db0ec74226f4911130739cc8862c1efa46ddad6965b507858aeb2c9",
+    "rtl/divide_u9_u8.v": "3c78a3f6df23183f9e395cde079e9e2e074fad85cd5ae5e1643d10a2690783cb",
+    "rtl/quadratic_roots.v": "4a3ea3a69479a724da17adf1f26c99397d6f7ff8d5e3d9844bba25993392c03e",
+    "rtl/result_select.v": "1c0966845e4d864e72ea9f1aa0ac4ff627eb61ab614a2573457e48a1ab593f23",
+    "rtl/decimal_display.v": "34a3a9a4be300d8f0f4ffc8074dc7c0c11b0909ca67a8e9469ff39a2ff891d8b",
+    "rtl/status_flags.v": "33a97de7f69a9cf42a6cd0ae5977471cf68376742efe2be5750cd2ab29076339",
+    "rtl/top_module.v": "3a0b6453f43c831966d2ed18359bb1d1c76f854c6d9280ee2e7ea4d38803c40c",
+    "testbench/tb_top_module.v": "7c3a5db50256cf0ef2179b472477173d80ff44f5704c0e3e3363d7992a59865b"
+  },
+  "log_sha256": "48e6ca10ab17a42f5c7132c36dae2339e99c7325e226b4a7b800d98b9db206e5",
+  "exit_code": 0,
+  "seed": null,
+  "stimulus": "deterministic directed TASK-012 testbench",
+  "scenarios": 10,
+  "output_checks": 660,
+  "expected_pass_marker": "TEST-010/011 PASS scenarios=10 output_checks=660 reset_partial_full=PASS held_key=PASS extra_capture=PASS flags_displays=PASS",
+  "limits": "Functional simulation; no physical timing, synthesis or board evidence."
+}

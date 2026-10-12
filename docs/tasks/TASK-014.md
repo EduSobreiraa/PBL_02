@@ -2,68 +2,62 @@
 
 ## Objetivo
 
-Validar os controles, resultados e periféricos na DE10-Lite e registrar evidências físicas reproduzíveis.
+Implementar/verificar o escopo especificado abaixo segundo as decisões aprovadas.
 
 ## Status
 
-DRAFT
+BLOCKED
 
 ## Requisitos relacionados
 
-- REQ-001–REQ-010, REQ-014–REQ-015
+REQ-001–010/014/015
 
 ## Decisões relacionadas
 
-- DEC-001, DEC-003, DEC-007–DEC-019
+DEC-001/003/007–019/030/031
 
 ## Dependências
 
-- TASK-015 concluída e projeto programável disponível.
-- DE10-Lite disponível.
-- Casos de operação definidos e restrições de pinos revisadas.
+TASK-015 aprovada e placa/bitstream disponíveis; dependência física ainda não comprovada.
 
 ## Restrições aplicáveis
 
-- Não afirmar validação de caminhos ou flags bloqueados/não testados.
-- Não alterar pin assignments fora de autorização própria.
+Aplicar `docs/regras.md` e `docs/agente_workflow.md`. Contratos matemáticos preservados; DUT estrutural, comportamento somente nos FF dedicados; nenhum novo estado sem decisão explícita. Delegação de 11/10/2026 substitui gates anteriores de consulta humana. READY exige brief e confirmação de contexto; APPROVED exige evidência real e auditoria independente.
 
 ## Arquivos permitidos
 
-- A definir no planejamento para procedimento e evidências físicas.
+verification/hardware-procedure.md; verification/results/hardware/
 
 ## Arquivos protegidos
 
-- Requisitos, decisões, pin assignments e código aprovado, salvo correções autorizadas em TASK própria.
+Requisitos P0, RTL fora do escopo, pinagem oficial e contratos não revisados pelas decisões citadas.
 
-## Plano
+## Plano e contrato fechado
 
-- Executar procedimento reprodutível para reset, carga, entradas, seleções, displays e LEDs.
-- Registrar divergências entre o comportamento físico e simulado, além das limitações observadas.
+Procedimento fechado em DEC-030: registrar placa, bitstream/versão, reset após energização, três capturas, captura excedente, seleções, sinais/limites, a=0, delta negativo e limpeza de ERR. Registrar observações/fotos reais e comparar com simulação. Operação manual exige SW estável na captura e saídas observadas após acomodação.
 
-## Critérios de aceite
+## Critérios de aceite e testes
 
-- TEST-012/015 documentados com setup, procedimento e observações.
-
-## Testes
-
-- TEST-012 e TEST-015.
+TEST-012/015: setup e evidências físicas. Não substituir ausência de placa por validação simulada.
 
 ## Resultado da implementação
 
-Não iniciado.
+Procedimento físico reproduzível criado em `verification/hardware-procedure.md`, com três conjuntos de coeficientes e resultados esperados independentes. Execução na placa não realizada.
 
 ## Resultado das ferramentas
 
-Não executado.
+Nenhuma execução física registrada. A evidência Quartus da TASK-015 não substitui programação e observação na placa.
 
 ## Resultado da revisão
 
-Pendente.
+Arquitetura aceita em DEC-030/031 conforme aplicável. Auditoria da implementação permanece futura.
 
-## Pendências
+## Pendências de execução
 
-- Disponibilidade de placa.
+Placa e execução física ainda necessárias para TEST-012/015. A tarefa está BLOCKED por ausência de observações e evidências da DE10-Lite. Nenhuma escolha arquitetural local está em aberto.
 
 ## Histórico
 
 - 2026-10-06 — TASK candidata criada na Sprint 0; delimitada à validação física; status DRAFT.
+- 2026-10-11 — Contratos, arquivos e critérios fechados sob delegação em DEC-030/031; planejamento reconciliado, sem declarar implementação ou testes.
+- 2026-10-11 — Procedimento físico preparado com vetores esperados; execução permanece BLOCKED até haver placa e evidências reais.

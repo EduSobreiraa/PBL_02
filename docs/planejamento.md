@@ -1,63 +1,28 @@
-# Planejamento incremental do PBL02
+# Plano de execução do PBL02
 
-Este roteiro é uma proposta de organização, não uma decisão técnica aprovada. A implementação Verilog só começa após revisão documental humana e fechamento das pendências marcadas como bloqueadoras.
+## Mudança aprovada em 11/10/2026
 
-## Fase 0 — Consolidar e aprovar requisitos
+O responsável delegou decisões técnicas compatíveis aos agentes, sem novas consultas. Um sprint único fecha as escolhas; em seguida, os sprints de implementação executam contratos já definidos. Architect e Reviewer aceitaram DEC-030/031 na primeira rodada. Não há decisão técnica local em aberto; validações e obrigações externas continuam rastreadas.
 
-- **Objetivo:** validar `requisitos.md`, rastreabilidade e decisões delegadas ao grupo.
-- **Dependências:** enunciado PBL, manual oficial da placa, `regras.md`.
-- **Entregáveis:** requisitos e critérios revisados; lacunas confirmadas.
-- **Conclusão:** responsável/tutor aprova a interpretação dos requisitos sem ambiguidade crítica.
-- **Riscos:** enunciado não quantifica larguras, precisão interna e semântica detalhada de flags.
+## Sequência
 
-## Fase 1 — Fechar interfaces e representação
+1. Fechamento: DEC-030/031, atualização canônica, TASKs e briefs, auditoria documental.
+2. Sprint2: extensão loaded de TASK002; células/soma/subtração TASK003; multiplicadores TASK007; composição y TASK004. 002 e003 são independentes;007 reutiliza células003;004 depende de003/007 aprovadas.
+3. Sprint3: executar referência independente/exaustão TASK005 e unidades sqrt/divisão TASK008/009, depois composição TASK011. F16 não bloqueia: foi substituído por método exato com resíduos, cuja prova não dispensa testes.
+4. Sprint4: seletor/decimal/flags, com testes isolados e integração dos contratos de saída.
+5. Sprint5: top-level, simulação de sistema, conformidade e Quartus com pinagem/timing reais.
+6. Sprint6: validação física e relatório baseado em resultados; aplicar o modelo externo quando obtido.
 
-- **Objetivo:** decidir controles, carga, reset/clock, formatos e comportamento de saída.
-- **Dependências:** Fase 0; parecer sobre sintaxe de flip-flop estrutural.
-- **Entregáveis:** `decisoes.md` aprovado, `pendencias.md` reduzido, contratos em `interfaces.md`.
-- **Conclusão:** cada sinal e formato necessário tem origem, largura, temporização e comportamento documentados.
-- **Riscos:** as restrições do HDL podem exigir uma forma de armazenamento diferente da inicialmente imaginada.
+## Regras de avanço
 
-## Fase 2 — Arquitetura mínima e dimensionamento
+Somente código de TASK READY, com brief. Testes e auditoria independentes antes de APPROVED; nunca fechar implementação por simples decisão. Escolhas compatíveis posteriores passam pelo fluxo de decisão delegado sem consulta automática ao usuário. Achados que violem restrições são corrigidos, não autorizados por urgência. Gates antigos de revisão humana da baseline estão satisfeitos pela delegação atual.
 
-- **Objetivo:** desenhar e dimensionar as duas operações e os recursos compartilhados, com circuito mínimo conforme o PBL.
-- **Dependências:** Fase 1.
-- **Entregáveis:** arquitetura revisada, responsabilidades finais dos módulos, cálculo das larguras e formatos.
-- **Conclusão:** nenhuma largura/interpretação numérica crítica fica implícita; módulos e interfaces são revisáveis.
-- **Riscos:** área/caminho lógico de multiplicação, raiz e divisão; precisão intermediária. O arredondamento final das raízes está decidido como exceção autorizada, embora REQ-006/PDF ainda publique truncamento (DEC-007).
+## Critérios que permanecem
 
-## Fase 3 — Implementação incremental (futura; sem iniciar nesta etapa)
+DUT estrutural salvo captura incondicional em FF dedicado; mínimo31FF justificado; ausência de FSM/if/else/buf/laços/generate; matemática exata no domínio; interfaces públicas preservadas por cores privados; arredondamento DEC007; síntese, testes e placa com evidência. Recursos em LEs e atraso só são conhecidos após medição.
 
-- **Objetivo:** implementar módulos estruturais pequenos conforme `modulos.md` e regras Verilog.
-- **Dependências:** aprovação explícita da documentação e da arquitetura; regras e ferramenta confirmadas.
-- **Entregáveis:** HDL estrutural acompanhado de revisão de escopo e interface por módulo.
-- **Conclusão:** cada módulo compila isoladamente no fluxo definido e não usa construções proibidas.
-- **Riscos:** escopo de sintaxe ambíguo, warnings, largura assinada e comportamento de reset.
+Detalhamento em `sprints/README.md`, `interfaces.md`, `arquitetura.md` e `tasks/`. Requisitos P0 não foram reescritos.
 
-## Fase 4 — Simulação e verificação
+## Progresso após fechamento — 11/10/2026
 
-- **Objetivo:** validar módulos e integração contra casos de `verificacao.md`.
-- **Dependências:** Fase 3; simulador e convenções aprovados.
-- **Entregáveis:** testbenches, resultados, casos reprodutíveis e relatório de falhas/correções.
-- **Conclusão:** requisitos testáveis rastreados para evidências; divergências explicadas.
-- **Riscos:** valores esperados dependem do formato aprovado; simulação pode não refletir pinagem/temporização física.
-
-## Fase 5 — Projeto e síntese Quartus
-
-- **Objetivo:** configurar projeto para o dispositivo DE10-Lite, compilar e revisar síntese/ajustes de pinos.
-- **Dependências:** Fases 3–4, Quartus Prime Standard Lite 25.1std.0 Build 1129 (DEC-021), baseline de pinagem oficial (DEC-018).
-- **Entregáveis:** arquivos de projeto, relatórios de compilação/síntese, warnings e contagem de LEs.
-- **Conclusão:** compilação sem erros; warnings e resultados relevantes revisados; restrições de clock/pinos documentadas.
-- **Riscos:** handbook disponível é v17.1, anterior à instalação confirmada Quartus Prime Standard Lite 25.1std.0 Build 1129; ainda não há QSF/QPF do PBL02.
-
-## Fase 6 — Validação física e documentação final
-
-- **Objetivo:** testar entradas, armazenamento, resultados, displays e LEDs na DE10-Lite; concluir relatório e apresentação.
-- **Dependências:** síntese bem-sucedida, placa disponível, pinagem e fluxo de operação aprovados.
-- **Entregáveis:** evidências de demonstração, análise de recursos/testes e relatório conforme modelo do tutor.
-- **Conclusão:** casos físicos relevantes documentados; integrantes preparados para explicar o projeto.
-- **Riscos:** polaridade de botões, restrições físicas dos displays e divergência entre bancada e simulação.
-
-## Estado atual
-
-Baseline documental alinhada às decisões ratificadas e pronta para revisão humana. Todas as pendências de alta prioridade estão resolvidas. PEN-004 segue bloqueada pela origem de C; PEN-019 aguarda execução da estratégia de validação aprovada. PEN-020 foi adiada para a etapa de relatório. Não iniciar implementação ou síntese antes da revisão humana da baseline e do fechamento das pendências que bloqueiam a tarefa específica.
+Sprint de decisões e Sprints2–5 concluídas e auditadas. TASK002/003/004/005/006/007/008/009/010/011/012/013/015/017/018/019 APPROVED. A síntese/STA registra 2.187 LEs, 31 FF, zero latches e 65 pinos conferidos. Permanecem validação física e relatório conforme requisitos de placa/entrega nas TASKs014/016. Evidências em docs/sprints e nas TASKs correspondentes.

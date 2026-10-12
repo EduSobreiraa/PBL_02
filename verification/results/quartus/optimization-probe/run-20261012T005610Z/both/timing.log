@@ -1,0 +1,129 @@
+Info: *******************************************************************
+Info: Running Quartus Prime Timing Analyzer
+    Info: Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+    Info: Copyright (C) 2025  Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and any partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, the Altera Quartus Prime License Agreement,
+    Info: the Altera IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Altera and sold by Altera or its authorized distributors.  Please
+    Info: refer to the Altera Software License Subscription Agreements 
+    Info: on the Quartus Prime software download page.
+    Info: Processing started: Sun Oct 11 21:58:07 2026
+Info: Command: quartus_sta -t /home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/report_timing.tcl /home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing
+Info: Quartus(args): /home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing
+Info (20032): Parallel compilation is enabled and will use up to 2 processors
+Info (21076): High junction temperature operating condition is not set. Assuming a default value of '85'.
+Info (21076): Low junction temperature operating condition is not set. Assuming a default value of '0'.
+Info (332104): Reading SDC File: 'pbl02.sdc'
+Info (332151): Clock uncertainty is not calculated until you update the timing netlist.
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+FIRST_STAGE_KEY0_COUNT=1
+FIRST_STAGE_KEY1_COUNT=1
+REGISTER_COUNT=31
+LATCH_COUNT=0
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+CORNER=Slow_1200mV_85C_Model
+Info (332115): Report Timing: Found 10 setup paths (0 violated).  Worst case slack is 14.834
+    Info (332115): -from [get_registers *]
+    Info (332115): -to [get_registers *]
+    Info (332115): -setup
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_85C_Model_registered_setup.rpt}
+Info (332115): Report Timing: Found 10 hold paths (0 violated).  Worst case slack is 0.347
+    Info (332115): -from [get_registers *]
+    Info (332115): -to [get_registers *]
+    Info (332115): -hold
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_85C_Model_registered_hold.rpt}
+Info (332115): Report Timing: Found 10 setup paths (0 violated).  Worst case slack is 999843.299
+    Info (332115): -to [get_ports {LEDR[*] HEX0[*] HEX1[*] HEX2[*] HEX3[*] HEX4[*] HEX5[*]}]
+    Info (332115): -setup
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_85C_Model_output_budget.rpt}
+Info (332116): Report Path: Found 10 paths. Longest delay is 152.984
+    Info (332116): -to [get_ports {LEDR[*] HEX0[*] HEX1[*] HEX2[*] HEX3[*] HEX4[*] HEX5[*]}]
+    Info (332116): -npaths 10
+    Info (332116): -file_name "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_85C_Model_output_delay.rpt"
+Info (332116): Report Path: Found 10 paths. Longest delay is 5.084
+    Info (332116): -from [get_ports {SW[*]}]
+    Info (332116): -to [get_registers *]
+    Info (332116): -npaths 10
+    Info (332116): -file_name "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_85C_Model_manual_sw_delay.rpt"
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+CORNER=Slow_1200mV_0C_Model
+Info (332115): Report Timing: Found 10 setup paths (0 violated).  Worst case slack is 15.163
+    Info (332115): -from [get_registers *]
+    Info (332115): -to [get_registers *]
+    Info (332115): -setup
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_0C_Model_registered_setup.rpt}
+Info (332115): Report Timing: Found 10 hold paths (0 violated).  Worst case slack is 0.311
+    Info (332115): -from [get_registers *]
+    Info (332115): -to [get_registers *]
+    Info (332115): -hold
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_0C_Model_registered_hold.rpt}
+Info (332115): Report Timing: Found 10 setup paths (0 violated).  Worst case slack is 999855.725
+    Info (332115): -to [get_ports {LEDR[*] HEX0[*] HEX1[*] HEX2[*] HEX3[*] HEX4[*] HEX5[*]}]
+    Info (332115): -setup
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_0C_Model_output_budget.rpt}
+Info (332116): Report Path: Found 10 paths. Longest delay is 140.860
+    Info (332116): -to [get_ports {LEDR[*] HEX0[*] HEX1[*] HEX2[*] HEX3[*] HEX4[*] HEX5[*]}]
+    Info (332116): -npaths 10
+    Info (332116): -file_name "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_0C_Model_output_delay.rpt"
+Info (332116): Report Path: Found 10 paths. Longest delay is 4.712
+    Info (332116): -from [get_ports {SW[*]}]
+    Info (332116): -to [get_registers *]
+    Info (332116): -npaths 10
+    Info (332116): -file_name "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Slow_1200mV_0C_Model_manual_sw_delay.rpt"
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+CORNER=Fast_1200mV_0C_Model
+Info (332115): Report Timing: Found 10 setup paths (0 violated).  Worst case slack is 17.569
+    Info (332115): -from [get_registers *]
+    Info (332115): -to [get_registers *]
+    Info (332115): -setup
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Fast_1200mV_0C_Model_registered_setup.rpt}
+Info (332115): Report Timing: Found 10 hold paths (0 violated).  Worst case slack is 0.152
+    Info (332115): -from [get_registers *]
+    Info (332115): -to [get_registers *]
+    Info (332115): -hold
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Fast_1200mV_0C_Model_registered_hold.rpt}
+Info (332115): Report Timing: Found 10 setup paths (0 violated).  Worst case slack is 999932.392
+    Info (332115): -to [get_ports {LEDR[*] HEX0[*] HEX1[*] HEX2[*] HEX3[*] HEX4[*] HEX5[*]}]
+    Info (332115): -setup
+    Info (332115): -npaths 10
+    Info (332115): -detail full_path
+    Info (332115): -file {/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Fast_1200mV_0C_Model_output_budget.rpt}
+Info (332116): Report Path: Found 10 paths. Longest delay is 65.852
+    Info (332116): -to [get_ports {LEDR[*] HEX0[*] HEX1[*] HEX2[*] HEX3[*] HEX4[*] HEX5[*]}]
+    Info (332116): -npaths 10
+    Info (332116): -file_name "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Fast_1200mV_0C_Model_output_delay.rpt"
+Info (332116): Report Path: Found 10 paths. Longest delay is 2.619
+    Info (332116): -from [get_ports {SW[*]}]
+    Info (332116): -to [get_registers *]
+    Info (332116): -npaths 10
+    Info (332116): -file_name "/home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/optimization-probe/run-20261012T005610Z/both/timing/Fast_1200mV_0C_Model_manual_sw_delay.rpt"
+Info (23030): Evaluation of Tcl script /home/edupires/Estudos/UEFS/Segundo_Semestre/02_CircuitosDigitais/02_PBL02/verification/results/quartus/report_timing.tcl was successful
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 432 megabytes
+    Info: Processing ended: Sun Oct 11 21:58:08 2026
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01

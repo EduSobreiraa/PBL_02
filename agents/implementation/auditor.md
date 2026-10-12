@@ -205,3 +205,7 @@ Não implemente diretamente a correção encontrada.
 Descreva o problema e devolva ao Implementer.
 
 A separação entre autoria e auditoria deve ser preservada.
+
+## Autonomia delegada — 11/10/2026
+
+Aplicar a autorização atual do responsável em `docs/agente_workflow.md`: escolhas técnicas compatíveis são fechadas por Architect/Reviewer sem nova consulta humana. Preservar separação entre decisão e implementação, limite de três rodadas, restrições e evidência real. Gates antigos de ratificação humana não bloqueiam escolhas cobertas pela delegação. Não afirmar confirmação do tutor, teste ou validação física sem evidência.

@@ -1,0 +1,113 @@
+`timescale 1ns/1ps
+// DEC-031: nine spatial restoring stages; no storage.
+module divide_u9_u8(input wire [8:0] dividend, input wire [7:0] divisor,
+    output wire [8:0] quotient, output wire [7:0] remainder, output wire divide_by_zero);
+    wire nonzero;
+    wire [7:0] effective_divisor;
+    wire [8:0] raw_quotient;
+    wire [7:0] r0;
+    wire [7:0] r1;
+    wire [7:0] r2;
+    wire [7:0] r3;
+    wire [7:0] r4;
+    wire [7:0] r5;
+    wire [7:0] r6;
+    wire [7:0] r7;
+    wire [7:0] r8;
+    wire [7:0] r9;
+    nor zero_detect(divide_by_zero, divisor[0], divisor[1], divisor[2], divisor[3], divisor[4], divisor[5], divisor[6], divisor[7]);
+    not valid_detect(nonzero, divide_by_zero);
+    or effective_bit0(effective_divisor[0], divisor[0], divide_by_zero);
+    assign effective_divisor[7:1] = divisor[7:1];
+    assign r0 = 8'b00000000;
+    divide_stage stage0(.previous(r0), .next_bit(dividend[8]), .divisor(effective_divisor), .remainder(r1), .quotient_bit(raw_quotient[8]));
+    divide_stage stage1(.previous(r1), .next_bit(dividend[7]), .divisor(effective_divisor), .remainder(r2), .quotient_bit(raw_quotient[7]));
+    divide_stage stage2(.previous(r2), .next_bit(dividend[6]), .divisor(effective_divisor), .remainder(r3), .quotient_bit(raw_quotient[6]));
+    divide_stage stage3(.previous(r3), .next_bit(dividend[5]), .divisor(effective_divisor), .remainder(r4), .quotient_bit(raw_quotient[5]));
+    divide_stage stage4(.previous(r4), .next_bit(dividend[4]), .divisor(effective_divisor), .remainder(r5), .quotient_bit(raw_quotient[4]));
+    divide_stage stage5(.previous(r5), .next_bit(dividend[3]), .divisor(effective_divisor), .remainder(r6), .quotient_bit(raw_quotient[3]));
+    divide_stage stage6(.previous(r6), .next_bit(dividend[2]), .divisor(effective_divisor), .remainder(r7), .quotient_bit(raw_quotient[2]));
+    divide_stage stage7(.previous(r7), .next_bit(dividend[1]), .divisor(effective_divisor), .remainder(r8), .quotient_bit(raw_quotient[1]));
+    divide_stage stage8(.previous(r8), .next_bit(dividend[0]), .divisor(effective_divisor), .remainder(r9), .quotient_bit(raw_quotient[0]));
+    and mask_q0(quotient[0], raw_quotient[0], nonzero);
+    and mask_q1(quotient[1], raw_quotient[1], nonzero);
+    and mask_q2(quotient[2], raw_quotient[2], nonzero);
+    and mask_q3(quotient[3], raw_quotient[3], nonzero);
+    and mask_q4(quotient[4], raw_quotient[4], nonzero);
+    and mask_q5(quotient[5], raw_quotient[5], nonzero);
+    and mask_q6(quotient[6], raw_quotient[6], nonzero);
+    and mask_q7(quotient[7], raw_quotient[7], nonzero);
+    and mask_q8(quotient[8], raw_quotient[8], nonzero);
+    and mask_r0(remainder[0], r9[0], nonzero);
+    and mask_r1(remainder[1], r9[1], nonzero);
+    and mask_r2(remainder[2], r9[2], nonzero);
+    and mask_r3(remainder[3], r9[3], nonzero);
+    and mask_r4(remainder[4], r9[4], nonzero);
+    and mask_r5(remainder[5], r9[5], nonzero);
+    and mask_r6(remainder[6], r9[6], nonzero);
+    and mask_r7(remainder[7], r9[7], nonzero);
+endmodule
+
+module divide_stage(input wire [7:0] previous, input wire next_bit,
+    input wire [7:0] divisor, output wire [7:0] remainder, output wire quotient_bit);
+    wire [8:0] trial, difference, inverted_divisor;
+    wire [9:0] carry;
+    wire restore;
+    wire [7:0] keep_trial, keep_difference;
+    assign trial = {previous, next_bit};
+    assign carry[0] = 1'b1;
+    assign inverted_divisor[8] = 1'b1;
+    not inv0(inverted_divisor[0], divisor[0]);
+    not inv1(inverted_divisor[1], divisor[1]);
+    not inv2(inverted_divisor[2], divisor[2]);
+    not inv3(inverted_divisor[3], divisor[3]);
+    not inv4(inverted_divisor[4], divisor[4]);
+    not inv5(inverted_divisor[5], divisor[5]);
+    not inv6(inverted_divisor[6], divisor[6]);
+    not inv7(inverted_divisor[7], divisor[7]);
+    divide_full_adder sub0(.a(trial[0]), .b(inverted_divisor[0]), .cin(carry[0]), .sum(difference[0]), .cout(carry[1]));
+    divide_full_adder sub1(.a(trial[1]), .b(inverted_divisor[1]), .cin(carry[1]), .sum(difference[1]), .cout(carry[2]));
+    divide_full_adder sub2(.a(trial[2]), .b(inverted_divisor[2]), .cin(carry[2]), .sum(difference[2]), .cout(carry[3]));
+    divide_full_adder sub3(.a(trial[3]), .b(inverted_divisor[3]), .cin(carry[3]), .sum(difference[3]), .cout(carry[4]));
+    divide_full_adder sub4(.a(trial[4]), .b(inverted_divisor[4]), .cin(carry[4]), .sum(difference[4]), .cout(carry[5]));
+    divide_full_adder sub5(.a(trial[5]), .b(inverted_divisor[5]), .cin(carry[5]), .sum(difference[5]), .cout(carry[6]));
+    divide_full_adder sub6(.a(trial[6]), .b(inverted_divisor[6]), .cin(carry[6]), .sum(difference[6]), .cout(carry[7]));
+    divide_full_adder sub7(.a(trial[7]), .b(inverted_divisor[7]), .cin(carry[7]), .sum(difference[7]), .cout(carry[8]));
+    divide_full_adder sub8(.a(trial[8]), .b(inverted_divisor[8]), .cin(carry[8]), .sum(difference[8]), .cout(carry[9]));
+    assign quotient_bit = carry[9];
+    not restore_select(restore, carry[9]);
+    // Selected result is always < divisor <=255, hence bit8 is zero.
+    and trial0(keep_trial[0], trial[0], restore);
+    and diff0(keep_difference[0], difference[0], carry[9]);
+    or select0(remainder[0], keep_trial[0], keep_difference[0]);
+    and trial1(keep_trial[1], trial[1], restore);
+    and diff1(keep_difference[1], difference[1], carry[9]);
+    or select1(remainder[1], keep_trial[1], keep_difference[1]);
+    and trial2(keep_trial[2], trial[2], restore);
+    and diff2(keep_difference[2], difference[2], carry[9]);
+    or select2(remainder[2], keep_trial[2], keep_difference[2]);
+    and trial3(keep_trial[3], trial[3], restore);
+    and diff3(keep_difference[3], difference[3], carry[9]);
+    or select3(remainder[3], keep_trial[3], keep_difference[3]);
+    and trial4(keep_trial[4], trial[4], restore);
+    and diff4(keep_difference[4], difference[4], carry[9]);
+    or select4(remainder[4], keep_trial[4], keep_difference[4]);
+    and trial5(keep_trial[5], trial[5], restore);
+    and diff5(keep_difference[5], difference[5], carry[9]);
+    or select5(remainder[5], keep_trial[5], keep_difference[5]);
+    and trial6(keep_trial[6], trial[6], restore);
+    and diff6(keep_difference[6], difference[6], carry[9]);
+    or select6(remainder[6], keep_trial[6], keep_difference[6]);
+    and trial7(keep_trial[7], trial[7], restore);
+    and diff7(keep_difference[7], difference[7], carry[9]);
+    or select7(remainder[7], keep_trial[7], keep_difference[7]);
+endmodule
+
+module divide_full_adder(input wire a, b, cin, output wire sum, cout);
+    wire propagate, generate_carry, propagated_carry;
+    xor p(propagate, a, b);
+    xor s(sum, propagate, cin);
+    and g(generate_carry, a, b);
+    and h(propagated_carry, propagate, cin);
+    or c(cout, generate_carry, propagated_carry);
+endmodule

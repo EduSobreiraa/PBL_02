@@ -1,5 +1,7 @@
 # TASK-001 — Revisar baseline e preparar backlog de implementação
 
+> Registro da baseline original já aprovada. DEC-030/031 e o sprint de fechamento de 11/10/2026 substituem referências históricas abaixo a F16, pendências de C e nova revisão humana. Os estados atuais estão em sprints/README.md e nas TASKs individuais; não há gate humano adicional para escolhas compatíveis.
+
 ## Objetivo
 
 Executar a Sprint 0: preparar a rastreabilidade documental e decompor o trabalho futuro em TASKs pequenas, sem implementar RTL nem criar decisões técnicas.
@@ -72,7 +74,7 @@ Os estados, dependências, testes e arquivos de cada candidata estão registrado
 
 - Backlog inicial cobre armazenamento/controle, unidades aritméticas e caminho de `y`, raízes, apresentação/flags, integração/verificação e validação física/entrega.
 - Cada TASK candidata referencia requisitos e decisões relevantes sem alterar seu significado.
-- Dependências e pendências estão explícitas; PEN-004 limita apenas tarefas de semântica/aceite de C e PEN-019 bloqueia validar F=16 e liberar o caminho de raízes.
+- Dependências e pendências estão explícitas; PEN-004 foi resolvida semanticamente em DEC-029, com rota estrutural de C ainda sujeita a detalhamento/auditoria. PEN-019 bloqueia validar F=16 e liberar o caminho de raízes.
 - Revisão humana da baseline aparece como gate explícito para liberar tarefas de implementação dependentes; não é pré-requisito para concluir esta tarefa documental.
 - Nenhum artefato de RTL, testbench ou Quartus é criado/modificado.
 

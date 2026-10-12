@@ -1,0 +1,16 @@
+2026-10-11 TASK-002 / TEST-001
+Backend: Docker hdlc/iverilog:latest
+Digest: sha256:80bee5d44cb0fe60fa98f020b9c1ea18c857a4a92185158f7cd2d7076f8598d0
+Icarus Verilog version 14.0 (devel) (s20260301-394-g9edaf7b6a)
+Compilation: iverilog -g2012 -Wall -s tb_coefficient_input -o /tmp/task002.vvp coefficient_input.v tb_coefficient_input.v
+Compilation exit: 0; no warnings emitted.
+Simulation: vvp /tmp/task002.vvp
+PASS TEST-001 coefficient_input wrapper/core loaded checks=15
+tb_coefficient_input.v:156: $finish called at 3391000 (1ps)
+Simulation exit: 0
+PASS static TASK002: forbidden keywords absent; always only DFF; instantiated FF = 31
+Environment attempts preceding successful simulation:
+1. Sandbox Docker socket: permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+2. Escalated workspace bind mount: rtl/coefficient_input.v: Permission denied; Preprocessor failed with 1 error(s).
+3. Escalated /tmp bind mount: coefficient_input.v: Permission denied; Preprocessor failed with 1 error(s).
+4. tar via stdin into container: success, output above.
