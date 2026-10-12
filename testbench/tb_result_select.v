@@ -1,47 +1,47 @@
 `timescale 1ns/1ps
 module tb_result_select;
-    reg signed [7:0] x;
-    reg signed [22:0] y;
-    reg signed [8:0] x1,x2;
-    reg [1:0] sel;
-    wire signed [22:0] value;
-    integer i,j,seed,expected,count,random_value;
-    result_select dut(.x(x),.y(y),.x1(x1),.x2(x2),.sel(sel),.value(value));
+    reg signed [7:0] entrada_x;
+    reg signed [22:0] resultado_y;
+    reg signed [8:0] raiz_x1,raiz_x2;
+    reg [1:0] selecao;
+    wire signed [22:0] valor;
+    integer i,j,semente,esperado,contagem,valor_aleatorio;
+    seletor_resultado dut(.x(entrada_x),.y(resultado_y),.x1(raiz_x1),.x2(raiz_x2),.sel(selecao),.value(valor));
     task check_selections;
         begin
             for (j=0;j<4;j=j+1) begin
-                sel=j[1:0];
+                selecao=j[1:0];
                 case (j)
-                    0: expected=$signed(x);
-                    1: expected=$signed(y);
-                    2: expected=$signed(x1);
-                    3: expected=$signed(x2);
+                    0: esperado=$signed(entrada_x);
+                    1: esperado=$signed(resultado_y);
+                    2: esperado=$signed(raiz_x1);
+                    3: esperado=$signed(raiz_x2);
                 endcase
                 #1;
-                case ($signed(value)===expected)
+                case ($signed(valor)===esperado)
                     1: ;
-                    default: $fatal(1,"select sel=%d got=%d expected=%d",j,value,expected);
+                    default: $fatal(1,"select selecao=%d got=%d esperado=%d",j,valor,esperado);
                 endcase
-                count=count+1;
+                contagem=contagem+1;
             end
         end
     endtask
     initial begin
-        count=0; seed=20261011;
+        contagem=0; semente=20261011;
         for (i=0;i<512;i=i+1) begin
-            x=i[7:0]; x1=i[8:0]; x2=~i[8:0];
-            case (i[0]) 0: y=-4194304; 1: y=4194303; endcase
+            entrada_x=i[7:0]; raiz_x1=i[8:0]; raiz_x2=~i[8:0];
+            case (i[0]) 0: resultado_y=-4194304; 1: resultado_y=4194303; endcase
             check_selections;
         end
         for (i=0;i<1000;i=i+1) begin
-            random_value=$random(seed); x=random_value[7:0];
-            random_value=$random(seed); y=random_value[22:0];
-            random_value=$random(seed); x1=random_value[8:0];
-            random_value=$random(seed); x2=random_value[8:0];
+            valor_aleatorio=$random(semente); entrada_x=valor_aleatorio[7:0];
+            valor_aleatorio=$random(semente); resultado_y=valor_aleatorio[22:0];
+            valor_aleatorio=$random(semente); raiz_x1=valor_aleatorio[8:0];
+            valor_aleatorio=$random(semente); raiz_x2=valor_aleatorio[8:0];
             check_selections;
         end
-        case (count) 6048: ; default: $fatal(1,"Incomplete select test"); endcase
-        $display("TEST-008 SELECT PASS cases=%0d seed=20261011",count);
+        case (contagem) 6048: ; default: $fatal(1,"Incomplete select test"); endcase
+        $display("TEST-008 SELECT PASS cases=%0d semente=20261011",contagem);
         $finish;
     end
 endmodule

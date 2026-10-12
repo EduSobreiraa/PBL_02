@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module coefficient_input (
+module entrada_coeficientes (
     input wire clk,
     input wire key0_n,
     input wire key1_n,
@@ -9,16 +9,16 @@ module coefficient_input (
     output wire signed [7:0] b,
     output wire signed [7:0] c
 );
-    wire unused_loaded;
+    wire coeficientes_carregados_nao_utilizado;
 
-    coefficient_input_core core (
+    entrada_coeficientes_nucleo nucleo (
         .clk(clk), .key0_n(key0_n), .key1_n(key1_n), .sw(sw),
-        .a(a), .b(b), .c(c), .loaded(unused_loaded)
+        .a(a), .b(b), .c(c), .loaded(coeficientes_carregados_nao_utilizado)
     );
 endmodule
 
 // Private integration contract, DEC-030. No additional storage.
-module coefficient_input_core (
+module entrada_coeficientes_nucleo (
     input wire clk,
     input wire key0_n,
     input wire key1_n,
@@ -28,120 +28,112 @@ module coefficient_input_core (
     output wire signed [7:0] c,
     output wire loaded
 );
-    wire key1_meta;
-    wire key1_sync;
-    wire key0_meta;
-    wire key0_sync;
-    wire key0_previous;
-    wire reset_request;
-    wire key0_press_event;
-    wire key0_released_sync;
-    wire progress_done;
-    wire not_complete;
-    wire capture_event;
-    wire progress_0_next;
-    wire progress_1_next;
-    wire progress_0;
-    wire progress_1;
-    wire not_progress_0;
-    wire not_progress_1;
-    wire select_a;
-    wire select_b;
-    wire select_c;
-    wire enable_a;
-    wire enable_b;
-    wire enable_c;
-    wire [7:0] a_value;
-    wire [7:0] b_value;
-    wire [7:0] c_value;
+    wire botao1_meta;
+    wire botao1_sincronizado;
+    wire botao0_meta;
+    wire botao0_sincronizado;
+    wire botao0_anterior;
+    wire pedido_rearme;
+    wire evento_pressao_botao0;
+    wire botao0_liberado_sincronizado;
+    wire nao_concluido;
+    wire evento_captura;
+    wire progresso_bit0_proximo;
+    wire progresso_bit1_proximo;
+    wire progresso_bit0;
+    wire progresso_bit1;
+    wire nao_progresso_bit0;
+    wire nao_progresso_bit1;
+    wire seleciona_a;
+    wire seleciona_b;
+    wire seleciona_c;
+    wire habilita_a;
+    wire habilita_b;
+    wire habilita_c;
 
-    pbl_dff_plain key1_sync_stage_1 (
-        .clk(clk), .d(key1_n), .q(key1_meta)
+    flipflop_simples key1_sync_stage_1 (
+        .clk(clk), .d(key1_n), .q(botao1_meta)
     );
 
-    pbl_dff_plain key1_sync_stage_2 (
-        .clk(clk), .d(key1_meta), .q(key1_sync)
+    flipflop_simples key1_sync_stage_2 (
+        .clk(clk), .d(botao1_meta), .q(botao1_sincronizado)
     );
 
-    pbl_dff_sync_reset key0_sync_stage_1 (
-        .clk(clk), .reset(reset_request), .reset_value(1'b1), .enable(1'b1),
-        .d(key0_n), .q(key0_meta)
+    flipflop_reset_sincrono key0_sync_stage_1 (
+        .clk(clk), .reset(pedido_rearme), .reset_value(1'b1), .enable(1'b1),
+        .d(key0_n), .q(botao0_meta)
     );
 
-    pbl_dff_sync_reset key0_sync_stage_2 (
-        .clk(clk), .reset(reset_request), .reset_value(1'b1), .enable(1'b1),
-        .d(key0_meta), .q(key0_sync)
+    flipflop_reset_sincrono key0_sync_stage_2 (
+        .clk(clk), .reset(pedido_rearme), .reset_value(1'b1), .enable(1'b1),
+        .d(botao0_meta), .q(botao0_sincronizado)
     );
 
-    pbl_dff_sync_reset key0_history (
-        .clk(clk), .reset(reset_request), .reset_value(1'b1), .enable(1'b1),
-        .d(key0_sync), .q(key0_previous)
+    flipflop_reset_sincrono key0_history (
+        .clk(clk), .reset(pedido_rearme), .reset_value(1'b1), .enable(1'b1),
+        .d(botao0_sincronizado), .q(botao0_anterior)
     );
 
-    not reset_from_key1 (reset_request, key1_sync);
-    not invert_key0_sync (key0_released_sync, key0_sync);
-    and detected_key0_press (key0_press_event, key0_previous, key0_released_sync);
-    not invert_progress_done (not_complete, progress_done);
-    and decode_progress_done (progress_done, progress_0, progress_1);
-    and allowed_capture (capture_event, key0_press_event, not_complete, key1_sync);
+    not reset_from_key1 (pedido_rearme, botao1_sincronizado);
+    not invert_key0_sync (botao0_liberado_sincronizado, botao0_sincronizado);
+    and detected_key0_press (evento_pressao_botao0, botao0_anterior, botao0_liberado_sincronizado);
+    not invert_progress_done (nao_concluido, loaded);
+    and decode_progress_done (loaded, progresso_bit0, progresso_bit1);
+    and allowed_capture (evento_captura, evento_pressao_botao0, nao_concluido, botao1_sincronizado);
 
-    not invert_progress_0 (not_progress_0, progress_0);
-    not invert_progress_1 (not_progress_1, progress_1);
-    and decode_a (select_a, not_progress_1, not_progress_0);
-    and decode_b (select_b, not_progress_1, progress_0);
-    and decode_c (select_c, progress_1, not_progress_0);
+    not invert_progress_0 (nao_progresso_bit0, progresso_bit0);
+    not invert_progress_1 (nao_progresso_bit1, progresso_bit1);
+    and decode_a (seleciona_a, nao_progresso_bit1, nao_progresso_bit0);
+    and decode_b (seleciona_b, nao_progresso_bit1, progresso_bit0);
+    and decode_c (seleciona_c, progresso_bit1, nao_progresso_bit0);
 
-    and write_a (enable_a, capture_event, select_a);
-    and write_b (enable_b, capture_event, select_b);
-    and write_c (enable_c, capture_event, select_c);
+    and write_a (habilita_a, evento_captura, seleciona_a);
+    and write_b (habilita_b, evento_captura, seleciona_b);
+    and write_c (habilita_c, evento_captura, seleciona_c);
 
-    not progress_bit_0_toggle (progress_0_next, progress_0);
-    xor progress_bit_1_toggle (progress_1_next, progress_1, progress_0);
+    not progress_bit_0_toggle (progresso_bit0_proximo, progresso_bit0);
+    xor progress_bit_1_toggle (progresso_bit1_proximo, progresso_bit1, progresso_bit0);
 
-    pbl_dff_sync_reset progress_counter_bit_0 (
-        .clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(capture_event),
-        .d(progress_0_next), .q(progress_0)
+    flipflop_reset_sincrono progress_counter_bit_0 (
+        .clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(evento_captura),
+        .d(progresso_bit0_proximo), .q(progresso_bit0)
     );
 
-    pbl_dff_sync_reset progress_counter_bit_1 (
-        .clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(capture_event),
-        .d(progress_1_next), .q(progress_1)
+    flipflop_reset_sincrono progress_counter_bit_1 (
+        .clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(evento_captura),
+        .d(progresso_bit1_proximo), .q(progresso_bit1)
     );
 
-    pbl_dff_sync_reset coefficient_a_bit_0 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_a), .d(sw[0]), .q(a_value[0]));
-    pbl_dff_sync_reset coefficient_a_bit_1 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_a), .d(sw[1]), .q(a_value[1]));
-    pbl_dff_sync_reset coefficient_a_bit_2 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_a), .d(sw[2]), .q(a_value[2]));
-    pbl_dff_sync_reset coefficient_a_bit_3 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_a), .d(sw[3]), .q(a_value[3]));
-    pbl_dff_sync_reset coefficient_a_bit_4 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_a), .d(sw[4]), .q(a_value[4]));
-    pbl_dff_sync_reset coefficient_a_bit_5 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_a), .d(sw[5]), .q(a_value[5]));
-    pbl_dff_sync_reset coefficient_a_bit_6 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_a), .d(sw[6]), .q(a_value[6]));
-    pbl_dff_sync_reset coefficient_a_bit_7 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_a), .d(sw[7]), .q(a_value[7]));
+    flipflop_reset_sincrono coefficient_a_bit_0 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[0]), .q(a[0]));
+    flipflop_reset_sincrono coefficient_a_bit_1 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[1]), .q(a[1]));
+    flipflop_reset_sincrono coefficient_a_bit_2 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[2]), .q(a[2]));
+    flipflop_reset_sincrono coefficient_a_bit_3 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[3]), .q(a[3]));
+    flipflop_reset_sincrono coefficient_a_bit_4 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[4]), .q(a[4]));
+    flipflop_reset_sincrono coefficient_a_bit_5 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[5]), .q(a[5]));
+    flipflop_reset_sincrono coefficient_a_bit_6 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[6]), .q(a[6]));
+    flipflop_reset_sincrono coefficient_a_bit_7 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[7]), .q(a[7]));
 
-    pbl_dff_sync_reset coefficient_b_bit_0 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_b), .d(sw[0]), .q(b_value[0]));
-    pbl_dff_sync_reset coefficient_b_bit_1 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_b), .d(sw[1]), .q(b_value[1]));
-    pbl_dff_sync_reset coefficient_b_bit_2 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_b), .d(sw[2]), .q(b_value[2]));
-    pbl_dff_sync_reset coefficient_b_bit_3 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_b), .d(sw[3]), .q(b_value[3]));
-    pbl_dff_sync_reset coefficient_b_bit_4 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_b), .d(sw[4]), .q(b_value[4]));
-    pbl_dff_sync_reset coefficient_b_bit_5 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_b), .d(sw[5]), .q(b_value[5]));
-    pbl_dff_sync_reset coefficient_b_bit_6 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_b), .d(sw[6]), .q(b_value[6]));
-    pbl_dff_sync_reset coefficient_b_bit_7 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_b), .d(sw[7]), .q(b_value[7]));
+    flipflop_reset_sincrono coefficient_b_bit_0 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_b), .d(sw[0]), .q(b[0]));
+    flipflop_reset_sincrono coefficient_b_bit_1 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_b), .d(sw[1]), .q(b[1]));
+    flipflop_reset_sincrono coefficient_b_bit_2 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_b), .d(sw[2]), .q(b[2]));
+    flipflop_reset_sincrono coefficient_b_bit_3 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_b), .d(sw[3]), .q(b[3]));
+    flipflop_reset_sincrono coefficient_b_bit_4 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_b), .d(sw[4]), .q(b[4]));
+    flipflop_reset_sincrono coefficient_b_bit_5 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_b), .d(sw[5]), .q(b[5]));
+    flipflop_reset_sincrono coefficient_b_bit_6 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_b), .d(sw[6]), .q(b[6]));
+    flipflop_reset_sincrono coefficient_b_bit_7 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_b), .d(sw[7]), .q(b[7]));
 
-    pbl_dff_sync_reset coefficient_c_bit_0 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[0]), .q(c_value[0]));
-    pbl_dff_sync_reset coefficient_c_bit_1 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[1]), .q(c_value[1]));
-    pbl_dff_sync_reset coefficient_c_bit_2 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[2]), .q(c_value[2]));
-    pbl_dff_sync_reset coefficient_c_bit_3 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[3]), .q(c_value[3]));
-    pbl_dff_sync_reset coefficient_c_bit_4 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[4]), .q(c_value[4]));
-    pbl_dff_sync_reset coefficient_c_bit_5 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[5]), .q(c_value[5]));
-    pbl_dff_sync_reset coefficient_c_bit_6 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[6]), .q(c_value[6]));
-    pbl_dff_sync_reset coefficient_c_bit_7 (.clk(clk), .reset(reset_request), .reset_value(1'b0), .enable(enable_c), .d(sw[7]), .q(c_value[7]));
+    flipflop_reset_sincrono coefficient_c_bit_0 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[0]), .q(c[0]));
+    flipflop_reset_sincrono coefficient_c_bit_1 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[1]), .q(c[1]));
+    flipflop_reset_sincrono coefficient_c_bit_2 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[2]), .q(c[2]));
+    flipflop_reset_sincrono coefficient_c_bit_3 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[3]), .q(c[3]));
+    flipflop_reset_sincrono coefficient_c_bit_4 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[4]), .q(c[4]));
+    flipflop_reset_sincrono coefficient_c_bit_5 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[5]), .q(c[5]));
+    flipflop_reset_sincrono coefficient_c_bit_6 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[6]), .q(c[6]));
+    flipflop_reset_sincrono coefficient_c_bit_7 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[7]), .q(c[7]));
 
-    assign loaded = progress_done;
-    assign a = a_value;
-    assign b = b_value;
-    assign c = c_value;
 endmodule
 
-module pbl_dff_plain (
+module flipflop_simples (
     input wire clk,
     input wire d,
     output reg q
@@ -151,7 +143,7 @@ module pbl_dff_plain (
     end
 endmodule
 
-module pbl_dff_sync_reset (
+module flipflop_reset_sincrono (
     input wire clk,
     input wire reset,
     input wire reset_value,
@@ -159,26 +151,26 @@ module pbl_dff_sync_reset (
     input wire d,
     output reg q
 );
-    wire not_enable;
-    wire enabled_data;
-    wire held_data;
-    wire normal_data;
-    wire not_reset;
-    wire reset_data;
-    wire normal_selected_data;
-    wire d_next;
+    wire nao_habilita;
+    wire dado_habilitado;
+    wire dado_retido;
+    wire dado_normal;
+    wire nao_rearme;
+    wire dado_rearme;
+    wire dado_normal_selecionado;
+    wire proximo_dado;
 
-    not invert_enable (not_enable, enable);
-    and select_enabled_data (enabled_data, enable, d);
-    and select_held_data (held_data, not_enable, q);
-    or combine_enable_mux (normal_data, enabled_data, held_data);
+    not invert_enable (nao_habilita, enable);
+    and select_enabled_data (dado_habilitado, enable, d);
+    and select_held_data (dado_retido, nao_habilita, q);
+    or combine_enable_mux (dado_normal, dado_habilitado, dado_retido);
 
-    not invert_reset (not_reset, reset);
-    and select_reset_value (reset_data, reset, reset_value);
-    and select_normal_value (normal_selected_data, not_reset, normal_data);
-    or combine_reset_mux (d_next, reset_data, normal_selected_data);
+    not invert_reset (nao_rearme, reset);
+    and select_reset_value (dado_rearme, reset, reset_value);
+    and select_normal_value (dado_normal_selecionado, nao_rearme, dado_normal);
+    or combine_reset_mux (proximo_dado, dado_rearme, dado_normal_selecionado);
 
     always @(posedge clk) begin
-        q <= d_next;
+        q <= proximo_dado;
     end
 endmodule

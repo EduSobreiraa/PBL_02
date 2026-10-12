@@ -1,32 +1,28 @@
 `timescale 1ns/1ps
 // DEC-030: public wrapper preserves the approved interface.
-module polynomial_y(input wire signed [7:0] a, b, c, x,
+module polinomio_y(input wire signed [7:0] a, b, c, x,
     output wire signed [22:0] y, output wire OV);
-    wire unused_carry;
-    polynomial_y_core core(.a(a), .b(b), .c(c), .x(x),
-        .y(y), .OV(OV), .carry_y(unused_carry));
+    wire vai_um_nao_utilizado;
+    polinomio_y_nucleo nucleo(.a(a), .b(b), .c(c), .x(x),
+        .y(y), .OV(OV), .carry_y(vai_um_nao_utilizado));
 endmodule
 
-// Purely combinational composition: ((a*x*x)+(b*x))+c.
-module polynomial_y_core(input wire signed [7:0] a, b, c, x,
+// Purely combinational composition: ((coeficiente_a*entrada_x*entrada_x)+(coeficiente_b*entrada_x))+coeficiente_c.
+module polinomio_y_nucleo(input wire signed [7:0] a, b, c, x,
     output wire signed [22:0] y, output wire OV, output wire carry_y);
-    wire signed [15:0] square_full, bx;
-    wire [14:0] square;
-    wire signed [21:0] ax2;
-    wire signed [22:0] ax2_extended, bx_extended, c_extended, subtotal;
-    wire unused_subtotal_carry;
+    wire signed [15:0] quadrado_completo, b_x;
+    wire [14:0] quadrado;
+    wire signed [21:0] a_x_quadrado;
+    wire signed [22:0] ax2_estendido, bx_estendido, c_estendido, subtotal;
+    wire vai_um_subtotal_nao_utilizado;
 
-    mul_s8_s8 square_multiplier(.lhs(x), .rhs(x), .product(square_full));
+    multiplica_com_sinal_8_por_8 multiplicador_quadrado(.lhs(x), .rhs(x), .product(quadrado_completo));
     // x*x is 0..16384; bit 15 is always zero, so this slice is exact.
-    assign square = square_full[14:0];
-    mul_s8_u15 quadratic_multiplier(.lhs(a), .rhs(square), .product(ax2));
-    mul_s8_s8 linear_multiplier(.lhs(b), .rhs(x), .product(bx));
-    assign ax2_extended = {ax2[21], ax2};
-    assign bx_extended = {{7{bx[15]}}, bx};
-    assign c_extended = {{15{c[7]}}, c};
-    add23_core subtotal_adder(.lhs(ax2_extended), .rhs(bx_extended),
-        .sum(subtotal), .carry_out(unused_subtotal_carry));
-    add23_core final_adder(.lhs(subtotal), .rhs(c_extended),
+    multiplica_com_sinal_8_por_sem_sinal_15 multiplicador_quadratico(.lhs(a), .rhs(quadrado_completo[14:0]), .product(a_x_quadrado));
+    multiplica_com_sinal_8_por_8 multiplicador_linear(.lhs(b), .rhs(x), .product(b_x));
+    somador_23_nucleo somador_subtotal(.lhs({a_x_quadrado[21],a_x_quadrado}), .rhs({{7{b_x[15]}},b_x}),
+        .sum(subtotal), .carry_out(vai_um_subtotal_nao_utilizado));
+    somador_23_nucleo somador_final(.lhs(subtotal), .rhs({{15{c[7]}},c}),
         .sum(y), .carry_out(carry_y));
-    assign OV = 1'b0;
+    and zero_overflow(OV,1'b0,1'b0);
 endmodule

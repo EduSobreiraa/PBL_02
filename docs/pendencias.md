@@ -4,7 +4,7 @@ Prioridade **ALTA** bloqueia decisões centrais; **MÉDIA** afeta arquitetura, i
 
 ## Decisões técnicas em aberto
 
-Nenhuma na baseline DEC-030/031 de 11/10/2026. O fechamento cobre escolhas de projeto, não execução de testes, aceite acadêmico ou disponibilidade física.
+Nenhuma na baseline DEC-030/031/033/035/036 de 12/10/2026. O fechamento de escolhas anteriores cobre decisões de projeto, não execução de testes, aceite acadêmico ou disponibilidade física.
 
 ## Evidências e obrigações ainda necessárias
 
@@ -44,5 +44,9 @@ Nenhuma na baseline DEC-030/031 de 11/10/2026. O fechamento cobre escolhas de pr
 | PEN-019 | Escolha encerrada: F16 substituído pelo algoritmo exato com resíduos de DEC-031, prova revisada. TASK-005 executada e auditada após o sprint de decisão: 16.777.216 triplas e zero divergências no modelo. Isso não aprova o RTL das raízes. | DEC-031 |
 | PEN-020 | Organização do conteúdo fechada; aplicar estrutura REQ-016 e matriz de evidências. Modelo externo do tutor ainda deve ser obtido para entrega final. | DEC-022/030; TASK-016 |
 | PEN-022 | Escolha local encerrada: manter contador saturante estrutural autorizado em DEC-024; quatro condições em dois FF. A interpretação acadêmica permanece risco explícito, sem afirmar aprovação do tutor. | DEC-027/030 |
+| Proibição de `assign` contínuo no RTL | Consenso: eliminar todos os `assign` do RTL e cópia `.save`, preservando testbenches e possível uso dentro de DFF; aliases por conexão direta, sem portas identidade. TASK-020 aprovada após implementação, regressão e auditoria; o código 130 do wrapper de `tb_multipliers` permanece explicitamente registrado. | DEC-033; TASK-020 |
+| Interface privada do estágio BCD para remoção de `assign` | Consenso: separar correção dos dígitos e deslocamento nas conexões internas; preservar interfaces públicas e migrar somente o caller direto no TB de display. | DEC-035 |
+| Interface privada de `sqrt_stage` para remoção de `assign` | Consenso: dirigir cada bit público da raiz diretamente com `take` de uma etapa e encadear prefixos/restos estruturalmente, sem alteração das portas públicas. Implementada e aprovada; TEST-004 passou em 131.072 radicandos. | DEC-036; TASK-020 |
+| Solicitação de revisão da apresentação (12/10/2026) | Fechada sem alteração RTL: usos de `assign` avaliados conforme a permissão existente; `y` segue signed23; entrada de `x` já usa `SW[7:0]`; testbench BCD já existe e está aprovado. A captura não identifica outro sinal de 16 bits. | DEC-032; TASK-006 |
 
 Nenhuma TASK é APPROVED pelo simples encerramento de decisão. Contratos e detalhes de implementação seguem DEC-030/031 e os briefs; evidências têm os gates acima. Requisitos P0 não foram alterados.

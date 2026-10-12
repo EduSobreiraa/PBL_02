@@ -19,22 +19,22 @@ DEC-030 e DEC-031 encerram as escolhas técnicas sob delegação explícita do r
 ## Hierarquia aprovada
 
 ```text
-top_module
- ├─ coefficient_input_core ── a,b,c,loaded
- ├─ polynomial_y_core ── y,OV,carry_y
- │   ├─ mul_s8_s8 (x² e bx)
- │   ├─ mul_s8_u15 (a*x², domínio x²<=16384)
- │   └─ add23_core (duas somas)
- ├─ quadratic_roots ── delta,x1,x2,domain_error
- │   ├─ multiplicadores e sub18
- │   ├─ sqrt_u17 (uma unidade)
- │   └─ divide_u9_u8 (duas unidades simultâneas)
- ├─ result_select ── value signed23
- ├─ decimal_display ── HEX0..HEX5
- └─ flag_ov_err / flag_z / flag_c ── LEDR
+modulo_principal
+ ├─ entrada_coeficientes_nucleo ── a,b,c,loaded
+ ├─ polinomio_y_nucleo ── y,OV,carry_y
+ │   ├─ multiplica_com_sinal_8_por_8 (x² e bx)
+ │   ├─ multiplica_com_sinal_8_por_sem_sinal_15 (a*x², domínio x²<=16384)
+ │   └─ somador_23_nucleo (duas somas)
+ ├─ raizes_quadraticas ── delta,x1,x2,domain_error
+ │   ├─ multiplicadores e subtrator_18
+ │   ├─ raiz_quadrada_17 (uma unidade)
+ │   └─ divisor_9_por_8 (duas unidades simultâneas)
+ ├─ seletor_resultado ── value signed23
+ ├─ exibicao_decimal ── HEX0..HEX5
+ └─ sinaliza_overflow_erro / sinaliza_zero / sinaliza_carry ── LEDR
 ```
 
-Wrappers públicos `coefficient_input`, `polynomial_y` e `add23` preservam suas portas sem status adicional. Cada wrapper instancia seu core privado. O top usa apenas os cores; não duplica wrappers e cores como circuitos separados. Loaded/carry atravessam portas privadas documentadas, sem referência hierárquica a fios ocultos.
+Wrappers públicos `entrada_coeficientes`, `polinomio_y` e `somador_23` preservam suas portas sem status adicional. Cada wrapper instancia seu core privado. O top usa apenas os cores; não duplica wrappers e cores como circuitos separados. Loaded/carry atravessam portas privadas documentadas, sem referência hierárquica a fios ocultos.
 
 ## Mínimo, sintaxe e temporização
 

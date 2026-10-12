@@ -1,193 +1,193 @@
 `timescale 1ns/1ps
 module tb_top_module;
-    reg clk;
+    reg clock_sistema;
     reg [1:0] KEY;
     reg [9:0] SW;
     wire [9:0] LEDR;
     wire [6:0] HEX0,HEX1,HEX2,HEX3,HEX4,HEX5;
-    integer ma,mb,mc,progress,checks,scenarios;
-    top_module dut(.MAX10_CLK1_50(clk),.KEY(KEY),.SW(SW),.LEDR(LEDR),
+    integer ma,mb,mc,progresso,verificacoes,cenarios;
+    modulo_principal dut(.MAX10_CLK1_50(clock_sistema),.KEY(KEY),.SW(SW),.LEDR(LEDR),
         .HEX0(HEX0),.HEX1(HEX1),.HEX2(HEX2),.HEX3(HEX3),.HEX4(HEX4),.HEX5(HEX5));
-    initial begin clk=0; forever #10 clk=~clk; end
-    function integer reference_round;
-        input integer va,vb,disc,branch;
-        integer low,high,k,h,threshold,square,cmp,relation,asign,done;
+    initial begin clock_sistema=0; forever #10 clock_sistema=~clock_sistema; end
+    function integer arredondamento_referencia;
+        input integer valor_a,valor_b,discriminante,ramo;
+        integer limite_inferior,limite_superior,k,h,limite,quadrado,cmp,relacao,asign,concluido;
         begin
-            low=-129; high=129; done=0;
-            case (va>0) 1: asign=1; default: asign=-1; endcase
-            while ((low<high) && (done==0)) begin
-                k=low+(high-low)/2;
-                h=vb+va*(2*k+1);
-                threshold=branch*h;
-                case (threshold<0)
+            limite_inferior=-129; limite_superior=129; concluido=0;
+            case (valor_a>0) 1: asign=1; default: asign=-1; endcase
+            while ((limite_inferior<limite_superior) && (concluido==0)) begin
+                k=limite_inferior+(limite_superior-limite_inferior)/2;
+                h=valor_b+valor_a*(2*k+1);
+                limite=ramo*h;
+                case (limite<0)
                     1: cmp=1;
                     default: begin
-                        square=threshold*threshold;
-                        cmp=(disc>square)-(disc<square);
+                        quadrado=limite*limite;
+                        cmp=(discriminante>quadrado)-(discriminante<quadrado);
                     end
                 endcase
-                relation=asign*branch*cmp;
-                case (relation)
+                relacao=asign*ramo*cmp;
+                case (relacao)
                     0: begin
-                        case (k>=0) 1: reference_round=k+1; default: reference_round=k; endcase
-                        done=1;
+                        case (k>=0) 1: arredondamento_referencia=k+1; default: arredondamento_referencia=k; endcase
+                        concluido=1;
                     end
-                    -1: high=k;
-                    1: low=k+1;
-                    default: $fatal(1,"Invalid oracle relation");
+                    -1: limite_superior=k;
+                    1: limite_inferior=k+1;
+                    default: $fatal(1,"Invalid oracle relacao");
                 endcase
             end
-            case (done) 0: reference_round=low; default: ; endcase
+            case (concluido) 0: arredondamento_referencia=limite_inferior; default: ; endcase
         end
     endfunction
-    function [6:0] encode;
-        input integer decimal_digit;
+    function [6:0] codificar;
+        input integer digito_decimal;
         begin
-            case (decimal_digit)
-                0: encode=7'b1000000;
-                1: encode=7'b1111001;
-                2: encode=7'b0100100;
-                3: encode=7'b0110000;
-                4: encode=7'b0011001;
-                5: encode=7'b0010010;
-                6: encode=7'b0000010;
-                7: encode=7'b1111000;
-                8: encode=7'b0000000;
-                9: encode=7'b0010000;
-                default: encode=7'b1111111;
+            case (digito_decimal)
+                0: codificar=7'b1000000;
+                1: codificar=7'b1111001;
+                2: codificar=7'b0100100;
+                3: codificar=7'b0110000;
+                4: codificar=7'b0011001;
+                5: codificar=7'b0010010;
+                6: codificar=7'b0000010;
+                7: codificar=7'b1111000;
+                8: codificar=7'b0000000;
+                9: codificar=7'b0010000;
+                default: codificar=7'b1111111;
             endcase
         end
     endfunction
 
     task wait_clocks;
-        input integer cycles;
+        input integer ciclos;
         integer k;
         begin
-            for(k=0;k<cycles;k=k+1) @(posedge clk);
+            for(k=0;k<ciclos;k=k+1) @(posedge clock_sistema);
             #1;
         end
     endtask
     task observe;
-        input integer xv;
-        integer selection,disc,root1,root2,yvalue,subtotal,selected,carry_unsigned;
-        integer magnitude,remaining,pos,digit_value;
-        reg err,zero_flag,carry_flag,masked,bad;
-        reg [9:0] expected_leds;
-        reg [41:0] expected_hex;
+        input integer valor_x;
+        integer selecao,discriminante,raiz_um,raiz_dois,valor_y,subtotal,selecionado,vai_um_sem_sinal;
+        integer modulo_sinalizado,restante,posicao,valor_digito;
+        reg erro,sinal_zero,sinal_carry,mascarado,fora_da_faixa;
+        reg [9:0] leds_esperados;
+        reg [41:0] hex_esperado;
         begin
-            disc=mb*mb-4*ma*mc;
-            case ((ma==0)||(disc<0))
-                1: begin root1=0; root2=0; end
+            discriminante=mb*mb-4*ma*mc;
+            case ((ma==0)||(discriminante<0))
+                1: begin raiz_um=0; raiz_dois=0; end
                 default: begin
-                    root1=reference_round(ma,mb,disc,1);
-                    root2=reference_round(ma,mb,disc,-1);
+                    raiz_um=arredondamento_referencia(ma,mb,discriminante,1);
+                    raiz_dois=arredondamento_referencia(ma,mb,discriminante,-1);
                 end
             endcase
-            subtotal=ma*xv*xv+mb*xv;
-            yvalue=subtotal+mc;
-            carry_unsigned=((subtotal & 8388607)+(mc & 8388607))>>23;
-            err=(progress==3)&&((ma==0)||(disc<0));
-            for(selection=0;selection<4;selection=selection+1) begin
-                @(negedge clk); SW={selection[1:0],xv[7:0]};
+            subtotal=ma*valor_x*valor_x+mb*valor_x;
+            valor_y=subtotal+mc;
+            vai_um_sem_sinal=((subtotal & 8388607)+(mc & 8388607))>>23;
+            erro=(progresso==3)&&((ma==0)||(discriminante<0));
+            for(selecao=0;selecao<4;selecao=selecao+1) begin
+                @(negedge clock_sistema); SW={selecao[1:0],valor_x[7:0]};
                 #2;
-                case(selection)
-                    0: selected=xv;
-                    1: selected=yvalue;
-                    2: selected=root1;
-                    3: selected=root2;
+                case(selecao)
+                    0: selecionado=valor_x;
+                    1: selecionado=valor_y;
+                    2: selecionado=raiz_um;
+                    3: selecionado=raiz_dois;
                 endcase
-                zero_flag=(selected==0)&&!((selection>=2)&&err);
-                carry_flag=(selection==1)&&(progress==3)&&(carry_unsigned==1);
-                expected_leds={6'b0,err,carry_flag,zero_flag,1'b0};
-                masked=((selection!=0)&&(progress!=3))||((selection>=2)&&err);
-                bad=masked||(selected>999999)||(selected< -99999);
-                expected_hex={6{7'b1111111}};
-                case(bad)
-                    1: expected_hex={6{7'b0111111}};
+                sinal_zero=(selecionado==0)&&!((selecao>=2)&&erro);
+                sinal_carry=(selecao==1)&&(progresso==3)&&(vai_um_sem_sinal==1);
+                leds_esperados={6'b0,erro,sinal_carry,sinal_zero,1'b0};
+                mascarado=((selecao!=0)&&(progresso!=3))||((selecao>=2)&&erro);
+                fora_da_faixa=mascarado||(selecionado>999999)||(selecionado< -99999);
+                hex_esperado={6{7'b1111111}};
+                case(fora_da_faixa)
+                    1: hex_esperado={6{7'b0111111}};
                     default: begin
-                        case(selected<0) 1:magnitude=-selected; default:magnitude=selected; endcase
-                        remaining=magnitude;
-                        for(pos=0;pos<6;pos=pos+1) begin
-                            digit_value=remaining%10;
-                            case((pos==0)||(remaining!=0))
-                                1:expected_hex[pos*7+:7]=encode(digit_value);
+                        case(selecionado<0) 1:modulo_sinalizado=-selecionado; default:modulo_sinalizado=selecionado; endcase
+                        restante=modulo_sinalizado;
+                        for(posicao=0;posicao<6;posicao=posicao+1) begin
+                            valor_digito=restante%10;
+                            case((posicao==0)||(restante!=0))
+                                1:hex_esperado[posicao*7+:7]=codificar(valor_digito);
                                 default:;
                             endcase
-                            remaining=remaining/10;
+                            restante=restante/10;
                         end
-                        case(selected<0) 1:expected_hex[35+:7]=7'b0111111; default:; endcase
+                        case(selecionado<0) 1:hex_esperado[35+:7]=7'b0111111; default:; endcase
                     end
                 endcase
-                case((LEDR===expected_leds)&&({HEX5,HEX4,HEX3,HEX2,HEX1,HEX0}===expected_hex))
+                case((LEDR===leds_esperados)&&({HEX5,HEX4,HEX3,HEX2,HEX1,HEX0}===hex_esperado))
                     1:;
-                    default:$fatal(1,"top check=%0d a=%0d b=%0d c=%0d progress=%0d x=%0d sel=%0d LEDs=%b expected=%b HEX=%h expected=%h",checks,ma,mb,mc,progress,xv,selection,LEDR,expected_leds,{HEX5,HEX4,HEX3,HEX2,HEX1,HEX0},expected_hex);
+                    default:$fatal(1,"top check=%0d coeficiente_a=%0d coeficiente_b=%0d coeficiente_c=%0d progresso=%0d entrada_x=%0d selecao=%0d LEDs=%b esperado=%b HEX=%h esperado=%h",verificacoes,ma,mb,mc,progresso,valor_x,selecao,LEDR,leds_esperados,{HEX5,HEX4,HEX3,HEX2,HEX1,HEX0},hex_esperado);
                 endcase
-                checks=checks+1;
+                verificacoes=verificacoes+1;
             end
         end
     endtask
     task reset_system;
         begin
-            @(negedge clk); KEY=2'b00;
+            @(negedge clock_sistema); KEY=2'b00;
             wait_clocks(8);
-            ma=0;mb=0;mc=0;progress=0;
+            ma=0;mb=0;mc=0;progresso=0;
             observe(0);
-            @(negedge clk); KEY=2'b11;
+            @(negedge clock_sistema); KEY=2'b11;
             wait_clocks(8);
             observe(-128);
         end
     endtask
     task capture;
-        input integer coefficient;
+        input integer coeficiente;
         begin
-            @(negedge clk); SW={2'b00,coefficient[7:0]}; KEY[0]=0;
+            @(negedge clock_sistema); SW={2'b00,coeficiente[7:0]}; KEY[0]=0;
             wait_clocks(8);
-            case(progress)
-                0:begin ma=coefficient; progress=1;end
-                1:begin mb=coefficient; progress=2;end
-                2:begin mc=coefficient; progress=3;end
+            case(progresso)
+                0:begin ma=coeficiente; progresso=1;end
+                1:begin mb=coeficiente; progresso=2;end
+                2:begin mc=coeficiente; progresso=3;end
                 default:;
             endcase
             // Switch changes and all selections while KEY0 remains pressed.
             observe(99);
             wait_clocks(5);
-            @(negedge clk); KEY[0]=1;
+            @(negedge clock_sistema); KEY[0]=1;
             wait_clocks(6);
             observe(0);
         end
     endtask
-    task scenario;
-        input integer va,vb,vc;
+    task cenario;
+        input integer valor_a,valor_b,valor_c;
         begin
             reset_system;
-            capture(va);capture(vb);capture(vc);
+            capture(valor_a);capture(valor_b);capture(valor_c);
             observe(-128);observe(-1);observe(1);observe(127);
             capture(42); // fourth capture must be ignored
             observe(-3);
-            scenarios=scenarios+1;
+            cenarios=cenarios+1;
         end
     endtask
     initial begin
-        KEY=2'b00;SW=0;ma=0;mb=0;mc=0;progress=0;checks=0;scenarios=0;
-        scenario(1,-3,2);  // positive integer roots
-        scenario(1,3,2);   // negative integer roots
-        scenario(2,-3,1);  // positive half tie
-        scenario(2,3,1);   // negative half tie
-        scenario(-1,0,1);  // reversed branch order, final carry -1+1
-        scenario(1,0,1);   // negative discriminant
-        scenario(0,1,0);   // a zero
-        scenario(1,2,1);   // zero discriminant
-        scenario(-128,127,-128); // minimum y and visual overflow
-        scenario(127,-128,127);  // maximum y and visual overflow
-        reset_system;capture(17); // reset during partial load
+        KEY=2'b00;SW=0;ma=0;mb=0;mc=0;progresso=0;verificacoes=0;cenarios=0;
+        cenario(1,-3,2);  // positive integer raizes
+        cenario(1,3,2);   // negativo integer raizes
+        cenario(2,-3,1);  // positive half tie
+        cenario(2,3,1);   // negativo half tie
+        cenario(-1,0,1);  // reversed ramo order, final vai_um -1+1
+        cenario(1,0,1);   // negativo discriminant
+        cenario(0,1,0);   // coeficiente_a zero
+        cenario(1,2,1);   // zero discriminant
+        cenario(-128,127,-128); // minimum resultado_y and visual overflow
+        cenario(127,-128,127);  // maximum resultado_y and visual overflow
+        reset_system;capture(17); // rearme during parcial load
         reset_system;capture(18);capture(52);capture(86);
         observe(127);
         reset_system;
-        case((scenarios==10)&&(checks==660))
+        case((cenarios==10)&&(verificacoes==660))
             1:;
-            default:$fatal(1,"Coverage mismatch scenarios=%0d checks=%0d",scenarios,checks);
+            default:$fatal(1,"Coverage mismatch cenarios=%0d verificacoes=%0d",cenarios,verificacoes);
         endcase
-        $display("TEST-010/011 PASS scenarios=%0d output_checks=%0d reset_partial_full=PASS held_key=PASS extra_capture=PASS flags_displays=PASS",scenarios,checks);
+        $display("TEST-010/011 PASS cenarios=%0d output_checks=%0d reset_partial_full=PASS held_key=PASS extra_capture=PASS flags_displays=PASS",cenarios,verificacoes);
         $finish;
     end
 endmodule

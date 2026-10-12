@@ -35,7 +35,7 @@ Baseline DEC-030/031, 11/10/2026. O responsável delegou o fechamento das escolh
 
 ## Execução
 
-Implementation Orchestrator → Context Analyst/brief → Implementer → ferramentas → Auditor. READY não significa implementado; APPROVED exige código, testes aplicáveis e auditoria. Compartilhamento de arquivos exige ordem, sem duas edições concorrentes nas células ou flags. Nenhuma FSM, if/else, buf, laço/generate ou comportamento fora dos FF no DUT. Repetições explícitas; assign apenas conexão estática conforme DEC030.
+Implementation Orchestrator → Context Analyst/brief → Implementer → ferramentas → Auditor. READY não significa implementado; APPROVED exige código, testes aplicáveis e auditoria. Compartilhamento de arquivos exige ordem, sem duas edições concorrentes nas células ou flags. Nenhuma FSM, if/else, buf, laço/generate, assign contínuo ou comportamento fora dos FF no DUT. Repetições explícitas; aliases por conexões diretas conforme DEC-033.
 
 A prova DEC031 fecha escolha numérica; TASK005 e os testes reais continuam obrigatórios. Disponibilidade da placa, modelo do tutor e interpretação acadêmica não são fatos inferidos. Registro: `../pendencias.md`.
 

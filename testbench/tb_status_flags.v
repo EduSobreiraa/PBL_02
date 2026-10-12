@@ -1,78 +1,78 @@
 `timescale 1ns/1ps
 module tb_status_flags;
-    reg loaded;
-    reg signed [7:0] a;
+    reg coeficientes_carregados;
+    reg signed [7:0] coeficiente_a;
     reg signed [17:0] delta;
     wire OV,ERR;
-    reg clk,key0_n,key1_n;
-    reg [7:0] sw;
-    reg [1:0] sel;
+    reg clock_sistema,botao0_n,botao1_n;
+    reg [7:0] chaves;
+    reg [1:0] selecao;
     wire signed [7:0] stored_a,stored_b,stored_c;
-    wire stored_loaded,integrated_ov,integrated_err,domain_error;
+    wire stored_loaded,integrated_ov,integrated_err,erro_dominio;
     wire signed [17:0] stored_delta;
-    wire signed [8:0] x1,x2;
-    wire signed [22:0] selected_value;
-    integer l,av,dv,expected,index,checks,integrated_checks;
-    flag_ov_err dut(.loaded(loaded),.a(a),.delta(delta),.OV(OV),.ERR(ERR));
-    coefficient_input_core capture(.clk(clk),.key0_n(key0_n),.key1_n(key1_n),.sw(sw),.a(stored_a),.b(stored_b),.c(stored_c),.loaded(stored_loaded));
-    quadratic_roots roots(.a(stored_a),.b(stored_b),.c(stored_c),.delta(stored_delta),.x1(x1),.x2(x2),.domain_error(domain_error));
-    flag_ov_err integrated(.loaded(stored_loaded),.a(stored_a),.delta(stored_delta),.OV(integrated_ov),.ERR(integrated_err));
-    result_select selector(.x(sw),.y(23'sd0),.x1(x1),.x2(x2),.sel(sel),.value(selected_value));
-    always #5 clk=~clk;
+    wire signed [8:0] raiz_x1,raiz_x2;
+    wire signed [22:0] valor_selecionado;
+    integer l,av,dv,esperado,indice,verificacoes,verificacoes_integradas;
+    sinaliza_overflow_erro dut(.loaded(coeficientes_carregados),.a(coeficiente_a),.delta(delta),.OV(OV),.ERR(ERR));
+    entrada_coeficientes_nucleo capture(.clk(clock_sistema),.key0_n(botao0_n),.key1_n(botao1_n),.sw(chaves),.a(stored_a),.b(stored_b),.c(stored_c),.loaded(stored_loaded));
+    raizes_quadraticas raizes(.a(stored_a),.b(stored_b),.c(stored_c),.delta(stored_delta),.x1(raiz_x1),.x2(raiz_x2),.domain_error(erro_dominio));
+    sinaliza_overflow_erro integrated(.loaded(stored_loaded),.a(stored_a),.delta(stored_delta),.OV(integrated_ov),.ERR(integrated_err));
+    seletor_resultado selector(.x(chaves),.y(23'sd0),.x1(raiz_x1),.x2(raiz_x2),.sel(selecao),.value(valor_selecionado));
+    always #5 clock_sistema=~clock_sistema;
     task reset_capture;
         begin
-            key0_n=1;key1_n=0;
-            repeat(8) @(negedge clk);
-            key1_n=1;
-            repeat(8) @(negedge clk);
+            botao0_n=1;botao1_n=0;
+            repeat(8) @(negedge clock_sistema);
+            botao1_n=1;
+            repeat(8) @(negedge clock_sistema);
             case({stored_loaded,integrated_ov,integrated_err})
                 3'b000:;
-                default:$fatal(1,"reset did not clear ERR/loaded");
+                default:$fatal(1,"rearme did not clear ERR/coeficientes_carregados");
             endcase
-            integrated_checks=integrated_checks+1;
+            verificacoes_integradas=verificacoes_integradas+1;
         end
     endtask
-    task capture_value(input [7:0] value);
+    task capture_value(input [7:0] valor);
         begin
-            sw=value;key0_n=1;
-            repeat(8) @(negedge clk);
-            key0_n=0;
-            repeat(8) @(negedge clk);
-            key0_n=1;
-            repeat(8) @(negedge clk);
+            chaves=valor;botao0_n=1;
+            repeat(8) @(negedge clock_sistema);
+            botao0_n=0;
+            repeat(8) @(negedge clock_sistema);
+            botao0_n=1;
+            repeat(8) @(negedge clock_sistema);
         end
     endtask
-    task hold_and_check(input expected_err);
+    task hold_and_check(input erro_esperado);
         integer k;
         begin
             for(k=0;k<16;k=k+1) begin
-                sw=k*17;sel=k[1:0];
-                repeat(2) @(negedge clk);
-                case((integrated_err===expected_err)&&(integrated_ov===1'b0)&&(stored_loaded===1'b1))
+                chaves=k*17;selecao=k[1:0];
+                repeat(2) @(negedge clock_sistema);
+                case((integrated_err===erro_esperado)&&(integrated_ov===1'b0)&&(stored_loaded===1'b1))
                     1'b1:;
                     default:$fatal(1,"persist k=%0d ERR=%0d",k,integrated_err);
                 endcase
-                integrated_checks=integrated_checks+1;
+                verificacoes_integradas=verificacoes_integradas+1;
             end
         end
     endtask
     initial begin
-        clk=0;key0_n=1;key1_n=0;sw=0;sel=0;
-        loaded=0;a=0;delta=0;checks=0;integrated_checks=0;
+        clock_sistema=0;botao0_n=1;botao1_n=0;chaves=0;selecao=0;
+        coeficientes_carregados=0;coeficiente_a=0;delta=0;verificacoes=0;verificacoes_integradas=0;
         for(l=0;l<2;l=l+1) begin
             for(av=-128;av<128;av=av+1) begin
-                for(index=0;index<7;index=index+1) begin
-                    case(index)
+                for(indice=0;indice<7;indice=indice+1) begin
+                    case(indice)
                         0:dv=-131072;1:dv=-65536;2:dv=-1;3:dv=0;
                         4:dv=1;5:dv=81408;6:dv=131071;
                     endcase
-                    loaded=l[0];a=av[7:0];delta=dv[17:0];
-                    expected=(l!=0)&&((av==0)||(dv<0));#1;
-                    case((ERR===expected[0])&&(OV===1'b0))
+                    coeficientes_carregados=l[0];coeficiente_a=av[7:0];delta=dv[17:0];
+                    esperado=(l!=0)&&((av==0)||(dv<0));#1;
+                    case((ERR===esperado[0])&&(OV===1'b0))
                         1'b1:;
-                        default:$fatal(1,"isolated loaded=%0d a=%0d delta=%0d",l,av,dv);
+                        default:$fatal(1,"isolated coeficientes_carregados=%0d coeficiente_a=%0d delta=%0d",l,av,dv);
                     endcase
-                    checks=checks+1;
+                    verificacoes=verificacoes+1;
                 end
             end
         end
@@ -80,9 +80,9 @@ module tb_status_flags;
         capture_value(8'd0);
         capture_value(8'd1);
         case({stored_loaded,integrated_err})
-            2'b00:;default:$fatal(1,"partial a0 raised ERR");
+            2'b00:;default:$fatal(1,"parcial a0 raised ERR");
         endcase
-        integrated_checks=integrated_checks+1;
+        verificacoes_integradas=verificacoes_integradas+1;
         capture_value(8'd1);
         hold_and_check(1'b1);
         reset_capture;
@@ -92,116 +92,116 @@ module tb_status_flags;
         capture_value(8'd1);capture_value(8'd0);capture_value(8'd0);
         hold_and_check(1'b0);
         reset_capture;
-        case((checks==3584)&&(integrated_checks==53))
-            1'b1:;default:$fatal(1,"incomplete checks=%0d integrated=%0d",checks,integrated_checks);
+        case((verificacoes==3584)&&(verificacoes_integradas==53))
+            1'b1:;default:$fatal(1,"incompleto verificacoes=%0d integrated=%0d",verificacoes,verificacoes_integradas);
         endcase
-        $display("TEST-009 TASK010 PASS isolated=%0d integrated=%0d failures=0",checks,integrated_checks);
+        $display("TEST-009 TASK010 PASS isolated=%0d integrated=%0d falhas=0",verificacoes,verificacoes_integradas);
         $finish;
     end
 endmodule
 
 // Independent top preserves the TASK010 regression unchanged.
 module tb_flag_z;
-    reg signed [22:0] value;
-    reg [1:0] sel;
+    reg signed [22:0] valor;
+    reg [1:0] selecao;
     reg ERR;
     wire Z;
-    integer selection,error_value,index,number,expected,checked;
-    flag_z dut(.value(value),.sel(sel),.ERR(ERR),.Z(Z));
+    integer selecao,valor_erro,indice,numero,esperado,casos_verificados;
+    sinaliza_zero dut(.value(valor),.sel(selecao),.ERR(ERR),.Z(Z));
     initial begin
-        checked=0;
-        for(selection=0;selection<4;selection=selection+1) begin
-            for(error_value=0;error_value<2;error_value=error_value+1) begin
-                for(index=0;index<30;index=index+1) begin
-                    case(index)
-                        0:number=0;
-                        1:number=1;
-                        2:number=-1;
-                        3:number=-4194304;
-                        4:number=4194303;
-                        5:number=1000000;
-                        6:number=-100000;
-                        default:number=1 << (index-7);
+        casos_verificados=0;
+        for(selecao=0;selecao<4;selecao=selecao+1) begin
+            for(valor_erro=0;valor_erro<2;valor_erro=valor_erro+1) begin
+                for(indice=0;indice<30;indice=indice+1) begin
+                    case(indice)
+                        0:numero=0;
+                        1:numero=1;
+                        2:numero=-1;
+                        3:numero=-4194304;
+                        4:numero=4194303;
+                        5:numero=1000000;
+                        6:numero=-100000;
+                        default:numero=1 << (indice-7);
                     endcase
-                    value=number[22:0];sel=selection[1:0];ERR=error_value[0];
-                    expected=(number==0)&&!((selection>=2)&&(error_value!=0));
+                    valor=numero[22:0];selecao=selecao[1:0];ERR=valor_erro[0];
+                    esperado=(numero==0)&&!((selecao>=2)&&(valor_erro!=0));
                     #1;
-                    case(Z===expected[0])
+                    case(Z===esperado[0])
                         1'b1:;
-                        default:$fatal(1,"TASK018 mismatch sel=%0d ERR=%0d value=%0d Z=%0d",selection,error_value,value,Z);
+                        default:$fatal(1,"TASK018 mismatch selecao=%0d ERR=%0d valor=%0d Z=%0d",selecao,valor_erro,valor,Z);
                     endcase
-                    checked=checked+1;
+                    casos_verificados=casos_verificados+1;
                 end
             end
         end
-        case(checked)
+        case(casos_verificados)
             240:;
-            default:$fatal(1,"TASK018 incomplete coverage=%0d",checked);
+            default:$fatal(1,"TASK018 incompleto coverage=%0d",casos_verificados);
         endcase
-        $display("TEST-009 TASK018 PASS checks=%0d failures=0",checked);
+        $display("TEST-009 TASK018 PASS verificacoes=%0d falhas=0",casos_verificados);
         $finish;
     end
 endmodule
 
 module tb_flag_c;
-    reg carry_y,loaded;
-    reg [1:0] sel;
+    reg vai_um_y,coeficientes_carregados;
+    reg [1:0] selecao;
     wire C;
-    reg signed [7:0] a,b,c,x;
-    wire signed [22:0] y;
-    wire OV,core_carry,integrated_C;
-    integer cy,ld,selection,scenario,checks,integrated_checks,expected;
-    integer va,vb,vc,vx,partial,expected_y,unsigned_partial,unsigned_c,expected_carry;
-    flag_c dut(.carry_y(carry_y),.loaded(loaded),.sel(sel),.C(C));
-    polynomial_y_core core(.a(a),.b(b),.c(c),.x(x),.y(y),.OV(OV),.carry_y(core_carry));
-    flag_c integrated(.carry_y(core_carry),.loaded(loaded),.sel(sel),.C(integrated_C));
+    reg signed [7:0] coeficiente_a,coeficiente_b,coeficiente_c,entrada_x;
+    wire signed [22:0] resultado_y;
+    wire OV,vai_um_nucleo,integrated_C;
+    integer cy,ld,selecao,cenario,verificacoes,verificacoes_integradas,esperado;
+    integer valor_a,valor_b,valor_c,valor_x,parcial,resultado_y_esperado,subtotal_sem_sinal,coeficiente_c_sem_sinal,vai_um_esperado;
+    sinaliza_carry dut(.carry_y(vai_um_y),.loaded(coeficientes_carregados),.sel(selecao),.C(C));
+    polinomio_y_nucleo nucleo(.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.x(entrada_x),.y(resultado_y),.OV(OV),.carry_y(vai_um_nucleo));
+    sinaliza_carry integrated(.carry_y(vai_um_nucleo),.loaded(coeficientes_carregados),.sel(selecao),.C(integrated_C));
     initial begin
-        a=0;b=0;c=0;x=0;checks=0;integrated_checks=0;
+        coeficiente_a=0;coeficiente_b=0;coeficiente_c=0;entrada_x=0;verificacoes=0;verificacoes_integradas=0;
         for(cy=0;cy<2;cy=cy+1) begin
             for(ld=0;ld<2;ld=ld+1) begin
-                for(selection=0;selection<4;selection=selection+1) begin
-                    carry_y=cy[0];loaded=ld[0];sel=selection[1:0];
-                    expected=(cy!=0)&&(ld!=0)&&(selection==1);#1;
-                    case(C===expected[0])
-                        1'b1:;default:$fatal(1,"TASK019 isolated cy=%0d ld=%0d sel=%0d",cy,ld,selection);
+                for(selecao=0;selecao<4;selecao=selecao+1) begin
+                    vai_um_y=cy[0];coeficientes_carregados=ld[0];selecao=selecao[1:0];
+                    esperado=(cy!=0)&&(ld!=0)&&(selecao==1);#1;
+                    case(C===esperado[0])
+                        1'b1:;default:$fatal(1,"TASK019 isolated cy=%0d ld=%0d selecao=%0d",cy,ld,selecao);
                     endcase
-                    checks=checks+1;
+                    verificacoes=verificacoes+1;
                 end
             end
         end
-        for(scenario=0;scenario<8;scenario=scenario+1) begin
-            case(scenario)
-                0:begin va=0;vb=-1;vc=1;vx=1;end
-                1:begin va=1;vb=-1;vc=0;vx=1;end
-                2:begin va=0;vb=1;vc=1;vx=1;end
-                3:begin va=0;vb=-1;vc=-1;vx=1;end
-                4:begin va=0;vb=0;vc=-128;vx=0;end
-                5:begin va=-128;vb=127;vc=-128;vx=-128;end
-                6:begin va=127;vb=-128;vc=127;vx=-128;end
-                7:begin va=-128;vb=-128;vc=127;vx=127;end
+        for(cenario=0;cenario<8;cenario=cenario+1) begin
+            case(cenario)
+                0:begin valor_a=0;valor_b=-1;valor_c=1;valor_x=1;end
+                1:begin valor_a=1;valor_b=-1;valor_c=0;valor_x=1;end
+                2:begin valor_a=0;valor_b=1;valor_c=1;valor_x=1;end
+                3:begin valor_a=0;valor_b=-1;valor_c=-1;valor_x=1;end
+                4:begin valor_a=0;valor_b=0;valor_c=-128;valor_x=0;end
+                5:begin valor_a=-128;valor_b=127;valor_c=-128;valor_x=-128;end
+                6:begin valor_a=127;valor_b=-128;valor_c=127;valor_x=-128;end
+                7:begin valor_a=-128;valor_b=-128;valor_c=127;valor_x=127;end
             endcase
-            a=va[7:0];b=vb[7:0];c=vc[7:0];x=vx[7:0];
-            partial=va*vx*vx+vb*vx;
-            expected_y=partial+vc;
-            unsigned_partial=partial & 8388607;
-            unsigned_c=vc & 8388607;
-            expected_carry=(unsigned_partial+unsigned_c)>>23;
+            coeficiente_a=valor_a[7:0];coeficiente_b=valor_b[7:0];coeficiente_c=valor_c[7:0];entrada_x=valor_x[7:0];
+            parcial=valor_a*valor_x*valor_x+valor_b*valor_x;
+            resultado_y_esperado=parcial+valor_c;
+            subtotal_sem_sinal=parcial & 8388607;
+            coeficiente_c_sem_sinal=valor_c & 8388607;
+            vai_um_esperado=(subtotal_sem_sinal+coeficiente_c_sem_sinal)>>23;
             for(ld=0;ld<2;ld=ld+1) begin
-                for(selection=0;selection<4;selection=selection+1) begin
-                    loaded=ld[0];sel=selection[1:0];
-                    expected=(expected_carry!=0)&&(ld!=0)&&(selection==1);#1;
-                    case((integrated_C===expected[0])&&(core_carry===expected_carry[0])&&
-                         ($signed(y)===expected_y)&&(OV===1'b0))
-                        1'b1:;default:$fatal(1,"TASK019 integrated scenario=%0d ld=%0d sel=%0d carry=%0d expectedcarry=%0d",scenario,ld,selection,core_carry,expected_carry);
+                for(selecao=0;selecao<4;selecao=selecao+1) begin
+                    coeficientes_carregados=ld[0];selecao=selecao[1:0];
+                    esperado=(vai_um_esperado!=0)&&(ld!=0)&&(selecao==1);#1;
+                    case((integrated_C===esperado[0])&&(vai_um_nucleo===vai_um_esperado[0])&&
+                         ($signed(resultado_y)===resultado_y_esperado)&&(OV===1'b0))
+                        1'b1:;default:$fatal(1,"TASK019 integrated cenario=%0d ld=%0d selecao=%0d vai_um=%0d expectedcarry=%0d",cenario,ld,selecao,vai_um_nucleo,vai_um_esperado);
                     endcase
-                    integrated_checks=integrated_checks+1;
+                    verificacoes_integradas=verificacoes_integradas+1;
                 end
             end
         end
-        case((checks==16)&&(integrated_checks==64))
-            1'b1:;default:$fatal(1,"TASK019 incomplete coverage");
+        case((verificacoes==16)&&(verificacoes_integradas==64))
+            1'b1:;default:$fatal(1,"TASK019 incompleto coverage");
         endcase
-        $display("TEST-009 TASK019 PASS isolated=%0d integrated=%0d failures=0",checks,integrated_checks);
+        $display("TEST-009 TASK019 PASS isolated=%0d integrated=%0d falhas=0",verificacoes,verificacoes_integradas);
         $finish;
     end
 endmodule

@@ -1,10 +1,10 @@
 `timescale 1ns/1ps
 // Binary full adder: five primitive gates, no storage.
-module full_adder(input wire a, b, cin, output wire sum, cout);
-    wire axb, ab, carry_term;
-    xor (axb, a, b);
-    xor (sum, axb, cin);
-    and (ab, a, b);
-    and (carry_term, axb, cin);
-    or (cout, ab, carry_term);
+module somador_completo(input wire a, b, cin, output wire sum, cout);
+    wire a_xor_b, a_and_b, termo_vai_um;
+    xor (a_xor_b, a, b);
+    xor (sum, a_xor_b, cin);
+    and (a_and_b, a, b);
+    and (termo_vai_um, a_xor_b, cin);
+    or (cout, a_and_b, termo_vai_um);
 endmodule

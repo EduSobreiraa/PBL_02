@@ -1,124 +1,97 @@
 `timescale 1ns/1ps
 // Private structural cells for the nine spatial restoring stages.
-module sqrt_full_adder(input wire a,b,cin, output wire sum,cout);
-    wire axb,ab,propagate;
-    xor (axb,a,b);
-    xor (sum,axb,cin);
-    and (ab,a,b);
-    and (propagate,axb,cin);
-    or (cout,ab,propagate);
+module somador_completo_raiz(input wire a,b,cin, output wire sum,cout);
+    wire a_xor_b,a_and_b,propaga_vai_um;
+    xor (a_xor_b,a,b);
+    xor (sum,a_xor_b,cin);
+    and (a_and_b,a,b);
+    and (propaga_vai_um,a_xor_b,cin);
+    or (cout,a_and_b,propaga_vai_um);
 endmodule
 
-module sqrt_stage(input wire [8:0] root_in,
+module etapa_raiz(input wire [7:0] root_prefix,
                   input wire [9:0] remainder_in,
                   input wire [1:0] pair_in,
-                  output wire [8:0] root_out,
+                  output wire take,
                   output wire [9:0] remainder_out);
-    wire [10:0] trial, shifted, inverted_trial, difference;
-    wire [11:0] carry;
-    wire take, keep;
-    wire [9:0] selected_difference, selected_shifted;
-    // Before every stage: root_in <=255 and remainder_in <=510.
-    // Hence remainder_in[9] and root_in[8] are zero in this network.
-    assign shifted = {remainder_in[8:0],pair_in};
-    assign trial = {root_in,2'b01};
-    assign carry[0] = 1'b1;
-    assign take = carry[11];
-    not (keep,take);
-    not (inverted_trial[0],trial[0]);
-    sqrt_full_adder fa0 (.a(shifted[0]),.b(inverted_trial[0]),.cin(carry[0]),.sum(difference[0]),.cout(carry[1]));
-    not (inverted_trial[1],trial[1]);
-    sqrt_full_adder fa1 (.a(shifted[1]),.b(inverted_trial[1]),.cin(carry[1]),.sum(difference[1]),.cout(carry[2]));
-    not (inverted_trial[2],trial[2]);
-    sqrt_full_adder fa2 (.a(shifted[2]),.b(inverted_trial[2]),.cin(carry[2]),.sum(difference[2]),.cout(carry[3]));
-    not (inverted_trial[3],trial[3]);
-    sqrt_full_adder fa3 (.a(shifted[3]),.b(inverted_trial[3]),.cin(carry[3]),.sum(difference[3]),.cout(carry[4]));
-    not (inverted_trial[4],trial[4]);
-    sqrt_full_adder fa4 (.a(shifted[4]),.b(inverted_trial[4]),.cin(carry[4]),.sum(difference[4]),.cout(carry[5]));
-    not (inverted_trial[5],trial[5]);
-    sqrt_full_adder fa5 (.a(shifted[5]),.b(inverted_trial[5]),.cin(carry[5]),.sum(difference[5]),.cout(carry[6]));
-    not (inverted_trial[6],trial[6]);
-    sqrt_full_adder fa6 (.a(shifted[6]),.b(inverted_trial[6]),.cin(carry[6]),.sum(difference[6]),.cout(carry[7]));
-    not (inverted_trial[7],trial[7]);
-    sqrt_full_adder fa7 (.a(shifted[7]),.b(inverted_trial[7]),.cin(carry[7]),.sum(difference[7]),.cout(carry[8]));
-    not (inverted_trial[8],trial[8]);
-    sqrt_full_adder fa8 (.a(shifted[8]),.b(inverted_trial[8]),.cin(carry[8]),.sum(difference[8]),.cout(carry[9]));
-    not (inverted_trial[9],trial[9]);
-    sqrt_full_adder fa9 (.a(shifted[9]),.b(inverted_trial[9]),.cin(carry[9]),.sum(difference[9]),.cout(carry[10]));
-    not (inverted_trial[10],trial[10]);
-    sqrt_full_adder fa10 (.a(shifted[10]),.b(inverted_trial[10]),.cin(carry[10]),.sum(difference[10]),.cout(carry[11]));
-    // No borrow selects subtraction; selected remainder <=722 fits ten bits.
-    // Discarded difference MSB on a rejected subtraction is never observed.
-    and (selected_difference[0],difference[0],take);
-    and (selected_shifted[0],shifted[0],keep);
-    or (remainder_out[0],selected_difference[0],selected_shifted[0]);
-    and (selected_difference[1],difference[1],take);
-    and (selected_shifted[1],shifted[1],keep);
-    or (remainder_out[1],selected_difference[1],selected_shifted[1]);
-    and (selected_difference[2],difference[2],take);
-    and (selected_shifted[2],shifted[2],keep);
-    or (remainder_out[2],selected_difference[2],selected_shifted[2]);
-    and (selected_difference[3],difference[3],take);
-    and (selected_shifted[3],shifted[3],keep);
-    or (remainder_out[3],selected_difference[3],selected_shifted[3]);
-    and (selected_difference[4],difference[4],take);
-    and (selected_shifted[4],shifted[4],keep);
-    or (remainder_out[4],selected_difference[4],selected_shifted[4]);
-    and (selected_difference[5],difference[5],take);
-    and (selected_shifted[5],shifted[5],keep);
-    or (remainder_out[5],selected_difference[5],selected_shifted[5]);
-    and (selected_difference[6],difference[6],take);
-    and (selected_shifted[6],shifted[6],keep);
-    or (remainder_out[6],selected_difference[6],selected_shifted[6]);
-    and (selected_difference[7],difference[7],take);
-    and (selected_shifted[7],shifted[7],keep);
-    or (remainder_out[7],selected_difference[7],selected_shifted[7]);
-    and (selected_difference[8],difference[8],take);
-    and (selected_shifted[8],shifted[8],keep);
-    or (remainder_out[8],selected_difference[8],selected_shifted[8]);
-    and (selected_difference[9],difference[9],take);
-    and (selected_shifted[9],shifted[9],keep);
-    or (remainder_out[9],selected_difference[9],selected_shifted[9]);
-    assign root_out = {root_in[7:0],take};
+    wire [10:0] tentativa_invertida, diferenca;
+    wire [11:0] vai_um;
+    wire manter_original;
+    wire [9:0] diferenca_selecionada, resto_deslocado_selecionado;
+    // The parcial raiz fits root_prefix; the omitted limite_superior prefix bit is zero.
+    not (manter_original,take);
+    somador_completo_raiz somador_bit0 (.a(pair_in[0]),.b(1'b0),.cin(1'b1),.sum(diferenca[0]),.cout(vai_um[1]));
+    somador_completo_raiz somador_bit1 (.a(pair_in[1]),.b(1'b1),.cin(vai_um[1]),.sum(diferenca[1]),.cout(vai_um[2]));
+    not (tentativa_invertida[2],root_prefix[0]);
+    somador_completo_raiz somador_bit2 (.a(remainder_in[0]),.b(tentativa_invertida[2]),.cin(vai_um[2]),.sum(diferenca[2]),.cout(vai_um[3]));
+    not (tentativa_invertida[3],root_prefix[1]);
+    somador_completo_raiz somador_bit3 (.a(remainder_in[1]),.b(tentativa_invertida[3]),.cin(vai_um[3]),.sum(diferenca[3]),.cout(vai_um[4]));
+    not (tentativa_invertida[4],root_prefix[2]);
+    somador_completo_raiz somador_bit4 (.a(remainder_in[2]),.b(tentativa_invertida[4]),.cin(vai_um[4]),.sum(diferenca[4]),.cout(vai_um[5]));
+    not (tentativa_invertida[5],root_prefix[3]);
+    somador_completo_raiz somador_bit5 (.a(remainder_in[3]),.b(tentativa_invertida[5]),.cin(vai_um[5]),.sum(diferenca[5]),.cout(vai_um[6]));
+    not (tentativa_invertida[6],root_prefix[4]);
+    somador_completo_raiz somador_bit6 (.a(remainder_in[4]),.b(tentativa_invertida[6]),.cin(vai_um[6]),.sum(diferenca[6]),.cout(vai_um[7]));
+    not (tentativa_invertida[7],root_prefix[5]);
+    somador_completo_raiz somador_bit7 (.a(remainder_in[5]),.b(tentativa_invertida[7]),.cin(vai_um[7]),.sum(diferenca[7]),.cout(vai_um[8]));
+    not (tentativa_invertida[8],root_prefix[6]);
+    somador_completo_raiz somador_bit8 (.a(remainder_in[6]),.b(tentativa_invertida[8]),.cin(vai_um[8]),.sum(diferenca[8]),.cout(vai_um[9]));
+    not (tentativa_invertida[9],root_prefix[7]);
+    somador_completo_raiz somador_bit9 (.a(remainder_in[7]),.b(tentativa_invertida[9]),.cin(vai_um[9]),.sum(diferenca[9]),.cout(vai_um[10]));
+    somador_completo_raiz somador_bit10 (.a(remainder_in[8]),.b(1'b1),.cin(vai_um[10]),.sum(diferenca[10]),.cout(take));
+    // No borrow selects subtraction; selecionado resto <=722 fits ten bits.
+    // Discarded diferenca MSB on coeficiente_a rejected subtraction is never observed.
+    and (diferenca_selecionada[0],diferenca[0],take);
+    and (resto_deslocado_selecionado[0],pair_in[0],manter_original);
+    or (remainder_out[0],diferenca_selecionada[0],resto_deslocado_selecionado[0]);
+    and (diferenca_selecionada[1],diferenca[1],take);
+    and (resto_deslocado_selecionado[1],pair_in[1],manter_original);
+    or (remainder_out[1],diferenca_selecionada[1],resto_deslocado_selecionado[1]);
+    and (diferenca_selecionada[2],diferenca[2],take);
+    and (resto_deslocado_selecionado[2],remainder_in[0],manter_original);
+    or (remainder_out[2],diferenca_selecionada[2],resto_deslocado_selecionado[2]);
+    and (diferenca_selecionada[3],diferenca[3],take);
+    and (resto_deslocado_selecionado[3],remainder_in[1],manter_original);
+    or (remainder_out[3],diferenca_selecionada[3],resto_deslocado_selecionado[3]);
+    and (diferenca_selecionada[4],diferenca[4],take);
+    and (resto_deslocado_selecionado[4],remainder_in[2],manter_original);
+    or (remainder_out[4],diferenca_selecionada[4],resto_deslocado_selecionado[4]);
+    and (diferenca_selecionada[5],diferenca[5],take);
+    and (resto_deslocado_selecionado[5],remainder_in[3],manter_original);
+    or (remainder_out[5],diferenca_selecionada[5],resto_deslocado_selecionado[5]);
+    and (diferenca_selecionada[6],diferenca[6],take);
+    and (resto_deslocado_selecionado[6],remainder_in[4],manter_original);
+    or (remainder_out[6],diferenca_selecionada[6],resto_deslocado_selecionado[6]);
+    and (diferenca_selecionada[7],diferenca[7],take);
+    and (resto_deslocado_selecionado[7],remainder_in[5],manter_original);
+    or (remainder_out[7],diferenca_selecionada[7],resto_deslocado_selecionado[7]);
+    and (diferenca_selecionada[8],diferenca[8],take);
+    and (resto_deslocado_selecionado[8],remainder_in[6],manter_original);
+    or (remainder_out[8],diferenca_selecionada[8],resto_deslocado_selecionado[8]);
+    and (diferenca_selecionada[9],diferenca[9],take);
+    and (resto_deslocado_selecionado[9],remainder_in[7],manter_original);
+    or (remainder_out[9],diferenca_selecionada[9],resto_deslocado_selecionado[9]);
 endmodule
 
-// Total unsigned17 contract: radicand = root squared + remainder.
-module sqrt_u17(input wire [16:0] radicand,
+// Total unsigned17 contract: radicando = raiz squared + resto.
+module raiz_quadrada_17(input wire [16:0] radicand,
                 output wire [8:0] root,
                 output wire [9:0] remainder);
-    wire [17:0] paired;
-    assign paired = {1'b0,radicand};
-    wire [8:0] root0;
-    wire [9:0] remainder0;
-    wire [8:0] root1;
-    wire [9:0] remainder1;
-    wire [8:0] root2;
-    wire [9:0] remainder2;
-    wire [8:0] root3;
-    wire [9:0] remainder3;
-    wire [8:0] root4;
-    wire [9:0] remainder4;
-    wire [8:0] root5;
-    wire [9:0] remainder5;
-    wire [8:0] root6;
-    wire [9:0] remainder6;
-    wire [8:0] root7;
-    wire [9:0] remainder7;
-    wire [8:0] root8;
-    wire [9:0] remainder8;
-    wire [8:0] root9;
-    wire [9:0] remainder9;
-    assign root0 = 9'b0;
-    assign remainder0 = 10'b0;
-    sqrt_stage stage0 (.root_in(root0),.remainder_in(remainder0),.pair_in(paired[17:16]),.root_out(root1),.remainder_out(remainder1));
-    sqrt_stage stage1 (.root_in(root1),.remainder_in(remainder1),.pair_in(paired[15:14]),.root_out(root2),.remainder_out(remainder2));
-    sqrt_stage stage2 (.root_in(root2),.remainder_in(remainder2),.pair_in(paired[13:12]),.root_out(root3),.remainder_out(remainder3));
-    sqrt_stage stage3 (.root_in(root3),.remainder_in(remainder3),.pair_in(paired[11:10]),.root_out(root4),.remainder_out(remainder4));
-    sqrt_stage stage4 (.root_in(root4),.remainder_in(remainder4),.pair_in(paired[9:8]),.root_out(root5),.remainder_out(remainder5));
-    sqrt_stage stage5 (.root_in(root5),.remainder_in(remainder5),.pair_in(paired[7:6]),.root_out(root6),.remainder_out(remainder6));
-    sqrt_stage stage6 (.root_in(root6),.remainder_in(remainder6),.pair_in(paired[5:4]),.root_out(root7),.remainder_out(remainder7));
-    sqrt_stage stage7 (.root_in(root7),.remainder_in(remainder7),.pair_in(paired[3:2]),.root_out(root8),.remainder_out(remainder8));
-    sqrt_stage stage8 (.root_in(root8),.remainder_in(remainder8),.pair_in(paired[1:0]),.root_out(root9),.remainder_out(remainder9));
-    assign root = root9;
-    assign remainder = remainder9;
+    wire [9:0] resto_etapa_1;
+    wire [9:0] resto_etapa_2;
+    wire [9:0] resto_etapa_3;
+    wire [9:0] resto_etapa_4;
+    wire [9:0] resto_etapa_5;
+    wire [9:0] resto_etapa_6;
+    wire [9:0] resto_etapa_7;
+    wire [9:0] resto_etapa_8;
+    etapa_raiz stage0 (.root_prefix(8'b0),.remainder_in(10'b0),.pair_in({1'b0,radicand[16]}),.take(root[8]),.remainder_out(resto_etapa_1));
+    etapa_raiz stage1 (.root_prefix({7'b0,root[8]}),.remainder_in(resto_etapa_1),.pair_in(radicand[15:14]),.take(root[7]),.remainder_out(resto_etapa_2));
+    etapa_raiz stage2 (.root_prefix({6'b0,root[8:7]}),.remainder_in(resto_etapa_2),.pair_in(radicand[13:12]),.take(root[6]),.remainder_out(resto_etapa_3));
+    etapa_raiz stage3 (.root_prefix({5'b0,root[8:6]}),.remainder_in(resto_etapa_3),.pair_in(radicand[11:10]),.take(root[5]),.remainder_out(resto_etapa_4));
+    etapa_raiz stage4 (.root_prefix({4'b0,root[8:5]}),.remainder_in(resto_etapa_4),.pair_in(radicand[9:8]),.take(root[4]),.remainder_out(resto_etapa_5));
+    etapa_raiz stage5 (.root_prefix({3'b0,root[8:4]}),.remainder_in(resto_etapa_5),.pair_in(radicand[7:6]),.take(root[3]),.remainder_out(resto_etapa_6));
+    etapa_raiz stage6 (.root_prefix({2'b0,root[8:3]}),.remainder_in(resto_etapa_6),.pair_in(radicand[5:4]),.take(root[2]),.remainder_out(resto_etapa_7));
+    etapa_raiz stage7 (.root_prefix({1'b0,root[8:2]}),.remainder_in(resto_etapa_7),.pair_in(radicand[3:2]),.take(root[1]),.remainder_out(resto_etapa_8));
+    etapa_raiz stage8 (.root_prefix(root[8:1]),.remainder_in(resto_etapa_8),.pair_in(radicand[1:0]),.take(root[0]),.remainder_out(remainder));
 endmodule

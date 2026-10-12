@@ -1,72 +1,72 @@
 `timescale 1ns/1ps
 module tb_quadratic_roots;
-    reg signed [7:0] a,b,c;
+    reg signed [7:0] coeficiente_a,coeficiente_b,coeficiente_c;
     wire signed [17:0] delta;
-    wire signed [8:0] x1,x2;
-    wire domain_error;
-    integer count,valid_count,invalid_count,seed,n,random_value;
-    quadratic_roots dut(.a(a),.b(b),.c(c),.delta(delta),.x1(x1),.x2(x2),.domain_error(domain_error));
+    wire signed [8:0] raiz_x1,raiz_x2;
+    wire erro_dominio;
+    integer contagem,contagem_validos,contagem_invalidos,semente,n,valor_aleatorio;
+    raizes_quadraticas dut(.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.delta(delta),.x1(raiz_x1),.x2(raiz_x2),.domain_error(erro_dominio));
     // Independent oracle: exact integer comparisons with half-integer boundaries.
-    // Does not compute S, E, Q, remainder, or the DUT rounding expression.
-    function integer reference_round;
-        input integer va,vb,disc,branch;
-        integer low,high,k,h,threshold,square,cmp,relation,asign,done;
+    // Does not compute S, E, Q, resto, or the DUT arredondamento expression.
+    function integer arredondamento_referencia;
+        input integer valor_a,valor_b,discriminante,ramo;
+        integer limite_inferior,limite_superior,k,h,limite,quadrado,cmp,relacao,asign,concluido;
         begin
-            low=-129; high=129; done=0;
-            case (va>0) 1: asign=1; default: asign=-1; endcase
-            while ((low<high) && (done==0)) begin
-                k=low+(high-low)/2;
-                h=vb+va*(2*k+1);
-                threshold=branch*h;
-                case (threshold<0)
+            limite_inferior=-129; limite_superior=129; concluido=0;
+            case (valor_a>0) 1: asign=1; default: asign=-1; endcase
+            while ((limite_inferior<limite_superior) && (concluido==0)) begin
+                k=limite_inferior+(limite_superior-limite_inferior)/2;
+                h=valor_b+valor_a*(2*k+1);
+                limite=ramo*h;
+                case (limite<0)
                     1: cmp=1;
                     default: begin
-                        square=threshold*threshold;
-                        cmp=(disc>square)-(disc<square);
+                        quadrado=limite*limite;
+                        cmp=(discriminante>quadrado)-(discriminante<quadrado);
                     end
                 endcase
-                relation=asign*branch*cmp;
-                case (relation)
+                relacao=asign*ramo*cmp;
+                case (relacao)
                     0: begin
-                        case (k>=0) 1: reference_round=k+1; default: reference_round=k; endcase
-                        done=1;
+                        case (k>=0) 1: arredondamento_referencia=k+1; default: arredondamento_referencia=k; endcase
+                        concluido=1;
                     end
-                    -1: high=k;
-                    1: low=k+1;
-                    default: $fatal(1,"Invalid oracle relation");
+                    -1: limite_superior=k;
+                    1: limite_inferior=k+1;
+                    default: $fatal(1,"Invalid oracle relacao");
                 endcase
             end
-            case (done) 0: reference_round=low; default: ; endcase
+            case (concluido) 0: arredondamento_referencia=limite_inferior; default: ; endcase
         end
     endfunction
     task check;
-        input integer va,vb,vc;
+        input integer valor_a,valor_b,valor_c;
         integer ed,ex1,ex2;
-        reg invalid;
+        reg invalido;
         begin
-            ed=vb*vb-4*va*vc;
-            invalid=(va==0)||(ed<0);
-            case (invalid)
-                1: begin ex1=0; ex2=0; invalid_count=invalid_count+1; end
+            ed=valor_b*valor_b-4*valor_a*valor_c;
+            invalido=(valor_a==0)||(ed<0);
+            case (invalido)
+                1: begin ex1=0; ex2=0; contagem_invalidos=contagem_invalidos+1; end
                 0: begin
-                    ex1=reference_round(va,vb,ed,1);
-                    ex2=reference_round(va,vb,ed,-1);
-                    valid_count=valid_count+1;
+                    ex1=arredondamento_referencia(valor_a,valor_b,ed,1);
+                    ex2=arredondamento_referencia(valor_a,valor_b,ed,-1);
+                    contagem_validos=contagem_validos+1;
                 end
             endcase
-            a=va[7:0]; b=vb[7:0]; c=vc[7:0];
+            coeficiente_a=valor_a[7:0]; coeficiente_b=valor_b[7:0]; coeficiente_c=valor_c[7:0];
             #1;
-            case (($signed(delta)===ed) && ($signed(x1)===ex1) && ($signed(x2)===ex2) && (domain_error===invalid))
+            case (($signed(delta)===ed) && ($signed(raiz_x1)===ex1) && ($signed(raiz_x2)===ex2) && (erro_dominio===invalido))
                 1: ;
-                default: $fatal(1,"roots a=%0d b=%0d c=%0d delta=%0d x1=%0d x2=%0d err=%b expected=%0d,%0d,%0d,%b",va,vb,vc,delta,x1,x2,domain_error,ed,ex1,ex2,invalid);
+                default: $fatal(1,"raizes coeficiente_a=%0d coeficiente_b=%0d coeficiente_c=%0d delta=%0d raiz_x1=%0d raiz_x2=%0d erro=%b esperado=%0d,%0d,%0d,%b",valor_a,valor_b,valor_c,delta,raiz_x1,raiz_x2,erro_dominio,ed,ex1,ex2,invalido);
             endcase
-            count=count+1;
+            contagem=contagem+1;
         end
     endtask
-    integer ra,rb,rc;
+    integer aleatorio_a,aleatorio_b,aleatorio_c;
     initial begin
-        count=0; valid_count=0; invalid_count=0; seed=20261011;
-        // TASK-005: a_zero
+        contagem=0; contagem_validos=0; contagem_invalidos=0; semente=20261011;
+        // TASK-005: coeficiente_a_zero
         check(0,-128,127);
         // TASK-005: negative_discriminant
         check(1,0,1);
@@ -127,16 +127,16 @@ module tb_quadratic_roots;
         // TASK-005: branch_plus_r0_irrational_nonpositive_correction_even_quotient
         check(-63,126,1);
         for (n=0;n<10000;n=n+1) begin
-            random_value=$random(seed); ra=$signed(random_value[7:0]);
-            random_value=$random(seed); rb=$signed(random_value[7:0]);
-            random_value=$random(seed); rc=$signed(random_value[7:0]);
-            check(ra,rb,rc);
+            valor_aleatorio=$random(semente); aleatorio_a=$signed(valor_aleatorio[7:0]);
+            valor_aleatorio=$random(semente); aleatorio_b=$signed(valor_aleatorio[7:0]);
+            valor_aleatorio=$random(semente); aleatorio_c=$signed(valor_aleatorio[7:0]);
+            check(aleatorio_a,aleatorio_b,aleatorio_c);
         end
-        case ((count==10030) && (valid_count+invalid_count==10030))
+        case ((contagem==10030) && (contagem_validos+contagem_invalidos==10030))
             1: ;
-            default: $fatal(1,"Incomplete roots test");
+            default: $fatal(1,"Incomplete raizes test");
         endcase
-        $display("TEST-007 PASS directed=30 random=10000 seed=20261011 total=%0d valid=%0d invalid=%0d delta_roots_error=PASS",count,valid_count,invalid_count);
+        $display("TEST-007 PASS dirigidos=30 aleatorio=10000 semente=20261011 total=%0d valido=%0d invalido=%0d delta_roots_error=PASS",contagem,contagem_validos,contagem_invalidos);
         $finish;
     end
 endmodule
