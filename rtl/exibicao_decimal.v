@@ -138,10 +138,10 @@ module conversor_binario_bcd(input wire [22:0] magnitude,output wire [26:0] corr
     wire [26:0] bcd_etapa_20;
     wire [26:0] bcd_etapa_21;
     wire [26:0] bcd_etapa_22;
-    etapa_conversao_bcd selecao_00(.previous(28'b0),.corrected(bcd_etapa_1));
-    etapa_conversao_bcd selecao_01(.previous({bcd_etapa_1,magnitude[22]}),.corrected(bcd_etapa_2));
-    etapa_conversao_bcd selecao_10(.previous({bcd_etapa_2,magnitude[21]}),.corrected(bcd_etapa_3));
-    etapa_conversao_bcd selecao_11(.previous({bcd_etapa_3,magnitude[20]}),.corrected(bcd_etapa_4));
+    etapa_conversao_bcd selecao_inicial_0(.previous(28'b0),.corrected(bcd_etapa_1));
+    etapa_conversao_bcd selecao_inicial_1(.previous({bcd_etapa_1,magnitude[22]}),.corrected(bcd_etapa_2));
+    etapa_conversao_bcd selecao_inicial_2(.previous({bcd_etapa_2,magnitude[21]}),.corrected(bcd_etapa_3));
+    etapa_conversao_bcd selecao_inicial_3(.previous({bcd_etapa_3,magnitude[20]}),.corrected(bcd_etapa_4));
     etapa_conversao_bcd selecao_4(.previous({bcd_etapa_4,magnitude[19]}),.corrected(bcd_etapa_5));
     etapa_conversao_bcd selecao_5(.previous({bcd_etapa_5,magnitude[18]}),.corrected(bcd_etapa_6));
     etapa_conversao_bcd selecao_6(.previous({bcd_etapa_6,magnitude[17]}),.corrected(bcd_etapa_7));
