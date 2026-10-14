@@ -102,25 +102,38 @@ module tb_top_module;
                 mascarado=((selecao!=0)&&(progresso!=3))||((selecao>=2)&&erro);
                 fora_da_faixa=mascarado||(selecionado>999999)||(selecionado< -99999);
                 hex_esperado={6{7'b1111111}};
-                case(fora_da_faixa)
-                    1: hex_esperado={6{7'b0111111}};
+                hex_esperado={6{7'b1111111}};
+                case(progresso==3)
+                    1: begin
+                        case(fora_da_faixa)
+                            1: hex_esperado={6{7'b0111111}};
+                            default: begin
+                                case(selecionado<0) 1:modulo_sinalizado=-selecionado; default:modulo_sinalizado=selecionado; endcase
+                                restante=modulo_sinalizado;
+                                for(posicao=0;posicao<6;posicao=posicao+1) begin
+                                    valor_digito=restante%10;
+                                    case((posicao==0)||(restante!=0))
+                                        1:hex_esperado[posicao*7+:7]=codificar(valor_digito);
+                                        default:;
+                                    endcase
+                                    restante=restante/10;
+                                end
+                                case(selecionado<0) 1:hex_esperado[35+:7]=7'b0111111; default:; endcase
+                            end
+                        endcase
+                    end
                     default: begin
-                        case(selecionado<0) 1:modulo_sinalizado=-selecionado; default:modulo_sinalizado=selecionado; endcase
-                        restante=modulo_sinalizado;
-                        for(posicao=0;posicao<6;posicao=posicao+1) begin
-                            valor_digito=restante%10;
-                            case((posicao==0)||(restante!=0))
-                                1:hex_esperado[posicao*7+:7]=codificar(valor_digito);
-                                default:;
-                            endcase
-                            restante=restante/10;
-                        end
-                        case(selecionado<0) 1:hex_esperado[35+:7]=7'b0111111; default:; endcase
+                        case(progresso)
+                            0:hex_esperado[6:0]=7'b0001000;
+                            1:hex_esperado[6:0]=7'b0000011;
+                            2:hex_esperado[6:0]=7'b1000110;
+                            default:hex_esperado[6:0]=7'b1111111;
+                        endcase
                     end
                 endcase
                 case((LEDR===leds_esperados)&&({HEX5,HEX4,HEX3,HEX2,HEX1,HEX0}===hex_esperado))
                     1:;
-                    default:$fatal(1,"top check=%0d coeficiente_a=%0d coeficiente_b=%0d coeficiente_c=%0d progresso=%0d entrada_x=%0d selecao=%0d LEDs=%b esperado=%b HEX=%h esperado=%h",verificacoes,ma,mb,mc,progresso,valor_x,selecao,LEDR,leds_esperados,{HEX5,HEX4,HEX3,HEX2,HEX1,HEX0},hex_esperado);
+                    default:$fatal(1,"top check=%0d coeficiente_a=%0d coeficiente_b=%0d coeficiente_c=%0d progresso=%0d entrada_x=%0d selecao=%0d LEDs=%b esperado=%b HEX0=%b HEX1=%b HEX2=%b HEX3=%b HEX4=%b HEX5=%b esperado=%h",verificacoes,ma,mb,mc,progresso,valor_x,selecao,LEDR,leds_esperados,HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,hex_esperado);
                 endcase
                 verificacoes=verificacoes+1;
             end

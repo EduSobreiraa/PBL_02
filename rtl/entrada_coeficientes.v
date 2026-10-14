@@ -10,10 +10,11 @@ module entrada_coeficientes (
     output wire signed [7:0] c
 );
     wire coeficientes_carregados_nao_utilizado;
+    wire [1:0] progresso_nao_utilizado;
 
     entrada_coeficientes_nucleo nucleo (
         .clk(clk), .key0_n(key0_n), .key1_n(key1_n), .sw(sw),
-        .a(a), .b(b), .c(c), .loaded(coeficientes_carregados_nao_utilizado)
+        .a(a), .b(b), .c(c), .loaded(coeficientes_carregados_nao_utilizado), .progresso(progresso_nao_utilizado)
     );
 endmodule
 
@@ -26,7 +27,8 @@ module entrada_coeficientes_nucleo (
     output wire signed [7:0] a,
     output wire signed [7:0] b,
     output wire signed [7:0] c,
-    output wire loaded
+    output wire loaded,
+    output wire [1:0] progresso
 );
     wire botao1_meta;
     wire botao1_sincronizado;
@@ -40,8 +42,6 @@ module entrada_coeficientes_nucleo (
     wire evento_captura;
     wire progresso_bit0_proximo;
     wire progresso_bit1_proximo;
-    wire progresso_bit0;
-    wire progresso_bit1;
     wire nao_progresso_bit0;
     wire nao_progresso_bit1;
     wire seleciona_a;
@@ -78,30 +78,30 @@ module entrada_coeficientes_nucleo (
     not invert_key0_sync (botao0_liberado_sincronizado, botao0_sincronizado);
     and detected_key0_press (evento_pressao_botao0, botao0_anterior, botao0_liberado_sincronizado);
     not invert_progress_done (nao_concluido, loaded);
-    and decode_progress_done (loaded, progresso_bit0, progresso_bit1);
+    and decode_progress_done (loaded, progresso[0], progresso[1]);
     and allowed_capture (evento_captura, evento_pressao_botao0, nao_concluido, botao1_sincronizado);
 
-    not invert_progress_0 (nao_progresso_bit0, progresso_bit0);
-    not invert_progress_1 (nao_progresso_bit1, progresso_bit1);
+    not invert_progress_0 (nao_progresso_bit0, progresso[0]);
+    not invert_progress_1 (nao_progresso_bit1, progresso[1]);
     and decode_a (seleciona_a, nao_progresso_bit1, nao_progresso_bit0);
-    and decode_b (seleciona_b, nao_progresso_bit1, progresso_bit0);
-    and decode_c (seleciona_c, progresso_bit1, nao_progresso_bit0);
+    and decode_b (seleciona_b, nao_progresso_bit1, progresso[0]);
+    and decode_c (seleciona_c, progresso[1], nao_progresso_bit0);
 
     and write_a (habilita_a, evento_captura, seleciona_a);
     and write_b (habilita_b, evento_captura, seleciona_b);
     and write_c (habilita_c, evento_captura, seleciona_c);
 
-    not progress_bit_0_toggle (progresso_bit0_proximo, progresso_bit0);
-    xor progress_bit_1_toggle (progresso_bit1_proximo, progresso_bit1, progresso_bit0);
+    not progress_bit_0_toggle (progresso_bit0_proximo, progresso[0]);
+    xor progress_bit_1_toggle (progresso_bit1_proximo, progresso[1], progresso[0]);
 
     flipflop_reset_sincrono progress_counter_bit_0 (
         .clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(evento_captura),
-        .d(progresso_bit0_proximo), .q(progresso_bit0)
+        .d(progresso_bit0_proximo), .q(progresso[0])
     );
 
     flipflop_reset_sincrono progress_counter_bit_1 (
         .clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(evento_captura),
-        .d(progresso_bit1_proximo), .q(progresso_bit1)
+        .d(progresso_bit1_proximo), .q(progresso[1])
     );
 
     flipflop_reset_sincrono coefficient_a_bit_0 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[0]), .q(a[0]));

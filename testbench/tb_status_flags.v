@@ -9,12 +9,13 @@ module tb_status_flags;
     reg [1:0] selecao;
     wire signed [7:0] stored_a,stored_b,stored_c;
     wire stored_loaded,integrated_ov,integrated_err,erro_dominio;
+    wire [1:0] progresso_captura;
     wire signed [17:0] stored_delta;
     wire signed [8:0] raiz_x1,raiz_x2;
     wire signed [22:0] valor_selecionado;
     integer l,av,dv,esperado,indice,verificacoes,verificacoes_integradas;
     sinaliza_overflow_erro dut(.loaded(coeficientes_carregados),.a(coeficiente_a),.delta(delta),.OV(OV),.ERR(ERR));
-    entrada_coeficientes_nucleo capture(.clk(clock_sistema),.key0_n(botao0_n),.key1_n(botao1_n),.sw(chaves),.a(stored_a),.b(stored_b),.c(stored_c),.loaded(stored_loaded));
+    entrada_coeficientes_nucleo capture(.clk(clock_sistema),.key0_n(botao0_n),.key1_n(botao1_n),.sw(chaves),.a(stored_a),.b(stored_b),.c(stored_c),.loaded(stored_loaded),.progresso(progresso_captura));
     raizes_quadraticas raizes(.a(stored_a),.b(stored_b),.c(stored_c),.delta(stored_delta),.x1(raiz_x1),.x2(raiz_x2),.domain_error(erro_dominio));
     sinaliza_overflow_erro integrated(.loaded(stored_loaded),.a(stored_a),.delta(stored_delta),.OV(integrated_ov),.ERR(integrated_err));
     seletor_resultado selector(.x(chaves),.y(23'sd0),.x1(raiz_x1),.x2(raiz_x2),.sel(selecao),.value(valor_selecionado));
@@ -106,11 +107,11 @@ module tb_flag_z;
     reg [1:0] selecao;
     reg ERR;
     wire Z;
-    integer selecao,valor_erro,indice,numero,esperado,casos_verificados;
+    integer indice_selecao,valor_erro,indice,numero,esperado,casos_verificados;
     sinaliza_zero dut(.value(valor),.sel(selecao),.ERR(ERR),.Z(Z));
     initial begin
         casos_verificados=0;
-        for(selecao=0;selecao<4;selecao=selecao+1) begin
+        for(indice_selecao=0;indice_selecao<4;indice_selecao=indice_selecao+1) begin
             for(valor_erro=0;valor_erro<2;valor_erro=valor_erro+1) begin
                 for(indice=0;indice<30;indice=indice+1) begin
                     case(indice)
@@ -123,7 +124,7 @@ module tb_flag_z;
                         6:numero=-100000;
                         default:numero=1 << (indice-7);
                     endcase
-                    valor=numero[22:0];selecao=selecao[1:0];ERR=valor_erro[0];
+                    valor=numero[22:0];selecao=indice_selecao[1:0];ERR=valor_erro[0];
                     esperado=(numero==0)&&!((selecao>=2)&&(valor_erro!=0));
                     #1;
                     case(Z===esperado[0])
@@ -150,7 +151,7 @@ module tb_flag_c;
     reg signed [7:0] coeficiente_a,coeficiente_b,coeficiente_c,entrada_x;
     wire signed [22:0] resultado_y;
     wire OV,vai_um_nucleo,integrated_C;
-    integer cy,ld,selecao,cenario,verificacoes,verificacoes_integradas,esperado;
+    integer cy,ld,indice_selecao,cenario,verificacoes,verificacoes_integradas,esperado;
     integer valor_a,valor_b,valor_c,valor_x,parcial,resultado_y_esperado,subtotal_sem_sinal,coeficiente_c_sem_sinal,vai_um_esperado;
     sinaliza_carry dut(.carry_y(vai_um_y),.loaded(coeficientes_carregados),.sel(selecao),.C(C));
     polinomio_y_nucleo nucleo(.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.x(entrada_x),.y(resultado_y),.OV(OV),.carry_y(vai_um_nucleo));
@@ -159,8 +160,8 @@ module tb_flag_c;
         coeficiente_a=0;coeficiente_b=0;coeficiente_c=0;entrada_x=0;verificacoes=0;verificacoes_integradas=0;
         for(cy=0;cy<2;cy=cy+1) begin
             for(ld=0;ld<2;ld=ld+1) begin
-                for(selecao=0;selecao<4;selecao=selecao+1) begin
-                    vai_um_y=cy[0];coeficientes_carregados=ld[0];selecao=selecao[1:0];
+                for(indice_selecao=0;indice_selecao<4;indice_selecao=indice_selecao+1) begin
+                    vai_um_y=cy[0];coeficientes_carregados=ld[0];selecao=indice_selecao[1:0];
                     esperado=(cy!=0)&&(ld!=0)&&(selecao==1);#1;
                     case(C===esperado[0])
                         1'b1:;default:$fatal(1,"TASK019 isolated cy=%0d ld=%0d selecao=%0d",cy,ld,selecao);

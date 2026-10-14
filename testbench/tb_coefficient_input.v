@@ -13,11 +13,12 @@ module tb_coefficient_input;
     wire signed [7:0] coeficiente_b_nucleo;
     wire signed [7:0] coeficiente_c_nucleo;
     wire coeficientes_carregados;
+    wire [1:0] progresso;
     integer verificacoes = 0;
 
     entrada_coeficientes_nucleo dut_nucleo (
         .clk(clock_sistema), .key0_n(botao0_n), .key1_n(botao1_n), .sw(chaves),
-        .a(coeficiente_a_nucleo), .b(coeficiente_b_nucleo), .c(coeficiente_c_nucleo), .loaded(coeficientes_carregados)
+        .a(coeficiente_a_nucleo), .b(coeficiente_b_nucleo), .c(coeficiente_c_nucleo), .loaded(coeficientes_carregados), .progresso(progresso)
     );
 
     entrada_coeficientes dut (
@@ -50,13 +51,14 @@ module tb_coefficient_input;
         input [7:0] b_esperado;
         input [7:0] c_esperado;
         input carregado_esperado;
+        input [1:0] progresso_esperado;
         input [511:0] label;
         begin
             verificacoes = verificacoes + 1;
             case ({(coeficiente_a !== a_esperado), (coeficiente_b !== b_esperado), (coeficiente_c !== c_esperado),
                    (coeficiente_a_nucleo !== coeficiente_a), (coeficiente_b_nucleo !== coeficiente_b), (coeficiente_c_nucleo !== coeficiente_c),
-                   (coeficientes_carregados !== carregado_esperado)})
-                7'b0000000: begin
+                   (coeficientes_carregados !== carregado_esperado), (progresso !== progresso_esperado)})
+                8'b00000000: begin
                 end
                 default: begin
                     $display("FAIL %0s: coeficiente_a=%h coeficiente_b=%h coeficiente_c=%h esperado=%h %h %h",
@@ -100,57 +102,57 @@ module tb_coefficient_input;
         botao1_n = 1'b0;
         chaves = 8'h55;
         wait_clocks(8);
-        check_values(8'h00, 8'h00, 8'h00, 1'b0, "rearme suppresses simultaneous capture");
+        check_values(8'h00, 8'h00, 8'h00, 1'b0, 2'b00, "rearme suppresses simultaneous capture");
 
         @(negedge clock_sistema);
         botao0_n = 1'b1;
         botao1_n = 1'b1;
         wait_clocks(8);
-        check_values(8'h00, 8'h00, 8'h00, 1'b0, "release after rearme has no spurious capture");
+        check_values(8'h00, 8'h00, 8'h00, 1'b0, 2'b00, "release after rearme has no spurious capture");
 
         press_key0(8'h80, 8);
-        check_values(8'h80, 8'h00, 8'h00, 1'b0, "long first press captures once, not coeficientes_carregados");
+        check_values(8'h80, 8'h00, 8'h00, 1'b0, 2'b01, "long first press captures once, not coeficientes_carregados");
         press_key0(8'h01, 5);
-        check_values(8'h80, 8'h01, 8'h00, 1'b0, "second capture, not coeficientes_carregados");
+        check_values(8'h80, 8'h01, 8'h00, 1'b0, 2'b10, "second capture, not coeficientes_carregados");
         press_key0(8'h7F, 5);
-        check_values(8'h80, 8'h01, 8'h7F, 1'b1, "three ordered captures");
+        check_values(8'h80, 8'h01, 8'h7F, 1'b1, 2'b11, "three ordered captures");
 
         @(negedge clock_sistema);
         chaves = 8'h44;
         wait_clocks(5);
-        check_values(8'h80, 8'h01, 8'h7F, 1'b1, "switch changes without capture");
+        check_values(8'h80, 8'h01, 8'h7F, 1'b1, 2'b11, "switch changes without capture");
 
         press_key0(8'h2A, 8);
-        check_values(8'h80, 8'h01, 8'h7F, 1'b1, "long press and fourth capture ignored");
+        check_values(8'h80, 8'h01, 8'h7F, 1'b1, 2'b11, "long press and fourth capture ignored");
         press_key0(8'hD6, 5);
-        check_values(8'h80, 8'h01, 8'h7F, 1'b1, "later captures ignored until rearme");
+        check_values(8'h80, 8'h01, 8'h7F, 1'b1, 2'b11, "later captures ignored until rearme");
 
         press_key1(6);
-        check_values(8'h00, 8'h00, 8'h00, 1'b0, "rearme after completed load");
+        check_values(8'h00, 8'h00, 8'h00, 1'b0, 2'b00, "rearme after completed load");
 
         press_key0(8'h11, 5);
-        check_values(8'h11, 8'h00, 8'h00, 1'b0, "parcial load before rearme");
+        check_values(8'h11, 8'h00, 8'h00, 1'b0, 2'b01, "parcial load before rearme");
         press_key1(6);
-        check_values(8'h00, 8'h00, 8'h00, 1'b0, "rearme clears parcial progresso");
+        check_values(8'h00, 8'h00, 8'h00, 1'b0, 2'b00, "rearme clears parcial progresso");
 
         press_key0(8'h12, 5);
         press_key0(8'h34, 5);
         press_key0(8'h56, 5);
-        check_values(8'h12, 8'h34, 8'h56, 1'b1, "new ordered load after rearme");
+        check_values(8'h12, 8'h34, 8'h56, 1'b1, 2'b11, "new ordered load after rearme");
 
         @(negedge clock_sistema);
         botao0_n = 1'b0;
         botao1_n = 1'b0;
         chaves = 8'hAA;
         wait_clocks(8);
-        check_values(8'h00, 8'h00, 8'h00, 1'b0, "rearme has priority during key0 press");
+        check_values(8'h00, 8'h00, 8'h00, 1'b0, 2'b00, "rearme has priority during key0 press");
         @(negedge clock_sistema);
         botao0_n = 1'b1;
         botao1_n = 1'b1;
         wait_clocks(8);
-        check_values(8'h00, 8'h00, 8'h00, 1'b0, "simultaneous release has no capture");
+        check_values(8'h00, 8'h00, 8'h00, 1'b0, 2'b00, "simultaneous release has no capture");
         press_key0(8'hFF, 8);
-        check_values(8'hFF, 8'h00, 8'h00, 1'b0, "capture resumes after priority rearme");
+        check_values(8'hFF, 8'h00, 8'h00, 1'b0, 2'b01, "capture resumes after priority rearme");
 
         $display("PASS TEST-001 entrada_coeficientes wrapper/nucleo coeficientes_carregados verificacoes=%0d", verificacoes);
         $finish;

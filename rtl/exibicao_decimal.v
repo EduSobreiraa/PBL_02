@@ -148,8 +148,8 @@ module conversor_binario_bcd(input wire [22:0] magnitude,output wire [26:0] corr
     etapa_conversao_bcd selecao_7(.previous({bcd_etapa_7,magnitude[16]}),.corrected(bcd_etapa_8));
     etapa_conversao_bcd selecao_8(.previous({bcd_etapa_8,magnitude[15]}),.corrected(bcd_etapa_9));
     etapa_conversao_bcd selecao_9(.previous({bcd_etapa_9,magnitude[14]}),.corrected(bcd_etapa_10));
-    etapa_conversao_bcd selecao_10(.previous({bcd_etapa_10,magnitude[13]}),.corrected(bcd_etapa_11));
-    etapa_conversao_bcd selecao_11(.previous({bcd_etapa_11,magnitude[12]}),.corrected(bcd_etapa_12));
+    etapa_conversao_bcd selecao_10b(.previous({bcd_etapa_10,magnitude[13]}),.corrected(bcd_etapa_11));
+    etapa_conversao_bcd selecao_11b(.previous({bcd_etapa_11,magnitude[12]}),.corrected(bcd_etapa_12));
     etapa_conversao_bcd selecao_12(.previous({bcd_etapa_12,magnitude[11]}),.corrected(bcd_etapa_13));
     etapa_conversao_bcd selecao_13(.previous({bcd_etapa_13,magnitude[10]}),.corrected(bcd_etapa_14));
     etapa_conversao_bcd selecao_14(.previous({bcd_etapa_14,magnitude[9]}),.corrected(bcd_etapa_15));
