@@ -6,14 +6,14 @@
 
 SW[7:0] é signed8, coeficientes durante três capturas e x depois; SW[9:8]=00/01/10/11 seleciona x/y/x1/x2. KEY0 captura; KEY1 reseta. SW estável na captura; teclas sincronizadas conforme DEC-019. Não há seletor HEX/DEC ou EXECUTAR.
 
-Enquanto `loaded=0`, HEX0 orienta a próxima captura: mostra `A`, `b` ou `C` para progresso `00`, `01` ou `10`, e HEX1–HEX5 ficam apagados, independentemente de `SW[9:8]`. Em `loaded=1`, o prompt sai e a apresentação selecionada normal é restaurada. Esta regra supersede somente a exibição pré-carga de `x` descrita em DEC-030; portas físicas e captura não mudam (DEC-040/TASK-023).
+Enquanto `loaded=0`, HEX0–HEX5 mostram uma janela rolante de seis caracteres da frase `Insira a`, `Insira b` ou `Insira c`, conforme progresso `00`, `01` ou `10`, independentemente de `SW[9:8]`. Cada frase recebe seis espaços de padding num anel de 14 símbolos e avança um caractere por passo; `c` usa glifo `C` como aproximação de sete segmentos. Em `loaded=1`, a animação sai e a apresentação selecionada normal é restaurada imediatamente. Esta regra supersede somente a exibição pré-carga de `x` descrita em DEC-030 e o prompt estático A/b/C de DEC-040; portas físicas e captura não mudam (DEC-041/TASK-024).
 
 ## Contratos de módulos
 
 | Módulo | Entradas | Saídas | Domínio/observação |
 |---|---|---|---|
 | entrada_coeficientes | clk,key0_n,key1_n,sw[7:0] | a,b,c signed8 | Wrapper público preservado |
-| entrada_coeficientes_nucleo | Mesmas entradas | a,b,c signed8; `loaded` e `progresso[1:0]` privados | Progresso atual `00→01→10→11`, exposto sem FF novo conforme DEC-040/TASK-023 |
+| entrada_coeficientes_nucleo | Mesmas entradas | a,b,c signed8; `loaded`, `progresso[1:0]`, `pedido_rearme` e `evento_captura` privados | Progresso `00→01→10→11`; os dois sinais já existentes são exportados sem FF novo para reset/evento da animação (DEC-042/TASK-024) |
 | somador_completo | a,b,cin, 1 bit cada | sum,cout | Helper estrutural privado |
 | somador_23 | lhs,rhs signed23 | sum signed23 | Exato no domínio do caminho y |
 | somador_23_nucleo | lhs,rhs signed23 | sum signed23; carry_out privado | Carry binário, carry inicial0 |

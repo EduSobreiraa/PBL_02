@@ -14,11 +14,14 @@ module tb_coefficient_input;
     wire signed [7:0] coeficiente_c_nucleo;
     wire coeficientes_carregados;
     wire [1:0] progresso;
+    wire pedido_rearme_nucleo,event_capture_nucleo;
     integer verificacoes = 0;
+    integer capturas_observadas = 0;
 
     entrada_coeficientes_nucleo dut_nucleo (
         .clk(clock_sistema), .key0_n(botao0_n), .key1_n(botao1_n), .sw(chaves),
-        .a(coeficiente_a_nucleo), .b(coeficiente_b_nucleo), .c(coeficiente_c_nucleo), .loaded(coeficientes_carregados), .progresso(progresso)
+        .a(coeficiente_a_nucleo), .b(coeficiente_b_nucleo), .c(coeficiente_c_nucleo), .loaded(coeficientes_carregados), .progresso(progresso),
+        .pedido_rearme(pedido_rearme_nucleo), .evento_captura(event_capture_nucleo)
     );
 
     entrada_coeficientes dut (
@@ -34,6 +37,13 @@ module tb_coefficient_input;
     initial begin
         clock_sistema = 1'b0;
         forever #10 clock_sistema = ~clock_sistema;
+    end
+
+    always @(posedge clock_sistema) begin
+        case(event_capture_nucleo)
+            1'b1:capturas_observadas=capturas_observadas+1;
+            default:;
+        endcase
     end
 
     task wait_clocks;
@@ -116,6 +126,10 @@ module tb_coefficient_input;
         check_values(8'h80, 8'h01, 8'h00, 1'b0, 2'b10, "second capture, not coeficientes_carregados");
         press_key0(8'h7F, 5);
         check_values(8'h80, 8'h01, 8'h7F, 1'b1, 2'b11, "three ordered captures");
+        case(capturas_observadas==3)
+            1:;
+            default:$fatal(1,"valid capture pulse count=%0d",capturas_observadas);
+        endcase
 
         @(negedge clock_sistema);
         chaves = 8'h44;
@@ -126,6 +140,10 @@ module tb_coefficient_input;
         check_values(8'h80, 8'h01, 8'h7F, 1'b1, 2'b11, "long press and fourth capture ignored");
         press_key0(8'hD6, 5);
         check_values(8'h80, 8'h01, 8'h7F, 1'b1, 2'b11, "later captures ignored until rearme");
+        case(capturas_observadas==3)
+            1:;
+            default:$fatal(1,"capture pulse emitted after loaded=%0d",capturas_observadas);
+        endcase
 
         press_key1(6);
         check_values(8'h00, 8'h00, 8'h00, 1'b0, 2'b00, "rearme after completed load");

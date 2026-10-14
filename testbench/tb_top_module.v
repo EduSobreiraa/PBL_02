@@ -5,7 +5,7 @@ module tb_top_module;
     reg [9:0] SW;
     wire [9:0] LEDR;
     wire [6:0] HEX0,HEX1,HEX2,HEX3,HEX4,HEX5;
-    integer ma,mb,mc,progresso,verificacoes,cenarios;
+    integer ma,mb,mc,progresso,verificacoes,cenarios,prompt_verificacoes;
     modulo_principal dut(.MAX10_CLK1_50(clock_sistema),.KEY(KEY),.SW(SW),.LEDR(LEDR),
         .HEX0(HEX0),.HEX1(HEX1),.HEX2(HEX2),.HEX3(HEX3),.HEX4(HEX4),.HEX5(HEX5));
     initial begin clock_sistema=0; forever #10 clock_sistema=~clock_sistema; end
@@ -55,6 +55,25 @@ module tb_top_module;
                 8: codificar=7'b0000000;
                 9: codificar=7'b0010000;
                 default: codificar=7'b1111111;
+            endcase
+        end
+    endfunction
+
+    function [6:0] codificar_prompt;
+        input integer caractere;
+        begin
+            case(caractere)
+                0:codificar_prompt=7'b1111001;
+                1:codificar_prompt=7'b0101011;
+                2:codificar_prompt=7'b0010010;
+                3:codificar_prompt=7'b1111001;
+                4:codificar_prompt=7'b0101111;
+                5:codificar_prompt=7'b0100011;
+                6:codificar_prompt=7'b1111111;
+                7:codificar_prompt=7'b0100011;
+                8:codificar_prompt=7'b0000011;
+                9:codificar_prompt=7'b1000110;
+                default:codificar_prompt=7'b1111111;
             endcase
         end
     endfunction
@@ -123,12 +142,7 @@ module tb_top_module;
                         endcase
                     end
                     default: begin
-                        case(progresso)
-                            0:hex_esperado[6:0]=7'b0001000;
-                            1:hex_esperado[6:0]=7'b0000011;
-                            2:hex_esperado[6:0]=7'b1000110;
-                            default:hex_esperado[6:0]=7'b1111111;
-                        endcase
+                        hex_esperado={7'b1111001,7'b0101011,7'b0010010,7'b1111001,7'b0101111,7'b0100011};
                     end
                 endcase
                 case((LEDR===leds_esperados)&&({HEX5,HEX4,HEX3,HEX2,HEX1,HEX0}===hex_esperado))
@@ -169,6 +183,119 @@ module tb_top_module;
             observe(0);
         end
     endtask
+
+    task verify_prompt_frames;
+        input integer etapa;
+        integer quadro,digito,indice_anel,caractere;
+        reg [41:0] esperado;
+        begin
+            for(quadro=0;quadro<15;quadro=quadro+1) begin
+                esperado={6{7'b1111111}};
+                for(digito=0;digito<6;digito=digito+1) begin
+                    indice_anel=(quadro+digito)%14;
+                    case(indice_anel)
+                        0:caractere=0;
+                        1:caractere=1;
+                        2:caractere=2;
+                        3:caractere=3;
+                        4:caractere=4;
+                        5:caractere=5;
+                        6:caractere=6;
+                        7:begin
+                            case(etapa)
+                                0:caractere=7;
+                                1:caractere=8;
+                                2:caractere=9;
+                                default:caractere=6;
+                            endcase
+                        end
+                        default:caractere=6;
+                    endcase
+                    esperado[(5-digito)*7+:7]=codificar_prompt(caractere);
+                end
+                #1;
+                case({HEX5,HEX4,HEX3,HEX2,HEX1,HEX0}===esperado)
+                    1:;
+                    default:$fatal(1,"prompt etapa=%0d p=%0d esperado=%h recebido=%h",etapa,(quadro%14),esperado,{HEX5,HEX4,HEX3,HEX2,HEX1,HEX0});
+                endcase
+                prompt_verificacoes=prompt_verificacoes+1;
+                case(quadro<14)
+                    1:begin
+                        advance_prompt_frame;
+                    end
+                    default:;
+                endcase
+            end
+        end
+    endtask
+
+    task advance_prompt_frame;
+        begin
+            force dut.prompt.rolagem.contador_divisao=24'hbebc1f;
+            @(posedge clock_sistema); #1;
+            release dut.prompt.rolagem.contador_divisao;
+            #1;
+        end
+    endtask
+
+    task capture_from_mid_animation;
+        input integer coeficiente;
+        integer indice;
+        begin
+            advance_prompt_frame;
+            wait_clocks(9);
+            case((dut.prompt.rolagem.posicao===4'd1)&&(dut.prompt.rolagem.contador_divisao===24'd9))
+                1:;
+                default:$fatal(1,"capture setup did not reach intermediate frame/divisor");
+            endcase
+            @(negedge clock_sistema);SW={2'b00,coeficiente[7:0]};KEY[0]=0;
+            repeat(2) @(posedge clock_sistema);
+            #1;
+            case(dut.evento_captura_animacao===1'b1)
+                1:;
+                default:$fatal(1,"valid capture event was not asserted");
+            endcase
+            @(posedge clock_sistema);#1;
+            case((dut.prompt.rolagem.posicao===4'd0)&&(dut.prompt.rolagem.contador_divisao===24'd0)&&
+                 (dut.progresso_coeficientes===2'b01)&&(dut.coeficientes_carregados===1'b0))
+                1:;
+                default:$fatal(1,"capture did not restart animation and advance to coefficient b");
+            endcase
+            ma=coeficiente;progresso=1;
+            @(negedge clock_sistema);KEY[0]=1;
+            wait_clocks(6);
+            observe(0);
+            advance_prompt_frame;
+            advance_prompt_frame;
+            case((dut.prompt.rolagem.posicao===4'd2)&&(HEX0===7'b0000011))
+                1:;
+                default:$fatal(1,"new b suffix was not displayed after capture restart");
+            endcase
+            for(indice=0;indice<12;indice=indice+1) advance_prompt_frame;
+            case(dut.prompt.rolagem.posicao===4'd0)
+                1:;
+                default:$fatal(1,"animation did not wrap back to p=0 after suffix check");
+            endcase
+        end
+    endtask
+
+    task verify_reset_priority;
+        begin
+            @(negedge clock_sistema);
+            KEY=2'b00;
+            force dut.prompt.rolagem.contador_divisao=24'hbebc1f;
+            wait_clocks(8);
+            release dut.prompt.rolagem.contador_divisao;
+            case((dut.prompt.rolagem.posicao===4'd0)&&(dut.prompt.rolagem.contador_divisao===24'd0)&&
+                 (dut.progresso_coeficientes===2'b00)&&(dut.evento_captura_animacao===1'b0))
+                1:;
+                default:$fatal(1,"synchronized reset did not dominate animation tick/capture");
+            endcase
+            @(negedge clock_sistema);KEY=2'b11;
+            wait_clocks(8);
+        end
+    endtask
+
     task cenario;
         input integer valor_a,valor_b,valor_c;
         begin
@@ -181,7 +308,15 @@ module tb_top_module;
         end
     endtask
     initial begin
-        KEY=2'b00;SW=0;ma=0;mb=0;mc=0;progresso=0;verificacoes=0;cenarios=0;
+        KEY=2'b00;SW=0;ma=0;mb=0;mc=0;progresso=0;verificacoes=0;cenarios=0;prompt_verificacoes=0;
+        reset_system;
+        verify_prompt_frames(0);
+        capture_from_mid_animation(1);
+        verify_prompt_frames(1);
+        capture(-3);
+        verify_prompt_frames(2);
+        verify_reset_priority;
+        reset_system;
         cenario(1,-3,2);  // positive integer raizes
         cenario(1,3,2);   // negativo integer raizes
         cenario(2,-3,1);  // positive half tie
@@ -200,7 +335,42 @@ module tb_top_module;
             1:;
             default:$fatal(1,"Coverage mismatch cenarios=%0d verificacoes=%0d",cenarios,verificacoes);
         endcase
-        $display("TEST-010/011 PASS cenarios=%0d output_checks=%0d reset_partial_full=PASS held_key=PASS extra_capture=PASS flags_displays=PASS",cenarios,verificacoes);
+        case(prompt_verificacoes==45)
+            1:;
+            default:$fatal(1,"prompt frame coverage mismatch=%0d",prompt_verificacoes);
+        endcase
+        $display("TEST-010/011 PASS cenarios=%0d output_checks=%0d prompt_frames=%0d reset_partial_full=PASS held_key=PASS extra_capture=PASS flags_displays=PASS",cenarios,verificacoes,prompt_verificacoes);
+        $finish;
+    end
+endmodule
+
+module tb_prompt_divider_nominal;
+    reg clock_sistema;
+    reg pedido_rearme,evento_captura;
+    wire [3:0] posicao;
+    contador_rolagem_prompt dut(.clk(clock_sistema),.pedido_rearme(pedido_rearme),.evento_captura(evento_captura),.posicao(posicao));
+    initial begin clock_sistema=0; forever #10 clock_sistema=~clock_sistema; end
+    initial begin
+        pedido_rearme=1;evento_captura=0;
+        repeat(3) @(posedge clock_sistema);
+        #1;
+        case((posicao===4'd0)&&(dut.contador_divisao===24'd0))
+            1:;
+            default:$fatal(1,"prompt reset failed pos=%0d count=%0d",posicao,dut.contador_divisao);
+        endcase
+        @(negedge clock_sistema);pedido_rearme=0;
+        repeat(12499999) @(posedge clock_sistema);
+        #1;
+        case((posicao===4'd0)&&(dut.contador_divisao===24'd12499999))
+            1:;
+            default:$fatal(1,"prompt advanced before 12500000 cycles pos=%0d count=%0d",posicao,dut.contador_divisao);
+        endcase
+        @(posedge clock_sistema);#1;
+        case((posicao===4'd1)&&(dut.contador_divisao===24'd0))
+            1:;
+            default:$fatal(1,"prompt did not advance on cycle 12500000 pos=%0d count=%0d",posicao,dut.contador_divisao);
+        endcase
+        $display("TASK-024 nominal divider PASS cycles=12500000");
         $finish;
     end
 endmodule

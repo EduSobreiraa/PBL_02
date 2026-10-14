@@ -11,10 +11,12 @@ module entrada_coeficientes (
 );
     wire coeficientes_carregados_nao_utilizado;
     wire [1:0] progresso_nao_utilizado;
+    wire pedido_rearme_nao_utilizado, evento_captura_nao_utilizado;
 
     entrada_coeficientes_nucleo nucleo (
         .clk(clk), .key0_n(key0_n), .key1_n(key1_n), .sw(sw),
-        .a(a), .b(b), .c(c), .loaded(coeficientes_carregados_nao_utilizado), .progresso(progresso_nao_utilizado)
+        .a(a), .b(b), .c(c), .loaded(coeficientes_carregados_nao_utilizado), .progresso(progresso_nao_utilizado),
+        .pedido_rearme(pedido_rearme_nao_utilizado), .evento_captura(evento_captura_nao_utilizado)
     );
 endmodule
 
@@ -28,18 +30,18 @@ module entrada_coeficientes_nucleo (
     output wire signed [7:0] b,
     output wire signed [7:0] c,
     output wire loaded,
-    output wire [1:0] progresso
+    output wire [1:0] progresso,
+    output wire pedido_rearme,
+    output wire evento_captura
 );
     wire botao1_meta;
     wire botao1_sincronizado;
     wire botao0_meta;
     wire botao0_sincronizado;
     wire botao0_anterior;
-    wire pedido_rearme;
     wire evento_pressao_botao0;
     wire botao0_liberado_sincronizado;
     wire nao_concluido;
-    wire evento_captura;
     wire progresso_bit0_proximo;
     wire progresso_bit1_proximo;
     wire nao_progresso_bit0;
