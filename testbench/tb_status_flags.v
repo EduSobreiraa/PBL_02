@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Testa os sinais de erro, zero e vai-um.
 module tb_status_flags;
     reg coeficientes_carregados;
     reg signed [7:0] coeficiente_a;
@@ -102,7 +103,7 @@ module tb_status_flags;
     end
 endmodule
 
-// Independent top preserves the TASK010 regression unchanged.
+// Confere a regra que acende o LED Z para resultado zero.
 module tb_flag_z;
     reg signed [22:0] valor;
     reg [1:0] selecao;
@@ -144,7 +145,7 @@ module tb_flag_z;
         $finish;
     end
 endmodule
-
+// Verifica a condição que controla o LED de vai-um.
 module tb_flag_c;
     reg vai_um_y,coeficientes_carregados;
     reg [1:0] selecao;

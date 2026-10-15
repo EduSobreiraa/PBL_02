@@ -13,6 +13,7 @@ MASK = (1 << 23) - 1
 rows = []
 
 def add(lhs, rhs, kind=0):
+    """Calcula a soma esperada e registra os operandos e o carry."""
     mathematical = lhs + rhs
     carry = ((lhs & MASK) + (rhs & MASK)) >> 23
     if kind == 0:
@@ -24,6 +25,7 @@ def add(lhs, rhs, kind=0):
     rows.append((kind, lhs, rhs, expected, carry))
 
 def consumers(a, b, c, x):
+    """Gera os valores esperados usados pelos cálculos de y e do discriminante."""
     ax2, bx = a * x * x, b * x
     add(ax2, bx)
     add(ax2 + bx, c)
@@ -38,7 +40,7 @@ for values in product((-128, -127, -1, 0, 1, 126, 127), repeat=4):
 rng = random.Random(SEED)
 for _ in range(10000):
     consumers(*(rng.randrange(-128, 128) for _ in range(4)))
-# Distinguish binary carry from signed overflow; these probe only the binary core.
+# Separa o vai-um binário do overflow com sinal; estes casos testam apenas o núcleo.
 for lhs, rhs in [((1 << 22) - 1, 1), (-(1 << 22), -1), (-(1 << 22), -(1 << 22))]:
     add(lhs, rhs, 2)
 path = Path(__file__).resolve().parent / 'vectors' / 'add_sub.txt'

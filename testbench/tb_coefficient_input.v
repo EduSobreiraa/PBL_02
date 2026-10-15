@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-
+// Verifica a captura dos coeficientes pelos botões e o reinício do circuito.
 module tb_coefficient_input;
     reg clock_sistema;
     reg botao0_n;

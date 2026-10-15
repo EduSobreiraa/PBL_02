@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Testa o cálculo y = ax² + bx + c em casos comuns e de limite.
 module tb_polynomial_y;
     reg signed [7:0] coeficiente_a, coeficiente_b, coeficiente_c, entrada_x;
     wire signed [22:0] resultado_y_publico, resultado_y_nucleo;

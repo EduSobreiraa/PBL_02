@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare structural BCD logic variants in isolated Quartus workspaces."""
+"""Compara opções estruturais de BCD em diretórios separados do Quartus."""
 import hashlib
 import json
 from pathlib import Path
@@ -60,12 +60,14 @@ endmodule
 
 
 def replace_module(source, name, replacement):
+    """Troca o texto de um módulo Verilog pelo módulo indicado."""
     start = source.index(f'module {name}(')
     end = source.index('\nendmodule', start) + len('\nendmodule')
     return source[:start] + replacement.rstrip() + source[end:]
 
 
 def candidate(source, mode):
+    """Monta a versão do projeto com a otimização escolhida."""
     if mode in ('add3', 'both'):
         source = replace_module(source, 'decimal_add3', ADD3)
     if mode in ('decoder', 'both'):
@@ -74,6 +76,7 @@ def candidate(source, mode):
 
 
 def check_truth_tables():
+    """Confere as tabelas lógicas das duas opções de BCD."""
     corrected = (0, 1, 2, 3, 4, 8, 9, 10, 11, 12)
     for digit, expected in enumerate(corrected):
         d3, d2, d1, d0 = ((digit >> bit) & 1 for bit in (3, 2, 1, 0))
@@ -106,6 +109,7 @@ def check_truth_tables():
 
 
 def main():
+    """Executa a comparação das opções em diretórios separados do Quartus."""
     check_truth_tables()
     RUN.mkdir(parents=True, exist_ok=False)
     version = subprocess.run([str(BIN / 'quartus_sh'), '--version'],

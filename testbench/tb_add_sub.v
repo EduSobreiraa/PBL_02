@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Testa soma e subtração em vários valores e tipos de operação.
 module tb_add_sub;
     reg fa_a, fa_b, fa_cin;
     wire fa_sum, fa_cout;

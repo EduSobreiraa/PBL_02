@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TASK-005 / DEC-031: exhaustive software evidence, NOT RTL simulation.
+"""TASK-005 / DEC-031: verificação exaustiva em software, não é simulação RTL.
 
 The candidate models the restoring datapath with bounded integer wires.
 The oracle compares algebraic roots with half-integers using only signed
@@ -22,18 +22,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def unsigned(value: int, width: int) -> int:
+    """Confere se o valor cabe na largura indicada como número sem sinal."""
     if not 0 <= value < (1 << width):
         raise AssertionError(("unsigned wire overflow", value, width))
     return value
 
 
 def signed(value: int, width: int) -> int:
+    """Confere se o valor cabe na largura indicada como número com sinal."""
     if not -(1 << (width - 1)) <= value < (1 << (width - 1)):
         raise AssertionError(("signed wire overflow", value, width))
     return value
 
 
 def sqrt_restoring(radicand: int) -> tuple[int, int]:
+    """Calcula raiz inteira e resto seguindo as etapas do circuito."""
     unsigned(radicand, 17)
     root = remainder = 0
     for pair_index in range(8, -1, -1):
@@ -48,6 +51,7 @@ def sqrt_restoring(radicand: int) -> tuple[int, int]:
 
 
 def divide_restoring(dividend: int, divisor: int) -> tuple[int, int, bool]:
+    """Calcula quociente e resto; informa quando o divisor é zero."""
     unsigned(dividend, 9)
     unsigned(divisor, 8)
     zero = divisor == 0
@@ -63,7 +67,7 @@ def divide_restoring(dividend: int, divisor: int) -> tuple[int, int, bool]:
 
 
 def reference_round(a: int, b: int, delta: int, branch: int) -> int:
-    """Binary-search half-integer boundaries independently of the datapath.
+    """Arredonda a raiz comparando limites de meio sem usar o datapath.
 
     sign(x_branch-(k+1/2)) = sign(a)*sign(branch*sqrt(delta)-H),
     H=b+a*(2*k+1). sqrt(delta) is compared with an integer h by
@@ -90,6 +94,7 @@ def reference_round(a: int, b: int, delta: int, branch: int) -> int:
             low = k + 1
     return low
 
+    """Calcula o discriminante e as raízes esperadas pela fórmula matemática."""
 
 def reference(a: int, b: int, c: int) -> tuple[int, int, int, bool]:
     delta = b * b - 4 * a * c
@@ -126,6 +131,7 @@ def build_tables() -> tuple[list[tuple[int, int]], list[list[tuple[int, int, boo
         division.append(row)
     return square_roots, division
 
+    """Reproduz as operações do circuito usando larguras limitadas de bits."""
 
 def candidate(a: int, b: int, c: int, square_roots, division):
     square = unsigned(b * b, 15)
@@ -150,7 +156,9 @@ def candidate(a: int, b: int, c: int, square_roots, division):
         metadata.append((numerator, quotient, remainder, residual, positive_correction, divide_zero))
     return (delta, outputs[0], outputs[1], invalid), metadata
 
+    """Registra a revisão e as alterações locais do repositório."""
 
+        """Executa um comando e devolve sua saída para o relatório."""
 def git_state() -> dict:
     def run(*args):
         return subprocess.check_output(["git", *args], cwd=ROOT, text=True).strip()
@@ -159,6 +167,7 @@ def git_state() -> dict:
     except (OSError, subprocess.CalledProcessError):
         return {"head": None, "worktree_dirty": None}
 
+    """Percorre os coeficientes e compara o circuito modelado com a referência."""
 
 def main() -> int:
     started = time.monotonic()
@@ -170,13 +179,14 @@ def main() -> int:
               "root_comparisons": 0, "divergences": 0}
     examples = []
     directed = {}
+        """Guarda um caso de comparação que será incluído no relatório."""
 
     def remember(category, a, b, c, expected):
         directed.setdefault(category, {"category": category, "a": a, "b": b, "c": c,
                                        "delta": expected[0], "x1": expected[1], "x2": expected[2],
                                        "domain_error": expected[3]})
 
-    # Named witnesses are evaluated by the independent oracle, not hardcoded outputs.
+    # Os casos nomeados passam pela referência; os resultados não ficam fixos no código.
     for category, triple in (
         ("a_zero", (0, -128, 127)), ("negative_discriminant", (1, 0, 1)),
         ("zero_discriminant", (1, 2, 1)), ("positive_half_tie", (2, -3, 1)),
@@ -192,15 +202,15 @@ def main() -> int:
             raise AssertionError(("directed", category, got, expected))
         remember(category, *triple, expected)
 
-    # Exhaust every coefficient, including invalid inputs. Candidate tables are
-    # preverified complete domains; the reference does not access either table.
+    # Percorre todos os coeficientes, inclusive os inválidos. As tabelas usadas pelo
+    # modelo já cobrem seus domínios e não são lidas pela referência.
     for a in range(-128, 128):
         abs_a = abs(a)
         division_row = division[abs_a]
         for b in range(-128, 128):
             b_square = b * b
             for c in range(-128, 128):
-                # Bounded datapath delta, computed independently from oracle below.
+                # Calcula o discriminante com larguras limitadas, separado da referência.
                 product = a * c
                 delta = b_square - (product << 2)
                 if not (-16384 <= product <= 16384 and -131072 <= delta < 131072):
@@ -212,7 +222,7 @@ def main() -> int:
                 if invalid:
                     counts["invalid"] += 1
                     counts["a_zero" if a == 0 else "negative_delta_nonzero_a"] += 1
-                    # Exercise actual candidate zero-divisor and output masks too.
+                    # Confere também a divisão por zero e as máscaras das saídas do modelo.
                     got, _ = candidate(a, b, c, square_roots, division)
                     expected = (expected_delta, 0, 0, expected_invalid)
                     if got != expected:

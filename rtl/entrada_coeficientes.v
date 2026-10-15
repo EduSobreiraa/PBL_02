@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-
+// Liga as entradas físicas ao núcleo que salva A, B e C.
 module entrada_coeficientes (
     input wire clk,
     input wire key0_n,
@@ -20,7 +20,7 @@ module entrada_coeficientes (
     );
 endmodule
 
-// Private integration contract, DEC-030. No additional storage.
+// DEC-030: Sincroniza os botões, salva A, B e C uma vez e avança o progresso sem registradores extras.
 module entrada_coeficientes_nucleo (
     input wire clk,
     input wire key0_n,
@@ -53,6 +53,7 @@ module entrada_coeficientes_nucleo (
     wire habilita_b;
     wire habilita_c;
 
+    // Duas etapas sincronizam os botões com o clock da placa.
     flipflop_simples key1_sync_stage_1 (
         .clk(clk), .d(key1_n), .q(botao1_meta)
     );
@@ -76,6 +77,7 @@ module entrada_coeficientes_nucleo (
         .d(botao0_sincronizado), .q(botao0_anterior)
     );
 
+    // KEY1 é ativo em nível baixo e reinicia a entrada dos coeficientes.
     not reset_from_key1 (pedido_rearme, botao1_sincronizado);
     not invert_key0_sync (botao0_liberado_sincronizado, botao0_sincronizado);
     and detected_key0_press (evento_pressao_botao0, botao0_anterior, botao0_liberado_sincronizado);
@@ -83,6 +85,7 @@ module entrada_coeficientes_nucleo (
     and decode_progress_done (loaded, progresso[0], progresso[1]);
     and allowed_capture (evento_captura, evento_pressao_botao0, nao_concluido, botao1_sincronizado);
 
+    // O progresso 0, 1 e 2 seleciona qual coeficiente será salvo.
     not invert_progress_0 (nao_progresso_bit0, progresso[0]);
     not invert_progress_1 (nao_progresso_bit1, progresso[1]);
     and decode_a (seleciona_a, nao_progresso_bit1, nao_progresso_bit0);
@@ -93,6 +96,7 @@ module entrada_coeficientes_nucleo (
     and write_b (habilita_b, evento_captura, seleciona_b);
     and write_c (habilita_c, evento_captura, seleciona_c);
 
+    // O contador avança quando um novo coeficiente é capturado.
     not progress_bit_0_toggle (progresso_bit0_proximo, progresso[0]);
     xor progress_bit_1_toggle (progresso_bit1_proximo, progresso[1], progresso[0]);
 
@@ -106,6 +110,7 @@ module entrada_coeficientes_nucleo (
         .d(progresso_bit1_proximo), .q(progresso[1])
     );
 
+    // Cada grupo de oito flip-flops guarda um coeficiente na sua vez.
     flipflop_reset_sincrono coefficient_a_bit_0 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[0]), .q(a[0]));
     flipflop_reset_sincrono coefficient_a_bit_1 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[1]), .q(a[1]));
     flipflop_reset_sincrono coefficient_a_bit_2 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_a), .d(sw[2]), .q(a[2]));
@@ -134,7 +139,7 @@ module entrada_coeficientes_nucleo (
     flipflop_reset_sincrono coefficient_c_bit_7 (.clk(clk), .reset(pedido_rearme), .reset_value(1'b0), .enable(habilita_c), .d(sw[7]), .q(c[7]));
 
 endmodule
-
+// Guarda a entrada no registrador a cada borda de subida do clock.
 module flipflop_simples (
     input wire clk,
     input wire d,
@@ -144,7 +149,7 @@ module flipflop_simples (
         q <= d;
     end
 endmodule
-
+// Escolhe entre manter, atualizar ou reiniciar o bit guardado.
 module flipflop_reset_sincrono (
     input wire clk,
     input wire reset,

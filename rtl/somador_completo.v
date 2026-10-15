@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-// Binary full adder: five primitive gates, no storage.
+// Soma dois bits e o vai-um de entrada, produzindo a soma e o vai-um de saída.
 module somador_completo(input wire a, b, cin, output wire sum, cout);
     wire a_xor_b, a_and_b, termo_vai_um;
     xor (a_xor_b, a, b);

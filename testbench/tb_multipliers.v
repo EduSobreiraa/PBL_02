@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Compara os multiplicadores estruturais com os produtos esperados.
 module tb_multipliers;
     reg signed [7:0] lhs8, rhs8;
     reg signed [7:0] lhs_mixed;

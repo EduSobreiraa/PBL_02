@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Testa discriminante, domínio e valores das duas raízes.
 module tb_quadratic_roots;
     reg signed [7:0] coeficiente_a,coeficiente_b,coeficiente_c;
     wire signed [17:0] delta;
@@ -6,8 +7,8 @@ module tb_quadratic_roots;
     wire erro_dominio;
     integer contagem,contagem_validos,contagem_invalidos,semente,n,valor_aleatorio;
     raizes_quadraticas dut(.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.delta(delta),.x1(raiz_x1),.x2(raiz_x2),.domain_error(erro_dominio));
-    // Independent oracle: exact integer comparisons with half-integer boundaries.
-    // Does not compute S, E, Q, resto, or the DUT arredondamento expression.
+    // A referência compara valores inteiros nos limites de meio.
+    // Ela calcula o resultado sem usar a fórmula interna do circuito.
     function integer arredondamento_referencia;
         input integer valor_a,valor_b,discriminante,ramo;
         integer limite_inferior,limite_superior,k,h,limite,quadrado,cmp,relacao,asign,concluido;
@@ -66,65 +67,65 @@ module tb_quadratic_roots;
     integer aleatorio_a,aleatorio_b,aleatorio_c;
     initial begin
         contagem=0; contagem_validos=0; contagem_invalidos=0; semente=20261011;
-        // TASK-005: coeficiente_a_zero
+        // TASK-005: A igual a zero
         check(0,-128,127);
-        // TASK-005: negative_discriminant
+        // TASK-005: discriminante negativo
         check(1,0,1);
-        // TASK-005: zero_discriminant
+        // TASK-005: discriminante igual a zero
         check(1,2,1);
-        // TASK-005: positive_half_tie
+        // TASK-005: empate positivo em meio
         check(2,-3,1);
-        // TASK-005: negative_half_tie
+        // TASK-005: empate negativo em meio
         check(2,3,1);
-        // TASK-005: negative_a_branch_order
+        // TASK-005: A negativo troca a ordem das raízes
         check(-1,0,1);
-        // TASK-005: zero_root_and_positive_128
+        // TASK-005: raiz zero e limite positivo 128
         check(1,-128,0);
-        // TASK-005: minimum_coefficients
+        // TASK-005: coeficientes mínimos
         check(-128,-128,-128);
-        // TASK-005: maximum_discriminant
+        // TASK-005: discriminante máximo
         check(-128,-128,127);
-        // TASK-005: minimum_discriminant
+        // TASK-005: discriminante mínimo
         check(-128,0,-128);
-        // TASK-005: maximum_coefficients
+        // TASK-005: coeficientes máximos
         check(127,127,127);
-        // TASK-005: sqrt_perfect
+        // TASK-005: raiz quadrada exata
         check(1,0,-4);
-        // TASK-005: sqrt_nonperfect
+        // TASK-005: raiz quadrada não exata
         check(1,0,-2);
-        // TASK-005: mixed_sign_roots
+        // TASK-005: raízes com sinais diferentes
         check(1,1,-1);
-        // TASK-005: branch_plus_r0_perfect_positive_correction_odd_quotient
+        // TASK-005: ramo positivo, resto zero, raiz exata e quociente ímpar
         check(-128,-128,-32);
-        // TASK-005: branch_minus_r0_perfect_nonpositive_correction_odd_quotient
+        // TASK-005: ramo negativo, resto zero, raiz exata e quociente ímpar
         check(-128,-128,-32);
-        // TASK-005: branch_plus_r0_perfect_positive_correction_even_quotient
+        // TASK-005: ramo positivo, resto zero, raiz exata e quociente par
         check(-128,-128,0);
-        // TASK-005: branch_minus_r0_perfect_nonpositive_correction_even_quotient
+        // TASK-005: ramo negativo, resto zero, raiz exata e quociente par
         check(-128,-128,0);
-        // TASK-005: branch_minus_r0_perfect_positive_correction_odd_quotient
+        // TASK-005: ramo negativo, resto zero e numerador positivo
         check(-128,-128,96);
-        // TASK-005: branch_plus_r0_irrational_positive_correction_odd_quotient
+        // TASK-005: ramo positivo, raiz não exata e quociente ímpar
         check(-128,-128,97);
-        // TASK-005: branch_minus_r0_irrational_positive_correction_odd_quotient
+        // TASK-005: ramo negativo, raiz não exata e quociente ímpar
         check(-128,-128,97);
-        // TASK-005: branch_plus_r0_perfect_nonpositive_correction_even_quotient
+        // TASK-005: ramo positivo e quociente par com correção negativa
         check(-128,0,0);
-        // TASK-005: branch_minus_r0_perfect_positive_correction_even_quotient
+        // TASK-005: ramo negativo e quociente par com correção positiva
         check(-128,1,127);
-        // TASK-005: branch_plus_r0_irrational_positive_correction_even_quotient
+        // TASK-005: ramo positivo, raiz não exata e quociente par
         check(-126,0,127);
-        // TASK-005: branch_minus_r0_irrational_positive_correction_even_quotient
+        // TASK-005: ramo negativo, raiz não exata e quociente par
         check(-126,0,127);
-        // TASK-005: branch_plus_r0_perfect_nonpositive_correction_odd_quotient
+        // TASK-005: ramo positivo e quociente ímpar com correção negativa
         check(-126,127,-32);
-        // TASK-005: branch_minus_r0_irrational_nonpositive_correction_odd_quotient
+        // TASK-005: ramo negativo e quociente ímpar com correção negativa
         check(-83,-128,-43);
-        // TASK-005: branch_plus_r0_irrational_nonpositive_correction_odd_quotient
+        // TASK-005: ramo positivo e quociente ímpar com correção negativa
         check(-83,126,-42);
-        // TASK-005: branch_minus_r0_irrational_nonpositive_correction_even_quotient
+        // TASK-005: ramo negativo e quociente par com correção negativa
         check(-64,-128,1);
-        // TASK-005: branch_plus_r0_irrational_nonpositive_correction_even_quotient
+        // TASK-005: ramo positivo e quociente par com correção negativa
         check(-63,126,1);
         for (n=0;n<10000;n=n+1) begin
             valor_aleatorio=$random(semente); aleatorio_a=$signed(valor_aleatorio[7:0]);

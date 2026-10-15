@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Gera o sinal de erro quando A é zero ou o discriminante é negativo.
 module sinaliza_overflow_erro(input wire loaded,
                    input wire signed [7:0] a,
                    input wire signed [17:0] delta,
@@ -10,7 +11,7 @@ module sinaliza_overflow_erro(input wire loaded,
     and (ERR,loaded,dominio_invalido);
     and zero_overflow(OV,1'b0,1'b0);
 endmodule
-
+// Acende o sinal Z quando a saída selecionada vale zero.
 module sinaliza_zero(input wire signed [22:0] value,
               input wire [1:0] sel,
               input wire ERR,
@@ -22,7 +23,7 @@ module sinaliza_zero(input wire signed [22:0] value,
     not (valor_valido,raiz_invalida);
     and (Z,valor_zero,valor_valido);
 endmodule
-
+// Acende o sinal C para o vai-um do cálculo y quando y está selecionado.
 module sinaliza_carry(input wire carry_y, loaded,
               input wire [1:0] sel,
               output wire C);

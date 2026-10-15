@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Testa a conversão do resultado para os seis displays.
 module tb_decimal_display;
     reg signed [22:0] valor;
     reg invalido;

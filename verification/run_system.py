@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reproduce TEST-010/011 with fixed source scope and recorded Docker identity."""
+"""Repete TEST-010/011 com as fontes definidas e registra a imagem Docker usada."""
 import hashlib
 import io
 import json
@@ -23,7 +23,8 @@ IMAGE = "hdlc/iverilog:latest"
 
 
 def main():
-    # Invalidate previous success before any operation that can fail.
+    # Apaga o resultado anterior antes de iniciar uma execução nova.
+    """Compila e simula o sistema em um contêiner e salva o resultado da execução."""
     MANIFEST.write_text(json.dumps({"status": "RUNNING"}) + "\n")
     LOG.write_text("")
     image = json.loads(subprocess.check_output(

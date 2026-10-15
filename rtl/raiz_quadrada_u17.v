@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-// Private structural cells for the nine spatial restoring stages.
+// Somador completo de um bit usado pelas etapas da raiz quadrada.
 module somador_completo_raiz(input wire a,b,cin, output wire sum,cout);
     wire a_xor_b,a_and_b,propaga_vai_um;
     xor (a_xor_b,a,b);
@@ -8,7 +8,7 @@ module somador_completo_raiz(input wire a,b,cin, output wire sum,cout);
     and (propaga_vai_um,a_xor_b,cin);
     or (cout,a_and_b,propaga_vai_um);
 endmodule
-
+// Tenta subtrair a raiz parcial e escolhe o próximo bit da raiz.
 module etapa_raiz(input wire [7:0] root_prefix,
                   input wire [9:0] remainder_in,
                   input wire [1:0] pair_in,
@@ -18,7 +18,7 @@ module etapa_raiz(input wire [7:0] root_prefix,
     wire [11:0] vai_um;
     wire manter_original;
     wire [9:0] diferenca_selecionada, resto_deslocado_selecionado;
-    // The parcial raiz fits root_prefix; the omitted limite_superior prefix bit is zero.
+    // A tentativa usa a raiz parcial e o próximo par de bits.
     not (manter_original,take);
     somador_completo_raiz somador_bit0 (.a(pair_in[0]),.b(1'b0),.cin(1'b1),.sum(diferenca[0]),.cout(vai_um[1]));
     somador_completo_raiz somador_bit1 (.a(pair_in[1]),.b(1'b1),.cin(vai_um[1]),.sum(diferenca[1]),.cout(vai_um[2]));
@@ -39,8 +39,7 @@ module etapa_raiz(input wire [7:0] root_prefix,
     not (tentativa_invertida[9],root_prefix[7]);
     somador_completo_raiz somador_bit9 (.a(remainder_in[7]),.b(tentativa_invertida[9]),.cin(vai_um[9]),.sum(diferenca[9]),.cout(vai_um[10]));
     somador_completo_raiz somador_bit10 (.a(remainder_in[8]),.b(1'b1),.cin(vai_um[10]),.sum(diferenca[10]),.cout(take));
-    // No borrow selects subtraction; selecionado resto <=722 fits ten bits.
-    // Discarded diferenca MSB on coeficiente_a rejected subtraction is never observed.
+    // A etapa usa a diferença quando a subtração não gera empréstimo; caso contrário, mantém o resto.
     and (diferenca_selecionada[0],diferenca[0],take);
     and (resto_deslocado_selecionado[0],pair_in[0],manter_original);
     or (remainder_out[0],diferenca_selecionada[0],resto_deslocado_selecionado[0]);
@@ -73,7 +72,7 @@ module etapa_raiz(input wire [7:0] root_prefix,
     or (remainder_out[9],diferenca_selecionada[9],resto_deslocado_selecionado[9]);
 endmodule
 
-// Total unsigned17 contract: radicando = raiz squared + resto.
+// Calcula a raiz inteira de 17 bits e mantém o resto, de modo que radicando = raiz² + resto.
 module raiz_quadrada_17(input wire [16:0] radicand,
                 output wire [8:0] root,
                 output wire [9:0] remainder);

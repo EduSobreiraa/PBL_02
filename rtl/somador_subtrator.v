@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-// Private binary nucleo. Exact signed results are guaranteed only in consumer domains.
+// Somador interno de 23 bits. O resultado com sinal é exato nas faixas usadas pelo projeto.
 module somador_23_nucleo(input wire signed [22:0] lhs, rhs,
                   output wire signed [22:0] sum, output wire carry_out);
     wire [23:0] vai_um;
@@ -28,13 +28,13 @@ module somador_23_nucleo(input wire signed [22:0] lhs, rhs,
     somador_completo somador_bit21 (.a(lhs[21]), .b(rhs[21]), .cin(vai_um[21]), .sum(sum[21]), .cout(vai_um[22]));
 endmodule
 
-// Public wrapper has no vai_um or overflow port.
+// Mantém a interface pública de soma em 23 bits, sem saídas de vai-um ou overflow.
 module somador_23(input wire signed [22:0] lhs, rhs, output wire signed [22:0] sum);
     wire vai_um_nao_utilizado;
     somador_23_nucleo nucleo (.lhs(lhs), .rhs(rhs), .sum(sum), .carry_out(vai_um_nao_utilizado));
 endmodule
 
-// Delta consumer: operando_esquerdo=coeficiente_b squared, operando_direito=four times coeficiente_a times coeficiente_c, both signed18.
+// Subtrai dois valores de 18 bits para calcular b² - 4ac.
 module subtrator_18(input wire signed [17:0] lhs, rhs, output wire signed [17:0] difference);
     wire [17:0] direito_invertido;
     wire [18:0] vai_um;

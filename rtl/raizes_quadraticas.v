@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Calcula o discriminante e os numeradores das duas raízes da equação.
 module raizes_quadraticas(input wire signed [7:0] a,b,c,
     output wire signed [17:0] delta, output wire signed [8:0] x1,x2, output wire domain_error);
     wire signed [15:0] quadrado_coeficiente_b,produto_coeficientes_a_c;
@@ -11,6 +12,7 @@ module raizes_quadraticas(input wire signed [7:0] a,b,c,
     multiplica_com_sinal_8_por_8 mac(.lhs(a),.rhs(c),.product(produto_coeficientes_a_c));
     subtrator_18 discriminant(.lhs({3'b000,quadrado_coeficiente_b[14:0]}),.rhs({produto_coeficientes_a_c,2'b00}),.difference(delta));
     nor az(coeficiente_a_zero,a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]);
+    // A equação não tem as raízes pedidas quando A é zero ou o discriminante é negativo.
     or err(domain_error,coeficiente_a_zero,delta[17]);
     not v(valido,domain_error);
     not dn(delta_nao_negativo,delta[17]);
@@ -31,6 +33,7 @@ module raizes_quadraticas(input wire signed [7:0] a,b,c,
     and rad14(radicando[14],delta[14],delta_nao_negativo);
     and rad15(radicando[15],delta[15],delta_nao_negativo);
     and rad16(radicando[16],delta[16],delta_nao_negativo);
+    // O resto da raiz é mantido até o arredondamento final.
     raiz_quadrada_17 raiz(.radicand(radicando),.root(raiz_quadrada),.remainder(resto_quadrado));
     nega_condicional_10 nb(.value({{2{b[7]}},b}),.negate(1'b1),.result(oposto_coeficiente_b));
     soma_subtrai_10 np(.lhs(oposto_coeficiente_b),.rhs({1'b0,raiz_quadrada}),.subtract(1'b0),.result(numerador_positivo));
@@ -39,7 +42,7 @@ module raizes_quadraticas(input wire signed [7:0] a,b,c,
     ramo_raizes ramo_mais(.numerator(numerador_positivo),.magnitude_a(magnitude_coeficiente_a),.sign_a(a[7]),.square_remainder(resto_quadrado),.plus_branch(1'b1),.valid(valido),.result(x1));
     ramo_raizes ramo_negativo(.numerator(numerador_negativo),.magnitude_a(magnitude_coeficiente_a),.sign_a(a[7]),.square_remainder(resto_quadrado),.plus_branch(1'b0),.valid(valido),.result(x2));
 endmodule
-
+// Calcula uma das raízes e arredonda o resultado mantendo o resto exato.
 module ramo_raizes(input wire [9:0] numerator, input wire [7:0] magnitude_a,
     input wire sign_a, input wire [9:0] square_remainder, input wire plus_branch,valid,
     output wire [8:0] result);
@@ -48,8 +51,9 @@ module ramo_raizes(input wire [9:0] numerator, input wire [7:0] magnitude_a,
     wire [7:0] resto;
     wire divisor_zero,numerador_nao_zero,numerador_positivo,ramo_negativo,correcao_ramo_positivo,correcao_ramo_negativo,correcao_arredondamento;
     wire resto_nao_zero,quadrado_exato,condicao_arredondamento,arredondar_para_cima,sinal_resultado;
+    // A divisão usa o módulo do numerador, e o sinal é aplicado ao final.
     nega_condicional_10 modulo_sinalizado(.value(numerator),.negate(numerator[9]),.result(magnitude_numerador));
-    // |N|<=413: magnitude_numerador[9] is provably zero.
+    // A magnitude do numerador cabe em nove bits para os coeficientes permitidos.
     divisor_9_por_8 divide(.dividend(magnitude_numerador[8:0]),.divisor(magnitude_a),.quotient(quociente),.remainder(resto),.divide_by_zero(divisor_zero));
     or nn(numerador_nao_zero,numerator[0],numerator[1],numerator[2],numerator[3],numerator[4],numerator[5],numerator[6],numerator[7],numerator[8]);
     wire numerador_nao_negativo;
@@ -61,6 +65,7 @@ module ramo_raizes(input wire [9:0] numerator, input wire [7:0] magnitude_a,
     or co(correcao_arredondamento,correcao_ramo_positivo,correcao_ramo_negativo);
     or rn(resto_nao_zero,resto[0],resto[1],resto[2],resto[3],resto[4],resto[5],resto[6],resto[7]);
     nor se(quadrado_exato,square_remainder[0],square_remainder[1],square_remainder[2],square_remainder[3],square_remainder[4],square_remainder[5],square_remainder[6],square_remainder[7],square_remainder[8],square_remainder[9]);
+    // A fração e o resto da raiz definem se o quociente será arredondado.
     or rc(condicao_arredondamento,resto_nao_zero,quadrado_exato,correcao_arredondamento);
     and u(arredondar_para_cima,quociente[0],condicao_arredondamento);
     incrementa_9 arredondamento(.value({1'b0,quociente[8:1]}),.increment(arredondar_para_cima),.result(quociente_arredondado));
@@ -76,6 +81,7 @@ module ramo_raizes(input wire [9:0] numerator, input wire [7:0] magnitude_a,
     and mask7(result[7],resultado_com_sinal[7],valid);
     and mask8(result[8],resultado_com_sinal[8],valid);
 endmodule
+// Inverte um valor de 8 bits quando o sinal pedido exige isso.
 module nega_condicional_8(input wire [7:0] value,input wire negate,output wire [7:0] result);
     wire [7:0] valor_invertido;
     wire [8:0] vai_um;
@@ -96,6 +102,7 @@ module nega_condicional_8(input wire [7:0] value,input wire negate,output wire [
     xor x7(valor_invertido[7],value[7],negate);
     somador_completo somador_bit_7(.a(valor_invertido[7]),.b(1'b0),.cin(vai_um[7]),.sum(result[7]),.cout(vai_um[8]));
 endmodule
+// Inverte um valor de 9 bits quando o sinal pedido exige isso.
 module nega_condicional_9(input wire [8:0] value,input wire negate,output wire [8:0] result);
     wire [8:0] valor_invertido;
     wire [9:0] vai_um;
@@ -118,6 +125,7 @@ module nega_condicional_9(input wire [8:0] value,input wire negate,output wire [
     xor x8(valor_invertido[8],value[8],negate);
     somador_completo somador_bit_8(.a(valor_invertido[8]),.b(1'b0),.cin(vai_um[8]),.sum(result[8]),.cout(vai_um[9]));
 endmodule
+// Inverte um valor de 10 bits quando o sinal pedido exige isso.
 module nega_condicional_10(input wire [9:0] value,input wire negate,output wire [9:0] result);
     wire [9:0] valor_invertido;
     wire [10:0] vai_um;
@@ -142,6 +150,7 @@ module nega_condicional_10(input wire [9:0] value,input wire negate,output wire 
     xor x9(valor_invertido[9],value[9],negate);
     somador_completo somador_bit_9(.a(valor_invertido[9]),.b(1'b0),.cin(vai_um[9]),.sum(result[9]),.cout(vai_um[10]));
 endmodule
+// Soma ou subtrai dois valores de 10 bits conforme o sinal de controle.
 module soma_subtrai_10(input wire [9:0] lhs,rhs,input wire subtract,output wire [9:0] result);
     wire [9:0] valor_invertido;
     wire [10:0] vai_um;
@@ -166,6 +175,7 @@ module soma_subtrai_10(input wire [9:0] lhs,rhs,input wire subtract,output wire 
     xor x9(valor_invertido[9],rhs[9],subtract);
     somador_completo somador_bit_9(.a(lhs[9]),.b(valor_invertido[9]),.cin(vai_um[9]),.sum(result[9]),.cout(vai_um[10]));
 endmodule
+// Soma um ao valor de 9 bits quando o controle está ligado.
 module incrementa_9(input wire [8:0] value,input wire increment,output wire [8:0] result);
     wire [9:0] vai_um;
     somador_completo somador_bit_0(.a(value[0]),.b(1'b0),.cin(increment),.sum(result[0]),.cout(vai_um[1]));

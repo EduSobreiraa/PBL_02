@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Confere qual entrada aparece para cada valor de seleção.
 module tb_result_select;
     reg signed [7:0] entrada_x;
     reg signed [22:0] resultado_y;

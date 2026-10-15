@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Testa quociente, resto e divisão por zero.
 module tb_divide_u9_u8;
     reg [8:0] dividendo;
     reg [7:0] divisor;

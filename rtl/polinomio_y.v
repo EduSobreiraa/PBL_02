@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-// DEC-030: public wrapper preserves the approved interface.
+// DEC-030: Mantém a interface pública do cálculo y = ax² + bx + c.
 module polinomio_y(input wire signed [7:0] a, b, c, x,
     output wire signed [22:0] y, output wire OV);
     wire vai_um_nao_utilizado;
@@ -7,7 +7,6 @@ module polinomio_y(input wire signed [7:0] a, b, c, x,
         .y(y), .OV(OV), .carry_y(vai_um_nao_utilizado));
 endmodule
 
-// Purely combinational composition: ((coeficiente_a*entrada_x*entrada_x)+(coeficiente_b*entrada_x))+coeficiente_c.
 module polinomio_y_nucleo(input wire signed [7:0] a, b, c, x,
     output wire signed [22:0] y, output wire OV, output wire carry_y);
     wire signed [15:0] quadrado_completo, b_x;
@@ -16,8 +15,8 @@ module polinomio_y_nucleo(input wire signed [7:0] a, b, c, x,
     wire signed [22:0] ax2_estendido, bx_estendido, c_estendido, subtotal;
     wire vai_um_subtotal_nao_utilizado;
 
+    // x² vai de 0 a 16384 e cabe exatamente nos 15 bits usados no próximo módulo.
     multiplica_com_sinal_8_por_8 multiplicador_quadrado(.lhs(x), .rhs(x), .product(quadrado_completo));
-    // x*x is 0..16384; bit 15 is always zero, so this slice is exact.
     multiplica_com_sinal_8_por_sem_sinal_15 multiplicador_quadratico(.lhs(a), .rhs(quadrado_completo[14:0]), .product(a_x_quadrado));
     multiplica_com_sinal_8_por_8 multiplicador_linear(.lhs(b), .rhs(x), .product(b_x));
     somador_23_nucleo somador_subtotal(.lhs({a_x_quadrado[21],a_x_quadrado}), .rhs({{7{b_x[15]}},b_x}),

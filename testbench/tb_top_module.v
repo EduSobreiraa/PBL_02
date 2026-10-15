@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Testa a integração do sistema com os botões, chaves, LEDs e displays.
 module tb_top_module;
     reg clock_sistema;
     reg [1:0] KEY;
@@ -175,7 +176,7 @@ module tb_top_module;
                 2:begin mc=coeficiente; progresso=3;end
                 default:;
             endcase
-            // Switch changes and all selections while KEY0 remains pressed.
+            // As chaves mudam e todas as saídas são selecionadas enquanto KEY0 continua pressionado.
             observe(99);
             wait_clocks(5);
             @(negedge clock_sistema); KEY[0]=1;
@@ -343,7 +344,7 @@ module tb_top_module;
         $finish;
     end
 endmodule
-
+// Verifica o tempo de rolagem e a troca de posição da mensagem.
 module tb_prompt_divider_nominal;
     reg clock_sistema;
     reg pedido_rearme,evento_captura;

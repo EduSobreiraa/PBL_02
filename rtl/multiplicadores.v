@@ -1,9 +1,10 @@
 `timescale 1ns/1ps
-// Explicit parcial products and spatial ripple chains; no storage.
-
+// Multiplica dois números com sinal de 8 bits usando produtos parciais e somadores estruturais.
 module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     input wire signed [7:0] rhs, output wire signed [15:0] product);
+    // Cada bit de rhs seleciona uma linha de produtos parciais de lhs.
     wire [15:0] linha_parcial_0;
+    // As portas AND formam os produtos antes da soma das linhas.
     wire [7:0] linha_selecionada_0;
     and (linha_selecionada_0[0], lhs[0], rhs[0]);
     and (linha_selecionada_0[1], lhs[1], rhs[0]);
@@ -84,8 +85,10 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     and (linha_selecionada_7[6], lhs[6], rhs[7]);
     and (linha_selecionada_7[7], lhs[7], rhs[7]);
     wire [15:0] subtotal_acumulado_0;
+    // Os somadores completos juntam uma linha ao subtotal por vez.
     wire [15:0] subtotal_acumulado_1;
     wire [16:0] vai_um_termo_1;
+    // Soma a linha parcial 1 ao subtotal anterior.
     somador_completo somador_linha1_coluna0 (.a(linha_selecionada_0[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_1[0]), .cout(vai_um_termo_1[1]));
     somador_completo somador_linha1_coluna1 (.a(linha_selecionada_0[1]), .b(linha_selecionada_1[0]), .cin(vai_um_termo_1[1]), .sum(subtotal_acumulado_1[1]), .cout(vai_um_termo_1[2]));
     somador_completo somador_linha1_coluna2 (.a(linha_selecionada_0[2]), .b(linha_selecionada_1[1]), .cin(vai_um_termo_1[2]), .sum(subtotal_acumulado_1[2]), .cout(vai_um_termo_1[3]));
@@ -104,6 +107,7 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     somador_completo somador_linha1_coluna15 (.a(linha_selecionada_0[7]), .b(linha_selecionada_1[7]), .cin(vai_um_termo_1[15]), .sum(subtotal_acumulado_1[15]), .cout(vai_um_termo_1[16]));
     wire [15:0] subtotal_acumulado_2;
     wire [16:0] vai_um_termo_2;
+    // Soma a linha parcial 2 ao subtotal anterior.
     somador_completo somador_linha2_coluna0 (.a(subtotal_acumulado_1[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_2[0]), .cout(vai_um_termo_2[1]));
     somador_completo somador_linha2_coluna1 (.a(subtotal_acumulado_1[1]), .b(1'b0), .cin(vai_um_termo_2[1]), .sum(subtotal_acumulado_2[1]), .cout(vai_um_termo_2[2]));
     somador_completo somador_linha2_coluna2 (.a(subtotal_acumulado_1[2]), .b(linha_selecionada_2[0]), .cin(vai_um_termo_2[2]), .sum(subtotal_acumulado_2[2]), .cout(vai_um_termo_2[3]));
@@ -122,6 +126,7 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     somador_completo somador_linha2_coluna15 (.a(subtotal_acumulado_1[15]), .b(linha_selecionada_2[7]), .cin(vai_um_termo_2[15]), .sum(subtotal_acumulado_2[15]), .cout(vai_um_termo_2[16]));
     wire [15:0] subtotal_acumulado_3;
     wire [16:0] vai_um_termo_3;
+    // Soma a linha parcial 3 ao subtotal anterior.
     somador_completo somador_linha3_coluna0 (.a(subtotal_acumulado_2[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_3[0]), .cout(vai_um_termo_3[1]));
     somador_completo somador_linha3_coluna1 (.a(subtotal_acumulado_2[1]), .b(1'b0), .cin(vai_um_termo_3[1]), .sum(subtotal_acumulado_3[1]), .cout(vai_um_termo_3[2]));
     somador_completo somador_linha3_coluna2 (.a(subtotal_acumulado_2[2]), .b(1'b0), .cin(vai_um_termo_3[2]), .sum(subtotal_acumulado_3[2]), .cout(vai_um_termo_3[3]));
@@ -140,6 +145,7 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     somador_completo somador_linha3_coluna15 (.a(subtotal_acumulado_2[15]), .b(linha_selecionada_3[7]), .cin(vai_um_termo_3[15]), .sum(subtotal_acumulado_3[15]), .cout(vai_um_termo_3[16]));
     wire [15:0] subtotal_acumulado_4;
     wire [16:0] vai_um_termo_4;
+    // Soma a linha parcial 4 ao subtotal anterior.
     somador_completo somador_linha4_coluna0 (.a(subtotal_acumulado_3[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_4[0]), .cout(vai_um_termo_4[1]));
     somador_completo somador_linha4_coluna1 (.a(subtotal_acumulado_3[1]), .b(1'b0), .cin(vai_um_termo_4[1]), .sum(subtotal_acumulado_4[1]), .cout(vai_um_termo_4[2]));
     somador_completo somador_linha4_coluna2 (.a(subtotal_acumulado_3[2]), .b(1'b0), .cin(vai_um_termo_4[2]), .sum(subtotal_acumulado_4[2]), .cout(vai_um_termo_4[3]));
@@ -158,6 +164,7 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     somador_completo somador_linha4_coluna15 (.a(subtotal_acumulado_3[15]), .b(linha_selecionada_4[7]), .cin(vai_um_termo_4[15]), .sum(subtotal_acumulado_4[15]), .cout(vai_um_termo_4[16]));
     wire [15:0] subtotal_acumulado_5;
     wire [16:0] vai_um_termo_5;
+    // Soma a linha parcial 5 ao subtotal anterior.
     somador_completo somador_linha5_coluna0 (.a(subtotal_acumulado_4[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_5[0]), .cout(vai_um_termo_5[1]));
     somador_completo somador_linha5_coluna1 (.a(subtotal_acumulado_4[1]), .b(1'b0), .cin(vai_um_termo_5[1]), .sum(subtotal_acumulado_5[1]), .cout(vai_um_termo_5[2]));
     somador_completo somador_linha5_coluna2 (.a(subtotal_acumulado_4[2]), .b(1'b0), .cin(vai_um_termo_5[2]), .sum(subtotal_acumulado_5[2]), .cout(vai_um_termo_5[3]));
@@ -176,6 +183,7 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     somador_completo somador_linha5_coluna15 (.a(subtotal_acumulado_4[15]), .b(linha_selecionada_5[7]), .cin(vai_um_termo_5[15]), .sum(subtotal_acumulado_5[15]), .cout(vai_um_termo_5[16]));
     wire [15:0] subtotal_acumulado_6;
     wire [16:0] vai_um_termo_6;
+    // Soma a linha parcial 6 ao subtotal anterior.
     somador_completo somador_linha6_coluna0 (.a(subtotal_acumulado_5[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_6[0]), .cout(vai_um_termo_6[1]));
     somador_completo somador_linha6_coluna1 (.a(subtotal_acumulado_5[1]), .b(1'b0), .cin(vai_um_termo_6[1]), .sum(subtotal_acumulado_6[1]), .cout(vai_um_termo_6[2]));
     somador_completo somador_linha6_coluna2 (.a(subtotal_acumulado_5[2]), .b(1'b0), .cin(vai_um_termo_6[2]), .sum(subtotal_acumulado_6[2]), .cout(vai_um_termo_6[3]));
@@ -194,6 +202,7 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     somador_completo somador_linha6_coluna15 (.a(subtotal_acumulado_5[15]), .b(linha_selecionada_6[7]), .cin(vai_um_termo_6[15]), .sum(subtotal_acumulado_6[15]), .cout(vai_um_termo_6[16]));
     wire [15:0] subtotal_acumulado_7;
     wire [16:0] vai_um_termo_7;
+    // A linha do bit de sinal entra invertida e com vai-um igual a um, formando seu negativo.
     wire [15:0] linha_negativa;
     not (linha_negativa[0], 1'b0);
     not (linha_negativa[1], 1'b0);
@@ -211,6 +220,7 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     not (linha_negativa[13], linha_selecionada_7[6]);
     not (linha_negativa[14], linha_selecionada_7[7]);
     not (linha_negativa[15], linha_selecionada_7[7]);
+    // Soma a linha parcial 7 ao subtotal anterior.
     somador_completo somador_linha7_coluna0 (.a(subtotal_acumulado_6[0]), .b(linha_negativa[0]), .cin(1'b1), .sum(product[0]), .cout(vai_um_termo_7[1]));
     somador_completo somador_linha7_coluna1 (.a(subtotal_acumulado_6[1]), .b(linha_negativa[1]), .cin(vai_um_termo_7[1]), .sum(product[1]), .cout(vai_um_termo_7[2]));
     somador_completo somador_linha7_coluna2 (.a(subtotal_acumulado_6[2]), .b(linha_negativa[2]), .cin(vai_um_termo_7[2]), .sum(product[2]), .cout(vai_um_termo_7[3]));
@@ -229,8 +239,10 @@ module multiplica_com_sinal_8_por_8(input wire signed [7:0] lhs,
     somador_completo somador_linha7_coluna15 (.a(subtotal_acumulado_6[15]), .b(linha_negativa[15]), .cin(vai_um_termo_7[15]), .sum(product[15]), .cout(vai_um_termo_7[16]));
     endmodule
 
+// Multiplica um número com sinal de 8 bits por um número sem sinal de 15 bits.
 module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     input wire [14:0] rhs, output wire signed [21:0] product);
+    // As quinze linhas correspondem aos quinze bits sem sinal de rhs.
     wire [21:0] linha_parcial_0;
     wire [7:0] linha_selecionada_0;
     and (linha_selecionada_0[0], lhs[0], rhs[0]);
@@ -381,9 +393,11 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     and (linha_selecionada_14[5], lhs[5], rhs[14]);
     and (linha_selecionada_14[6], lhs[6], rhs[14]);
     and (linha_selecionada_14[7], lhs[7], rhs[14]);
+    // As linhas são somadas em sequência por cadeias de somadores completos.
     wire [21:0] subtotal_acumulado_0;
     wire [21:0] subtotal_acumulado_1;
     wire [22:0] vai_um_termo_1;
+    // Soma a linha parcial 1 ao subtotal anterior.
     somador_completo somador_linha1_coluna0 (.a(linha_selecionada_0[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_1[0]), .cout(vai_um_termo_1[1]));
     somador_completo somador_linha1_coluna1 (.a(linha_selecionada_0[1]), .b(linha_selecionada_1[0]), .cin(vai_um_termo_1[1]), .sum(subtotal_acumulado_1[1]), .cout(vai_um_termo_1[2]));
     somador_completo somador_linha1_coluna2 (.a(linha_selecionada_0[2]), .b(linha_selecionada_1[1]), .cin(vai_um_termo_1[2]), .sum(subtotal_acumulado_1[2]), .cout(vai_um_termo_1[3]));
@@ -408,6 +422,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha1_coluna21 (.a(linha_selecionada_0[7]), .b(linha_selecionada_1[7]), .cin(vai_um_termo_1[21]), .sum(subtotal_acumulado_1[21]), .cout(vai_um_termo_1[22]));
     wire [21:0] subtotal_acumulado_2;
     wire [22:0] vai_um_termo_2;
+    // Soma a linha parcial 2 ao subtotal anterior.
     somador_completo somador_linha2_coluna0 (.a(subtotal_acumulado_1[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_2[0]), .cout(vai_um_termo_2[1]));
     somador_completo somador_linha2_coluna1 (.a(subtotal_acumulado_1[1]), .b(1'b0), .cin(vai_um_termo_2[1]), .sum(subtotal_acumulado_2[1]), .cout(vai_um_termo_2[2]));
     somador_completo somador_linha2_coluna2 (.a(subtotal_acumulado_1[2]), .b(linha_selecionada_2[0]), .cin(vai_um_termo_2[2]), .sum(subtotal_acumulado_2[2]), .cout(vai_um_termo_2[3]));
@@ -432,6 +447,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha2_coluna21 (.a(subtotal_acumulado_1[21]), .b(linha_selecionada_2[7]), .cin(vai_um_termo_2[21]), .sum(subtotal_acumulado_2[21]), .cout(vai_um_termo_2[22]));
     wire [21:0] subtotal_acumulado_3;
     wire [22:0] vai_um_termo_3;
+    // Soma a linha parcial 3 ao subtotal anterior.
     somador_completo somador_linha3_coluna0 (.a(subtotal_acumulado_2[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_3[0]), .cout(vai_um_termo_3[1]));
     somador_completo somador_linha3_coluna1 (.a(subtotal_acumulado_2[1]), .b(1'b0), .cin(vai_um_termo_3[1]), .sum(subtotal_acumulado_3[1]), .cout(vai_um_termo_3[2]));
     somador_completo somador_linha3_coluna2 (.a(subtotal_acumulado_2[2]), .b(1'b0), .cin(vai_um_termo_3[2]), .sum(subtotal_acumulado_3[2]), .cout(vai_um_termo_3[3]));
@@ -456,6 +472,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha3_coluna21 (.a(subtotal_acumulado_2[21]), .b(linha_selecionada_3[7]), .cin(vai_um_termo_3[21]), .sum(subtotal_acumulado_3[21]), .cout(vai_um_termo_3[22]));
     wire [21:0] subtotal_acumulado_4;
     wire [22:0] vai_um_termo_4;
+    // Soma a linha parcial 4 ao subtotal anterior.
     somador_completo somador_linha4_coluna0 (.a(subtotal_acumulado_3[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_4[0]), .cout(vai_um_termo_4[1]));
     somador_completo somador_linha4_coluna1 (.a(subtotal_acumulado_3[1]), .b(1'b0), .cin(vai_um_termo_4[1]), .sum(subtotal_acumulado_4[1]), .cout(vai_um_termo_4[2]));
     somador_completo somador_linha4_coluna2 (.a(subtotal_acumulado_3[2]), .b(1'b0), .cin(vai_um_termo_4[2]), .sum(subtotal_acumulado_4[2]), .cout(vai_um_termo_4[3]));
@@ -480,6 +497,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha4_coluna21 (.a(subtotal_acumulado_3[21]), .b(linha_selecionada_4[7]), .cin(vai_um_termo_4[21]), .sum(subtotal_acumulado_4[21]), .cout(vai_um_termo_4[22]));
     wire [21:0] subtotal_acumulado_5;
     wire [22:0] vai_um_termo_5;
+    // Soma a linha parcial 5 ao subtotal anterior.
     somador_completo somador_linha5_coluna0 (.a(subtotal_acumulado_4[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_5[0]), .cout(vai_um_termo_5[1]));
     somador_completo somador_linha5_coluna1 (.a(subtotal_acumulado_4[1]), .b(1'b0), .cin(vai_um_termo_5[1]), .sum(subtotal_acumulado_5[1]), .cout(vai_um_termo_5[2]));
     somador_completo somador_linha5_coluna2 (.a(subtotal_acumulado_4[2]), .b(1'b0), .cin(vai_um_termo_5[2]), .sum(subtotal_acumulado_5[2]), .cout(vai_um_termo_5[3]));
@@ -504,6 +522,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha5_coluna21 (.a(subtotal_acumulado_4[21]), .b(linha_selecionada_5[7]), .cin(vai_um_termo_5[21]), .sum(subtotal_acumulado_5[21]), .cout(vai_um_termo_5[22]));
     wire [21:0] subtotal_acumulado_6;
     wire [22:0] vai_um_termo_6;
+    // Soma a linha parcial 6 ao subtotal anterior.
     somador_completo somador_linha6_coluna0 (.a(subtotal_acumulado_5[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_6[0]), .cout(vai_um_termo_6[1]));
     somador_completo somador_linha6_coluna1 (.a(subtotal_acumulado_5[1]), .b(1'b0), .cin(vai_um_termo_6[1]), .sum(subtotal_acumulado_6[1]), .cout(vai_um_termo_6[2]));
     somador_completo somador_linha6_coluna2 (.a(subtotal_acumulado_5[2]), .b(1'b0), .cin(vai_um_termo_6[2]), .sum(subtotal_acumulado_6[2]), .cout(vai_um_termo_6[3]));
@@ -528,6 +547,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha6_coluna21 (.a(subtotal_acumulado_5[21]), .b(linha_selecionada_6[7]), .cin(vai_um_termo_6[21]), .sum(subtotal_acumulado_6[21]), .cout(vai_um_termo_6[22]));
     wire [21:0] subtotal_acumulado_7;
     wire [22:0] vai_um_termo_7;
+    // Soma a linha parcial 7 ao subtotal anterior.
     somador_completo somador_linha7_coluna0 (.a(subtotal_acumulado_6[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_7[0]), .cout(vai_um_termo_7[1]));
     somador_completo somador_linha7_coluna1 (.a(subtotal_acumulado_6[1]), .b(1'b0), .cin(vai_um_termo_7[1]), .sum(subtotal_acumulado_7[1]), .cout(vai_um_termo_7[2]));
     somador_completo somador_linha7_coluna2 (.a(subtotal_acumulado_6[2]), .b(1'b0), .cin(vai_um_termo_7[2]), .sum(subtotal_acumulado_7[2]), .cout(vai_um_termo_7[3]));
@@ -552,6 +572,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha7_coluna21 (.a(subtotal_acumulado_6[21]), .b(linha_selecionada_7[7]), .cin(vai_um_termo_7[21]), .sum(subtotal_acumulado_7[21]), .cout(vai_um_termo_7[22]));
     wire [21:0] subtotal_acumulado_8;
     wire [22:0] vai_um_termo_8;
+    // Soma a linha parcial 8 ao subtotal anterior.
     somador_completo somador_linha8_coluna0 (.a(subtotal_acumulado_7[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_8[0]), .cout(vai_um_termo_8[1]));
     somador_completo somador_linha8_coluna1 (.a(subtotal_acumulado_7[1]), .b(1'b0), .cin(vai_um_termo_8[1]), .sum(subtotal_acumulado_8[1]), .cout(vai_um_termo_8[2]));
     somador_completo somador_linha8_coluna2 (.a(subtotal_acumulado_7[2]), .b(1'b0), .cin(vai_um_termo_8[2]), .sum(subtotal_acumulado_8[2]), .cout(vai_um_termo_8[3]));
@@ -576,6 +597,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha8_coluna21 (.a(subtotal_acumulado_7[21]), .b(linha_selecionada_8[7]), .cin(vai_um_termo_8[21]), .sum(subtotal_acumulado_8[21]), .cout(vai_um_termo_8[22]));
     wire [21:0] subtotal_acumulado_9;
     wire [22:0] vai_um_termo_9;
+    // Soma a linha parcial 9 ao subtotal anterior.
     somador_completo somador_linha9_coluna0 (.a(subtotal_acumulado_8[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_9[0]), .cout(vai_um_termo_9[1]));
     somador_completo somador_linha9_coluna1 (.a(subtotal_acumulado_8[1]), .b(1'b0), .cin(vai_um_termo_9[1]), .sum(subtotal_acumulado_9[1]), .cout(vai_um_termo_9[2]));
     somador_completo somador_linha9_coluna2 (.a(subtotal_acumulado_8[2]), .b(1'b0), .cin(vai_um_termo_9[2]), .sum(subtotal_acumulado_9[2]), .cout(vai_um_termo_9[3]));
@@ -600,6 +622,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha9_coluna21 (.a(subtotal_acumulado_8[21]), .b(linha_selecionada_9[7]), .cin(vai_um_termo_9[21]), .sum(subtotal_acumulado_9[21]), .cout(vai_um_termo_9[22]));
     wire [21:0] subtotal_acumulado_10;
     wire [22:0] vai_um_termo_10;
+    // Soma a linha parcial 10 ao subtotal anterior.
     somador_completo somador_linha10_coluna0 (.a(subtotal_acumulado_9[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_10[0]), .cout(vai_um_termo_10[1]));
     somador_completo somador_linha10_coluna1 (.a(subtotal_acumulado_9[1]), .b(1'b0), .cin(vai_um_termo_10[1]), .sum(subtotal_acumulado_10[1]), .cout(vai_um_termo_10[2]));
     somador_completo somador_linha10_coluna2 (.a(subtotal_acumulado_9[2]), .b(1'b0), .cin(vai_um_termo_10[2]), .sum(subtotal_acumulado_10[2]), .cout(vai_um_termo_10[3]));
@@ -624,6 +647,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha10_coluna21 (.a(subtotal_acumulado_9[21]), .b(linha_selecionada_10[7]), .cin(vai_um_termo_10[21]), .sum(subtotal_acumulado_10[21]), .cout(vai_um_termo_10[22]));
     wire [21:0] subtotal_acumulado_11;
     wire [22:0] vai_um_termo_11;
+    // Soma a linha parcial 11 ao subtotal anterior.
     somador_completo somador_linha11_coluna0 (.a(subtotal_acumulado_10[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_11[0]), .cout(vai_um_termo_11[1]));
     somador_completo somador_linha11_coluna1 (.a(subtotal_acumulado_10[1]), .b(1'b0), .cin(vai_um_termo_11[1]), .sum(subtotal_acumulado_11[1]), .cout(vai_um_termo_11[2]));
     somador_completo somador_linha11_coluna2 (.a(subtotal_acumulado_10[2]), .b(1'b0), .cin(vai_um_termo_11[2]), .sum(subtotal_acumulado_11[2]), .cout(vai_um_termo_11[3]));
@@ -648,6 +672,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha11_coluna21 (.a(subtotal_acumulado_10[21]), .b(linha_selecionada_11[7]), .cin(vai_um_termo_11[21]), .sum(subtotal_acumulado_11[21]), .cout(vai_um_termo_11[22]));
     wire [21:0] subtotal_acumulado_12;
     wire [22:0] vai_um_termo_12;
+    // Soma a linha parcial 12 ao subtotal anterior.
     somador_completo somador_linha12_coluna0 (.a(subtotal_acumulado_11[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_12[0]), .cout(vai_um_termo_12[1]));
     somador_completo somador_linha12_coluna1 (.a(subtotal_acumulado_11[1]), .b(1'b0), .cin(vai_um_termo_12[1]), .sum(subtotal_acumulado_12[1]), .cout(vai_um_termo_12[2]));
     somador_completo somador_linha12_coluna2 (.a(subtotal_acumulado_11[2]), .b(1'b0), .cin(vai_um_termo_12[2]), .sum(subtotal_acumulado_12[2]), .cout(vai_um_termo_12[3]));
@@ -672,6 +697,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha12_coluna21 (.a(subtotal_acumulado_11[21]), .b(linha_selecionada_12[7]), .cin(vai_um_termo_12[21]), .sum(subtotal_acumulado_12[21]), .cout(vai_um_termo_12[22]));
     wire [21:0] subtotal_acumulado_13;
     wire [22:0] vai_um_termo_13;
+    // Soma a linha parcial 13 ao subtotal anterior.
     somador_completo somador_linha13_coluna0 (.a(subtotal_acumulado_12[0]), .b(1'b0), .cin(1'b0), .sum(subtotal_acumulado_13[0]), .cout(vai_um_termo_13[1]));
     somador_completo somador_linha13_coluna1 (.a(subtotal_acumulado_12[1]), .b(1'b0), .cin(vai_um_termo_13[1]), .sum(subtotal_acumulado_13[1]), .cout(vai_um_termo_13[2]));
     somador_completo somador_linha13_coluna2 (.a(subtotal_acumulado_12[2]), .b(1'b0), .cin(vai_um_termo_13[2]), .sum(subtotal_acumulado_13[2]), .cout(vai_um_termo_13[3]));
@@ -696,6 +722,7 @@ module multiplica_com_sinal_8_por_sem_sinal_15(input wire signed [7:0] lhs,
     somador_completo somador_linha13_coluna21 (.a(subtotal_acumulado_12[21]), .b(linha_selecionada_13[7]), .cin(vai_um_termo_13[21]), .sum(subtotal_acumulado_13[21]), .cout(vai_um_termo_13[22]));
     wire [21:0] subtotal_acumulado_14;
     wire [22:0] vai_um_termo_14;
+    // Soma a linha parcial 14 ao subtotal anterior.
     somador_completo somador_linha14_coluna0 (.a(subtotal_acumulado_13[0]), .b(1'b0), .cin(1'b0), .sum(product[0]), .cout(vai_um_termo_14[1]));
     somador_completo somador_linha14_coluna1 (.a(subtotal_acumulado_13[1]), .b(1'b0), .cin(vai_um_termo_14[1]), .sum(product[1]), .cout(vai_um_termo_14[2]));
     somador_completo somador_linha14_coluna2 (.a(subtotal_acumulado_13[2]), .b(1'b0), .cin(vai_um_termo_14[2]), .sum(product[2]), .cout(vai_um_termo_14[3]));

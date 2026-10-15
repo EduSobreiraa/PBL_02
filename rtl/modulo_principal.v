@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Liga entrada, cálculo das raízes, seleção, display e sinais da placa DE10-Lite.
 module modulo_principal(input wire MAX10_CLK1_50,input wire [1:0] KEY,input wire [9:0] SW,
     output wire [9:0] LEDR,output wire [6:0] HEX0,HEX1,HEX2,HEX3,HEX4,HEX5);
     wire signed [7:0] coeficiente_a,coeficiente_b,coeficiente_c;
@@ -11,9 +12,11 @@ module modulo_principal(input wire MAX10_CLK1_50,input wire [1:0] KEY,input wire
     wire [1:0] progresso_coeficientes;
     wire [41:0] hex_normal;
     wire pedido_rearme_animacao,evento_captura_animacao;
+    // SW[7:0] fornece os bits e os botões controlam a captura e o reinício.
     entrada_coeficientes_nucleo captura_coeficientes(.clk(MAX10_CLK1_50),.key0_n(KEY[0]),.key1_n(KEY[1]),
         .sw(SW[7:0]),.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.loaded(coeficientes_carregados),.progresso(progresso_coeficientes),
         .pedido_rearme(pedido_rearme_animacao),.evento_captura(evento_captura_animacao));
+    // Os coeficientes salvos alimentam os dois cálculos. SW[9:8] escolhe a saída.
     polinomio_y_nucleo polinomio(.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.x(SW[7:0]),.y(resultado_y),
         .OV(OV_polinomio_nao_utilizado),.carry_y(vai_um_y));
     raizes_quadraticas raizes(.a(coeficiente_a),.b(coeficiente_b),.c(coeficiente_c),.delta(delta),.x1(raiz_x1),.x2(raiz_x2),.domain_error(erro_dominio_nao_utilizado));
@@ -21,12 +24,14 @@ module modulo_principal(input wire MAX10_CLK1_50,input wire [1:0] KEY,input wire
     sinaliza_overflow_erro erros(.loaded(coeficientes_carregados),.a(coeficiente_a),.delta(delta),.OV(OV_aritmetico_nao_utilizado),.ERR(LEDR[3]));
     sinaliza_zero zero(.value(valor),.sel(SW[9:8]),.ERR(LEDR[3]),.Z(LEDR[1]));
     sinaliza_carry vai_um(.carry_y(vai_um_y),.loaded(coeficientes_carregados),.sel(SW[9:8]),.C(LEDR[2]));
+    // Os LEDs sem função nesta versão permanecem apagados.
     and led4_off(LEDR[4],1'b0,1'b0);
     and led5_off(LEDR[5],1'b0,1'b0);
     and led6_off(LEDR[6],1'b0,1'b0);
     and led7_off(LEDR[7],1'b0,1'b0);
     and led8_off(LEDR[8],1'b0,1'b0);
     and led9_off(LEDR[9],1'b0,1'b0);
+    // Uma saída selecionada só fica válida depois que A, B e C foram salvos.
     or selecionado(resultado_selecionado,SW[9],SW[8]);
     not nao_carregado_porta(nao_carregado,coeficientes_carregados);
     and pendente(incompleto,resultado_selecionado,nao_carregado);
@@ -35,13 +40,14 @@ module modulo_principal(input wire MAX10_CLK1_50,input wire [1:0] KEY,input wire
     not sem_y(nao_selecionado_y,SW[9]);
     and selecao_y(selecionado_y,nao_selecionado_y,SW[8]);
     and qualificar_overflow_exibicao(LEDR[0],coeficientes_carregados,selecionado_y,overflow_exibicao);
+    // Depois de salvar C, o display troca a mensagem de entrada pelo resultado.
     exibicao_decimal apresentacao(.value(valor),.invalid(exibicao_invalida),.overflow_exibicao(overflow_exibicao),
         .HEX0(hex_normal[6:0]),.HEX1(hex_normal[13:7]),.HEX2(hex_normal[20:14]),.HEX3(hex_normal[27:21]),.HEX4(hex_normal[34:28]),.HEX5(hex_normal[41:35]));
     prompt_entrada_coeficientes prompt(.clk(MAX10_CLK1_50),.normal(hex_normal),.progresso(progresso_coeficientes),.loaded(coeficientes_carregados),
         .pedido_rearme(pedido_rearme_animacao),.evento_captura(evento_captura_animacao),
         .HEX0(HEX0),.HEX1(HEX1),.HEX2(HEX2),.HEX3(HEX3),.HEX4(HEX4),.HEX5(HEX5));
 endmodule
-
+// Alterna entre a mensagem de entrada e os valores nos displays.
 module prompt_entrada_coeficientes(input wire clk,input wire [41:0] normal,input wire [1:0] progresso,input wire loaded,
     input wire pedido_rearme,input wire evento_captura,
     output wire [6:0] HEX0,HEX1,HEX2,HEX3,HEX4,HEX5);
@@ -50,7 +56,9 @@ module prompt_entrada_coeficientes(input wire clk,input wire [41:0] normal,input
     wire not_loaded;
     contador_rolagem_prompt rolagem(.clk(clk),.pedido_rearme(pedido_rearme),.evento_captura(evento_captura),.posicao(posicao));
     anel_prompt_coeficiente anel(.posicao(posicao),.progresso(progresso),.hex(prompt_hex));
+    // Antes da captura de C, seleciona os caracteres da mensagem de entrada.
     not inversor_carregamento(not_loaded,loaded);
+    // Cada segmento escolhe o valor normal ou o caractere da mensagem.
     wire normal_0,prompt_0;
     and termo_normal_0(normal_0,normal[0],loaded);
     and termo_prompt_0(prompt_0,prompt_hex[0],not_loaded);
@@ -220,7 +228,7 @@ module prompt_entrada_coeficientes(input wire clk,input wire [41:0] normal,input
     and termo_prompt_41(prompt_41,prompt_hex[41],not_loaded);
     or saida_41(HEX5[6],normal_41,prompt_41);
 endmodule
-
+// Conta o tempo entre cada movimento e avança a mensagem.
 module contador_rolagem_prompt(input wire clk,input wire pedido_rearme,input wire evento_captura,output wire [3:0] posicao);
     wire [23:0] contador_divisao;
     wire [23:0] proximo_divisao;
@@ -231,6 +239,7 @@ module contador_rolagem_prompt(input wire clk,input wire pedido_rearme,input wir
     wire [22:0] carry_divisao;
     wire [2:0] carry_posicao;
     wire pos0_n,pos1_n,pos2_n,pos3_n,pos13;
+    // O contador maior define o intervalo entre os movimentos da mensagem.
     not inv_pos0(pos0_n,posicao[0]);
     not inv_pos1(pos1_n,posicao[1]);
     not inv_pos2(pos2_n,posicao[2]);
@@ -245,6 +254,7 @@ module contador_rolagem_prompt(input wire clk,input wire pedido_rearme,input wir
     not inv_term_16(terminal_termos[16],contador_divisao[16]);
     not inv_term_22(terminal_termos[22],contador_divisao[22]);
     and decode_terminal(terminal_divisao,contador_divisao[0],contador_divisao[1],contador_divisao[2],contador_divisao[3],contador_divisao[4],terminal_termos[5],terminal_termos[6],terminal_termos[7],terminal_termos[8],terminal_termos[9],contador_divisao[10],contador_divisao[11],contador_divisao[12],contador_divisao[13],terminal_termos[14],contador_divisao[15],terminal_termos[16],contador_divisao[17],contador_divisao[18],contador_divisao[19],contador_divisao[20],contador_divisao[21],terminal_termos[22],contador_divisao[23]);
+    // Ao salvar um coeficiente ou terminar o intervalo, o contador de tempo reinicia.
     or reset_divider(limpa_divisao,pedido_rearme,evento_captura,terminal_divisao);
     and wrap_position(limpa_posicao,terminal_divisao,pos13);
     or reset_position(limpa_posicao_total,pedido_rearme,evento_captura,limpa_posicao);
@@ -302,6 +312,7 @@ module contador_rolagem_prompt(input wire clk,input wire pedido_rearme,input wir
     xor next_division_22(proximo_divisao[22],contador_divisao[22],carry_divisao[21]);
     and carry_division_23(carry_divisao[22],carry_divisao[21],contador_divisao[22]);
     xor next_division_23(proximo_divisao[23],contador_divisao[23],carry_divisao[22]);
+    // Estes flip-flops guardam o tempo e a posição atual da mensagem.
     flipflop_reset_sincrono divider_bit_0(.clk(clk),.reset(limpa_divisao),.reset_value(1'b0),.enable(1'b1),.d(proximo_divisao[0]),.q(contador_divisao[0]));
     flipflop_reset_sincrono divider_bit_1(.clk(clk),.reset(limpa_divisao),.reset_value(1'b0),.enable(1'b1),.d(proximo_divisao[1]),.q(contador_divisao[1]));
     flipflop_reset_sincrono divider_bit_2(.clk(clk),.reset(limpa_divisao),.reset_value(1'b0),.enable(1'b1),.d(proximo_divisao[2]),.q(contador_divisao[2]));
@@ -331,11 +342,12 @@ module contador_rolagem_prompt(input wire clk,input wire pedido_rearme,input wir
     flipflop_reset_sincrono position_bit_2(.clk(clk),.reset(limpa_posicao_total),.reset_value(1'b0),.enable(terminal_divisao),.d(proxima_posicao[2]),.q(posicao[2]));
     flipflop_reset_sincrono position_bit_3(.clk(clk),.reset(limpa_posicao_total),.reset_value(1'b0),.enable(terminal_divisao),.d(proxima_posicao[3]),.q(posicao[3]));
 endmodule
-
+// Acende os segmentos necessários para desenhar cada letra da mensagem.
 module decodificador_glyph_prompt(input wire [3:0] codigo,output wire [6:0] hex);
     wire n0,n1,n2,n3;
     wire espaco,gI,gn,gs,gi,gr,ga,gsuf_a,gsuf_b,gsuf_c;
     not inv0(n0,codigo[0]); not inv1(n1,codigo[1]); not inv2(n2,codigo[2]); not inv3(n3,codigo[3]);
+    // Os códigos representam espaço, letras minúsculas e o sufixo A, B ou C.
     and dec_space(espaco,n3,n2,n1,n0);
     and dec_I(gI,n3,n2,n1,codigo[0]);
     and dec_n(gn,n3,n2,codigo[1],n0);
@@ -354,13 +366,14 @@ module decodificador_glyph_prompt(input wire [3:0] codigo,output wire [6:0] hex)
     or segment_5(hex[1],espaco,gn,gs,gr,ga,gsuf_a,gsuf_b,gsuf_c);
     or segment_6(hex[0],espaco,gI,gn,gi,gr,ga,gsuf_a,gsuf_b);
 endmodule
-
+// Monta os seis caracteres conforme o coeficiente que falta salvar.
 module anel_prompt_coeficiente(input wire [3:0] posicao,input wire [1:0] progresso,output wire [41:0] hex);
     wire p0n,p1n,p2n,p3n,stage_a,stage_b,stage_c;
     wire [13:0] p;
     not ip0(p0n,posicao[0]); not ip1(p1n,posicao[1]); not ip2(p2n,posicao[2]); not ip3(p3n,posicao[3]);
     wire prog0n,prog1n;
     not iprog0(prog0n,progresso[0]); not iprog1(prog1n,progresso[1]);
+    // O progresso escolhe se a mensagem pede A, B ou C.
     and etapa_a(stage_a,prog1n,prog0n);
     and etapa_b(stage_b,prog1n,progresso[0]);
     and etapa_c(stage_c,progresso[1],prog0n);
@@ -370,6 +383,7 @@ module anel_prompt_coeficiente(input wire [3:0] posicao,input wire [1:0] progres
     wire [3:0] codigo_3;
     wire [3:0] codigo_4;
     wire [3:0] codigo_5;
+    // A posição atual escolhe a janela de seis caracteres que aparece nos displays.
     and dec_p0(p[0],p3n,p2n,p1n,p0n);
     and dec_p1(p[1],p3n,p2n,p1n,posicao[0]);
     and dec_p2(p[2],p3n,p2n,posicao[1],p0n);

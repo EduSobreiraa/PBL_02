@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Seleciona entre x, y, x1 e x2 usando os dois bits de SW.
 module seletor_resultado(input wire signed [7:0] x, input wire signed [22:0] y,
     input wire signed [8:0] x1,x2, input wire [1:0] sel, output wire signed [22:0] value);
     wire [22:0] termo_selecionado_00,termo_selecionado_01,termo_selecionado_10,termo_selecionado_11;

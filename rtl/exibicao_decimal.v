@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Converte o resultado em seis dígitos, mostra o sinal e indica valores fora da faixa.
 module exibicao_decimal(input wire signed [22:0] value, input wire invalid, output wire overflow_exibicao,
     output wire [6:0] HEX0,HEX1,HEX2,HEX3,HEX4,HEX5);
     wire [22:0] modulo_sinalizado;
@@ -6,6 +7,7 @@ module exibicao_decimal(input wire signed [22:0] value, input wire invalid, outp
     wire [6:0] digito_nao_zero;
     wire [5:0] digitos_visiveis;
     wire estouro_negativo,fora_da_faixa,faixa_valida,traco_superior;
+    // Separa o sinal e converte o valor absoluto para BCD.
     magnitude_decimal mag(.value(value),.magnitude(modulo_sinalizado));
     conversor_binario_bcd convert(.magnitude(modulo_sinalizado),.corrected(bcd_corrigido));
     or nonzero0(digito_nao_zero[0],bcd_corrigido[0],bcd_corrigido[1],bcd_corrigido[2],modulo_sinalizado[0]);
@@ -29,6 +31,7 @@ module exibicao_decimal(input wire signed [22:0] value, input wire invalid, outp
     wire [5:0] mostrar_digito;
     wire posicao_superior_normal;
     not positive_top(posicao_superior_normal,value[22]);
+    // Dígitos sem valor à esquerda ficam apagados.
     and enabled0(mostrar_digito[0],digitos_visiveis[0],faixa_valida);
     posicao_decimal position0(.digit({bcd_corrigido[2:0],modulo_sinalizado[0]}),.show_digit(mostrar_digito[0]),.dash(fora_da_faixa),.segments(HEX0));
     and enabled1(mostrar_digito[1],digitos_visiveis[1],faixa_valida);
@@ -42,6 +45,7 @@ module exibicao_decimal(input wire signed [22:0] value, input wire invalid, outp
     and enabled5(mostrar_digito[5],digitos_visiveis[5],faixa_valida,posicao_superior_normal);
     posicao_decimal position5(.digit(bcd_corrigido[22:19]),.show_digit(mostrar_digito[5]),.dash(traco_superior),.segments(HEX5));
 endmodule
+// Obtém o valor absoluto sem alterar o número de entrada.
 module magnitude_decimal(input wire [22:0] value,output wire [22:0] magnitude);
     wire [22:0] bits_invertidos;
     wire [23:0] vai_um;
@@ -115,6 +119,7 @@ module magnitude_decimal(input wire [22:0] value,output wire [22:0] magnitude);
     xor sum22(magnitude[22],bits_invertidos[22],vai_um[22]);
     and c22(vai_um[23],bits_invertidos[22],vai_um[22]);
 endmodule
+// Converte o valor binário em dígitos BCD por etapas combinacionais.
 module conversor_binario_bcd(input wire [22:0] magnitude,output wire [26:0] corrected);
     wire [26:0] bcd_etapa_1;
     wire [26:0] bcd_etapa_2;
@@ -162,6 +167,7 @@ module conversor_binario_bcd(input wire [22:0] magnitude,output wire [26:0] corr
     etapa_conversao_bcd selecao_21(.previous({bcd_etapa_21,magnitude[2]}),.corrected(bcd_etapa_22));
     etapa_conversao_bcd selecao_22(.previous({bcd_etapa_22,magnitude[1]}),.corrected(corrected));
 endmodule
+// Corrige os dígitos BCD atuais e acrescenta o próximo bit do número.
 module etapa_conversao_bcd(input wire [27:0] previous,output wire [26:0] corrected);
     wire bit_milhoes_nao_utilizado;
     soma_tres_bcd d0(.digit(previous[3:0]),.corrected(corrected[3:0]));
@@ -172,10 +178,11 @@ module etapa_conversao_bcd(input wire [27:0] previous,output wire [26:0] correct
     soma_tres_bcd d5(.digit(previous[23:20]),.corrected(corrected[23:20]));
     soma_tres_bcd d6(.digit(previous[27:24]),.corrected({bit_milhoes_nao_utilizado,corrected[26:24]}));
 endmodule
-// Total add3 truth table; reachable BCD digits0..9 remain exact.
+// Ajusta um dígito BCD quando o valor passa de quatro.
 module soma_tres_bcd(input wire [3:0] digit,output wire [3:0] corrected);
     wire [3:0] n;
     wire [15:0] m;
+    // As portas seguintes somam três aos dígitos BCD de 5 a 9.
     not n0(n[0],digit[0]);
     not n1(n[1],digit[1]);
     not n2(n[2],digit[2]);
@@ -201,9 +208,11 @@ module soma_tres_bcd(input wire [3:0] digit,output wire [3:0] corrected);
     or out2(corrected[2],m[4],m[9],m[10],m[11],m[12]);
     or out3(corrected[3],m[5],m[6],m[7],m[8],m[9],m[10],m[11],m[12]);
 endmodule
+// Escolhe os segmentos acesos para representar um dígito decimal.
 module decodificador_bcd_segmentos(input wire [3:0] digit,output wire [6:0] segments);
     wire [3:0] n;
     wire [9:0] m;
+    // Cada termo m representa um dígito de 0 a 9.
     not n0(n[0],digit[0]);
     not n1(n[1],digit[1]);
     not n2(n[2],digit[2]);
@@ -226,6 +235,7 @@ module decodificador_bcd_segmentos(input wire [3:0] digit,output wire [6:0] segm
     nor seg5(segments[5],m[0],m[4],m[5],m[6],m[8],m[9]);
     nor seg6(segments[6],m[2],m[3],m[4],m[5],m[6],m[8],m[9]);
 endmodule
+// Mostra um dígito, um traço ou deixa a posição apagada.
 module posicao_decimal(input wire [3:0] digit,input wire show_digit,dash,output wire [6:0] segments);
     wire [6:0] segmentos_decodificados,segmentos_ativos,digitos_visiveis;
     decodificador_bcd_segmentos decoder(.digit(digit),.segments(segmentos_decodificados));

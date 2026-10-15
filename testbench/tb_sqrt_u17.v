@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+// Confere raiz inteira e resto para os radicandos testados.
 module tb_sqrt_u17;
     reg [16:0] radicando;
     wire [8:0] raiz;
@@ -9,7 +10,7 @@ module tb_sqrt_u17;
         raiz_esperada=0;
         casos_verificados=0;
         for(n=0;n<131072;n=n+1) begin
-            // Independent integer search between consecutive perfect squares.
+            // A referência procura por inteiros entre quadrados perfeitos.
             while((raiz_esperada+1)*(raiz_esperada+1)<=n)
                 raiz_esperada=raiz_esperada+1;
             resto_esperado=n-raiz_esperada*raiz_esperada;

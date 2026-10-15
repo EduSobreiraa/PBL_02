@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TEST-006: arbitrary-precision mathematical oracle, independent of RTL."""
+"""TEST-006: referência matemática independente do RTL."""
 from itertools import product
 from pathlib import Path
 import random
@@ -23,6 +23,7 @@ DIRECTED = [
 rows = []
 
 def append(kind, values):
+    """Calcula y e o carry esperados e adiciona a linha ao arquivo de vetores."""
     a, b, c, x = values
     y = a * x * x + b * x + c
     subtotal = a * x * x + b * x

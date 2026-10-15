@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-// DEC-031: nine spatial restoring stages; no storage.
+// DEC-031: Divide um dividendo de 9 bits por um divisor de 8 bits usando nove etapas combinacionais.
 module divisor_9_por_8(input wire [8:0] dividend, input wire [7:0] divisor,
     output wire [8:0] quotient, output wire [7:0] remainder, output wire divide_by_zero);
     wire divisor_nao_zero;
@@ -15,6 +15,7 @@ module divisor_9_por_8(input wire [8:0] dividend, input wire [7:0] divisor,
     wire [7:0] resto_etapa_7;
     wire [7:0] resto_etapa_8;
     wire [7:0] resto_etapa_9;
+    // Se o divisor for zero, as saídas ficam em zero e o erro é sinalizado.
     nor zero_detect(divide_by_zero, divisor[0], divisor[1], divisor[2], divisor[3], divisor[4], divisor[5], divisor[6], divisor[7]);
     not valid_detect(divisor_nao_zero, divide_by_zero);
     or effective_bit0(divisor_efetivo[0], divisor[0], divide_by_zero);
@@ -45,13 +46,14 @@ module divisor_9_por_8(input wire [8:0] dividend, input wire [7:0] divisor,
     and mask_r6(remainder[6], resto_etapa_9[6], divisor_nao_zero);
     and mask_r7(remainder[7], resto_etapa_9[7], divisor_nao_zero);
 endmodule
-
+// Compara o resto com o divisor e subtrai quando o resto é maior ou igual.
 module etapa_divisao(input wire [7:0] previous, input wire next_bit,
     input wire [7:0] divisor, output wire [7:0] remainder, output wire quotient_bit);
     wire [8:0] diferenca, divisor_invertido;
     wire [8:0] vai_um;
     wire restaurar;
     wire [7:0] manter_tentativa, manter_diferenca;
+    // A subtração usa o complemento de dois do divisor.
     not inv0(divisor_invertido[0], divisor[0]);
     not inv1(divisor_invertido[1], divisor[1]);
     not inv2(divisor_invertido[2], divisor[2]);
@@ -70,7 +72,7 @@ module etapa_divisao(input wire [7:0] previous, input wire next_bit,
     somador_completo_divisao sub7(.a(previous[6]), .b(divisor_invertido[7]), .cin(vai_um[7]), .sum(diferenca[7]), .cout(vai_um[8]));
     somador_completo_divisao sub8(.a(previous[7]), .b(1'b1), .cin(vai_um[8]), .sum(diferenca[8]), .cout(quotient_bit));
     not restore_select(restaurar, quotient_bit);
-    // Selected resultado is always < divisor <=255, hence bit8 is zero.
+    // O resto escolhido é menor que o divisor, então seu bit mais alto é zero.
     and trial0(manter_tentativa[0], next_bit, restaurar);
     and diff0(manter_diferenca[0], diferenca[0], quotient_bit);
     or select0(remainder[0], manter_tentativa[0], manter_diferenca[0]);
@@ -96,7 +98,7 @@ module etapa_divisao(input wire [7:0] previous, input wire next_bit,
     and diff7(manter_diferenca[7], diferenca[7], quotient_bit);
     or select7(remainder[7], manter_tentativa[7], manter_diferenca[7]);
 endmodule
-
+// Soma os bits e passa o vai-um para a próxima posição.
 module somador_completo_divisao(input wire a, b, cin, output wire sum, cout);
     wire propaga_vai_um, gera_vai_um, vai_um_propagado;
     xor p(propaga_vai_um, a, b);
