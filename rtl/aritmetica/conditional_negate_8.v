@@ -1,0 +1,28 @@
+module conditional_negate_8(input [7:0] value, input negate, output [7:0] result);
+wire [7:0] toggled;
+wire [7:0] carry;
+and (carry[0], negate, 1'b1);
+xor (toggled[0], value[0], negate);
+xor (result[0], toggled[0], carry[0]);
+and (carry[1], toggled[0], carry[0]);
+xor (toggled[1], value[1], negate);
+xor (result[1], toggled[1], carry[1]);
+and (carry[2], toggled[1], carry[1]);
+xor (toggled[2], value[2], negate);
+xor (result[2], toggled[2], carry[2]);
+and (carry[3], toggled[2], carry[2]);
+xor (toggled[3], value[3], negate);
+xor (result[3], toggled[3], carry[3]);
+and (carry[4], toggled[3], carry[3]);
+xor (toggled[4], value[4], negate);
+xor (result[4], toggled[4], carry[4]);
+and (carry[5], toggled[4], carry[4]);
+xor (toggled[5], value[5], negate);
+xor (result[5], toggled[5], carry[5]);
+and (carry[6], toggled[5], carry[5]);
+xor (toggled[6], value[6], negate);
+xor (result[6], toggled[6], carry[6]);
+and (carry[7], toggled[6], carry[6]);
+xor (toggled[7], value[7], negate);
+xor (result[7], toggled[7], carry[7]);
+endmodule

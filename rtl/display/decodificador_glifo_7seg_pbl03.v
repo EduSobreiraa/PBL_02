@@ -1,0 +1,20 @@
+module decodificador_glifo_7seg_pbl03(input [2:0] glifo, output [6:0] segmentos);
+wire [2:0] glifo_n;
+wire [6:1] selecionado;
+not (glifo_n[0], glifo[0]);
+not (glifo_n[1], glifo[1]);
+not (glifo_n[2], glifo[2]);
+and (selecionado[1], glifo[0], glifo_n[1], glifo_n[2]);
+and (selecionado[2], glifo_n[0], glifo[1], glifo_n[2]);
+and (selecionado[3], glifo[0], glifo[1], glifo_n[2]);
+and (selecionado[4], glifo_n[0], glifo_n[1], glifo[2]);
+and (selecionado[5], glifo[0], glifo_n[1], glifo[2]);
+and (selecionado[6], glifo_n[0], glifo[1], glifo[2]);
+nor (segmentos[0], selecionado[1], selecionado[3], selecionado[6]);
+nor (segmentos[1], selecionado[5], selecionado[6]);
+nor (segmentos[2], selecionado[4], selecionado[5]);
+nor (segmentos[3], selecionado[1], selecionado[4], selecionado[6]);
+nor (segmentos[4], selecionado[1], selecionado[2], selecionado[3], selecionado[4], selecionado[6]);
+nor (segmentos[5], selecionado[1], selecionado[3]);
+nor (segmentos[6], selecionado[1], selecionado[2], selecionado[3], selecionado[6]);
+endmodule

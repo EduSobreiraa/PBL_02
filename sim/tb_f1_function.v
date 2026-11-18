@@ -1,0 +1,3 @@
+module tb_f1_function(input signed [7:0] a1, input signed [7:0] b1, input signed [7:0] c1, input signed [9:0] x_cartesiano, input signed [9:0] y_cartesiano, output signed [24:0] f1_y, output signed [17:0] f1_derivada, output a1_zero, output vertice_y_fora, output function_valid, output f1_hit, output f1_derivada_hit);
+datapath_f1 dut (.a1(a1), .b1(b1), .c1(c1), .x_cartesiano(x_cartesiano), .y_cartesiano(y_cartesiano), .f1_y(f1_y), .f1_derivada(f1_derivada), .a1_zero(a1_zero), .vertice_y_fora(vertice_y_fora), .function_valid(function_valid), .f1_hit(f1_hit), .f1_derivada_hit(f1_derivada_hit));
+endmodule

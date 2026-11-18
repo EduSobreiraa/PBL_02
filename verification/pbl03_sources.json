@@ -1,0 +1,207 @@
+[
+  {
+    "path": "rtl/top/top_pbl03.v",
+    "module": "top_pbl03",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/controle/fsm_principal_pbl03.v",
+    "module": "fsm_principal_pbl03",
+    "category": "fsm"
+  },
+  {
+    "path": "rtl/video/coordenadas_cartesianas.v",
+    "module": "coordenadas_cartesianas",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/video/detector_eixos.v",
+    "module": "detector_eixos",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/video/compositor_rgb.v",
+    "module": "compositor_rgb",
+    "category": "structural"
+  },
+  {
+    "path": "vendor/vga/vga_sync.v",
+    "module": "vga_sync",
+    "category": "vendor"
+  },
+  {
+    "path": "rtl/primitivos/dff_bit.v",
+    "module": "dff_bit",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync_bit.v",
+    "module": "dff_sync_bit",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync8.v",
+    "module": "dff_sync8",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/entrada/sincronizador_keys.v",
+    "module": "sincronizador_keys",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/entrada/detector_evento_key0.v",
+    "module": "detector_evento_key0",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/entrada/conversor_sinal_magnitude.v",
+    "module": "conversor_sinal_magnitude",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/entrada/validador_entrada.v",
+    "module": "validador_entrada",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/entrada/fsm_entrada.v",
+    "module": "fsm_entrada",
+    "category": "fsm"
+  },
+  {
+    "path": "rtl/entrada/banco_coeficientes.v",
+    "module": "banco_coeficientes",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/entrada/entrada_pbl03.v",
+    "module": "entrada_pbl03",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/full_adder_1bit.v",
+    "module": "full_adder_1bit",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/addsub_16.v",
+    "module": "addsub_16",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/addsub_18.v",
+    "module": "addsub_18",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/addsub_20.v",
+    "module": "addsub_20",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/addsub_25.v",
+    "module": "addsub_25",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/conditional_negate_8.v",
+    "module": "conditional_negate_8",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/conditional_negate_10.v",
+    "module": "conditional_negate_10",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/conditional_negate_16.v",
+    "module": "conditional_negate_16",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/conditional_negate_18.v",
+    "module": "conditional_negate_18",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/conditional_negate_25.v",
+    "module": "conditional_negate_25",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/multiply_unsigned_8x8.v",
+    "module": "multiply_unsigned_8x8",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/multiply_unsigned_8x10.v",
+    "module": "multiply_unsigned_8x10",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/multiply_unsigned_8x17.v",
+    "module": "multiply_unsigned_8x17",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/multiply_unsigned_10x10.v",
+    "module": "multiply_unsigned_10x10",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/signed_less_10.v",
+    "module": "signed_less_10",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/signed_less_18.v",
+    "module": "signed_less_18",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/avaliador_quadratico_f1.v",
+    "module": "avaliador_quadratico_f1",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/avaliador_derivada_f1.v",
+    "module": "avaliador_derivada_f1",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/validador_vertice_f1.v",
+    "module": "validador_vertice_f1",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/detector_hits_f1.v",
+    "module": "detector_hits_f1",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/datapath_f1.v",
+    "module": "datapath_f1",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/fsm_funcao_f1.v",
+    "module": "fsm_funcao_f1",
+    "category": "fsm"
+  },
+  {
+    "path": "rtl/funcao/processador_f1.v",
+    "module": "processador_f1",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/display/decodificador_glifo_7seg_pbl03.v",
+    "module": "decodificador_glifo_7seg_pbl03",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/display/display_status_pbl03.v",
+    "module": "display_status_pbl03",
+    "category": "structural"
+  }
+]

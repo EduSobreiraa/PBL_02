@@ -1,0 +1,6 @@
+/db/
+/quartus/db/
+/quartus/incremental_db/
+/quartus/output_files_pbl03/
+__pycache__/
+*.py[cod]

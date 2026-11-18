@@ -1,0 +1,26 @@
+module banco_coeficientes(input clk, input reset, input capture_enable, input [2:0] capture_select, input signed [7:0] data_in, output signed [7:0] a1, output signed [7:0] b1, output signed [7:0] c1, output signed [7:0] a2, output signed [7:0] b2, output signed [7:0] c2);
+wire select_2_n;
+wire select_1_n;
+wire select_0_n;
+wire write_a1;
+wire write_b1;
+wire write_c1;
+wire write_a2;
+wire write_b2;
+wire write_c2;
+not (select_2_n, capture_select[2]);
+not (select_1_n, capture_select[1]);
+not (select_0_n, capture_select[0]);
+and (write_a1, capture_enable, select_2_n, select_1_n, select_0_n);
+and (write_b1, capture_enable, select_2_n, select_1_n, capture_select[0]);
+and (write_c1, capture_enable, select_2_n, capture_select[1], select_0_n);
+and (write_a2, capture_enable, select_2_n, capture_select[1], capture_select[0]);
+and (write_b2, capture_enable, capture_select[2], select_1_n, select_0_n);
+and (write_c2, capture_enable, capture_select[2], select_1_n, capture_select[0]);
+dff_sync8 reg_a1 (.clk(clk), .reset(reset), .enable(write_a1), .d(data_in), .q(a1));
+dff_sync8 reg_b1 (.clk(clk), .reset(reset), .enable(write_b1), .d(data_in), .q(b1));
+dff_sync8 reg_c1 (.clk(clk), .reset(reset), .enable(write_c1), .d(data_in), .q(c1));
+dff_sync8 reg_a2 (.clk(clk), .reset(reset), .enable(write_a2), .d(data_in), .q(a2));
+dff_sync8 reg_b2 (.clk(clk), .reset(reset), .enable(write_b2), .d(data_in), .q(b2));
+dff_sync8 reg_c2 (.clk(clk), .reset(reset), .enable(write_c2), .d(data_in), .q(c2));
+endmodule
