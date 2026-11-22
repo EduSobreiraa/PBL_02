@@ -1,0 +1,4 @@
+UTC: 2026-11-18T16:11:39Z
+GIT HEAD: c7a98f42523eef5d44a07f88316c98b5db20ac27
+VERILATOR: Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+VENDOR SHA256: 6f2e841c45f14888aeb6d8cc58e79ec7e7ca5dafddae7c32ef160381daacccc8  vendor/vga/vga_sync.v

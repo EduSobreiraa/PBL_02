@@ -6,7 +6,7 @@ Configurar o projeto Quartus PBL03 para a DE10-Lite, incluir as fontes finais e 
 
 ## Status
 
-READY
+APPROVED
 
 ## Dependências
 
@@ -144,3 +144,42 @@ The mapping is complete for every current top-level port. The HEX port order `[0
 ### Resultado do Context Analyst
 
 **READY_FOR_IMPLEMENTATION.** A pinagem de todos os ports é verificável no manual local. O manual também estabelece o período VGA de 40 ns, e DEC-044 exige medir o caminho de pixel direto; o brief define esse valor como limite de atraso de dados até RGB. O Quartus está disponível localmente como Prime Lite 25.1std.0. Não alterei QSF, SDC, RTL nem fontes vendor durante a análise.
+
+
+## Resultado da implementação
+
+- `quartus/pbl03.qsf` preserva a lista aprovada de 41 fontes e atribui os 78 bits/ports físicos atuais (contagem de 78 locations e 78 IO standards). `SW[8]` está em B14; HEX usa índices `[0..6]`; VGA R/G/B e HS/VS seguem a tabela do brief. Nenhum pino DP foi incluído.
+- O nome QSF que Quartus 25.1 aceita para KEY é `3.3 V Schmitt Trigger` (com espaços, sem hífen). O nome transcrito inicialmente do manual como `3.3-V Schmitt Trigger` e a variante `3.3-V Schmitt Trigger Input` geraram Error (169216); a forma aceita foi confirmada no Fitter e é consistente com a Tabela 3-3 do manual.
+- `quartus/pbl03.sdc` define MAX10_CLK1_50 em 20.000 ns, deriva incerteza, limita cada caminho síncrono de registrador até RGB a 40.000 ns e exclui KEY0/KEY1 somente até os primeiros estágios já existentes (`dff_sync_bit:key0_sync_first` e `dff_bit:key1_sync_first`). A hierarquia foi conferida no relatório de mapeamento; TimeQuest não reportou filtro SDC ignorado.
+- `vendor/vga/vga_sync.v` permaneceu byte a byte idêntico: SHA-256 `6f2e841c45f14888aeb6d8cc58e79ec7e7ca5dafddae7c32ef160381daacccc8`.
+
+### Evidências e ferramentas
+
+Quartus Prime Lite 25.1std.0 Build 1129 (10/21/2025 SC Lite Edition), projeto/revisão `pbl03`, dispositivo `10M50DAF484C7G`.
+
+| Comando | Resultado observado |
+|---|---|
+| `python3 verification/check_pbl03_sources.py` | PASS |
+| `quartus_map --read_settings_files=on --write_settings_files=off pbl03` | Sucesso; 0 erros, 31 avisos; 3.279 logic elements, 94 registradores, 78 pinos (12 entradas e 66 saídas). |
+| `quartus_fit --read_settings_files=on --write_settings_files=off pbl03` | Sucesso; 0 erros, 3 avisos; 3.243 logic elements (7%), 94 registradores e 78/360 pinos. |
+| `quartus_sta pbl03` | Sucesso; 0 erros, 0 avisos do processo STA; clock 20 ns carregado, incerteza derivada. |
+| Relatório explícito `report_timing -from [all_registers] -to [get_ports {VGA_R[*] VGA_G[*] VGA_B[*]}]` | Todos os canais receberam exceção máxima de 40.000 ns; pior caminho RGB medido separadamente por bit: `vga_sync:raster|h_count_reg[8]` → `VGA_B[0]`, data delay 35.414 ns, slack 0.962 ns, sem violação. |
+
+Os slacks globais do TimeQuest foram 0.618 ns setup e 0.342 ns hold no modelo slow 1200mV/85C; 2.207 ns setup e 0.306 ns hold no modelo slow 1200mV/0C; e 11.871 ns setup e 0.148 ns hold no modelo fast 1200mV/0C. O pior caminho global de setup pertence ao clock; o pior caminho de pixel acima é avaliado contra a exceção RGB de 40 ns.
+
+O relatório informa que o design não está totalmente constrangido para setup/hold, pois os switches não têm input delay e as saídas não RGB não têm restrição externa; isso permanece coerente com o brief (sem atraso externo fictício e com foco explícito no orçamento de pixel). A evidência não equivale a validação física da placa.
+
+Avisos relevantes registrados nos relatórios: A&S reporta truncamentos inteiros nas linhas 74 e 78 de `vga_sync.v` (fonte vendorizada preservada) e saídas LED/HEX constantes conforme o RTL atual; o relatório de mapeamento também registra `Warning (10236)` para a net implícita `inside_y` em `rtl/funcao/validador_vertice_f1.v:38`. O Code Auditor confirmou que a net está conectada e é usada; esse aviso não invalida compilação, fitting ou timing. O RTL protegido está fora do escopo da TASK-035 e não foi alterado. Fitter indica 12 pinos sujeitos aos requisitos de interface da nota Intel AN 447 e algumas atribuições de I/O incompletas. Não ocorreram colisões de pinos. Esses avisos não impediram fitting.
+
+Relatórios reais preservados em `verification/results/quartus/pbl03/`: `pbl03.map.summary`, `pbl03.fit.summary`, `pbl03.sta.rpt`, `rgb_max_delay_path.txt` e `rgb_paths.txt`.
+
+## Pendências
+
+- Timing externo completo de todos os ports e teste na placa permanecem fora do que os relatórios atuais demonstram.
+
+## Auditoria independente
+
+- Resultado: **APPROVED** após correção do FIND-035-001 (LOW), que solicitava registrar o warning 10236 de `inside_y`.
+- Compliance: QSF/SDC dentro do escopo; lista de fontes e módulo VGA preservados; sem colisões de pinos.
+- Evidência: `python3 verification/check_pbl03_sources.py` passou; `git diff --check` passou; `rgb_paths.txt` confirma os 12 bits RGB, com pior caminho `VGA_B[0]` em 35.414 ns e slack de 0.962 ns.
+- Limites: os resultados não demonstram validação física na placa nem restrições externas completas para todos os ports.

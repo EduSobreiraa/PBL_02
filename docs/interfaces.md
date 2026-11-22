@@ -12,6 +12,7 @@ Enquanto `loaded=0`, HEX0–HEX5 mostram uma janela rolante de seis caracteres d
 
 | Módulo | Entradas | Saídas | Domínio/observação |
 |---|---|---|---|
+| `processador_f1` (PBL03) | clock/reset/START, coeficientes signed8, x/y signed10 | `f1_y` signed25, status e hits existentes | Saída interna signed25 acrescentada pela DEC-055 para comparação matemática F1/F2 antes do clipping; não é porta física de top-level. Os demais ports/handshake permanecem conforme TASK-028/029. |
 | entrada_coeficientes | clk,key0_n,key1_n,sw[7:0] | a,b,c signed8 | Wrapper público preservado |
 | entrada_coeficientes_nucleo | Mesmas entradas | a,b,c signed8; `loaded`, `progresso[1:0]`, `pedido_rearme` e `evento_captura` privados | Progresso `00→01→10→11`; os dois sinais já existentes são exportados sem FF novo para reset/evento da animação (DEC-042/TASK-024) |
 | somador_completo | a,b,cin, 1 bit cada | sum,cout | Helper estrutural privado |

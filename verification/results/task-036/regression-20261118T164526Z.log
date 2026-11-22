@@ -1,0 +1,29 @@
+PBL03 TASK-036 aggregate regression
+UTC start: 2026-11-18T16:45:26Z
+Repository: /home/edupires/orca/workspaces/02_PBL02/PBL-03
+Git HEAD: c7a98f42523eef5d44a07f88316c98b5db20ac27
+Working tree status at start:
+ M docs/pendencias.md
+ M docs/tasks/TASK-035.md
+ M docs/tasks/TASK-036.md
+ M docs/tasks/TASK-037.md
+ M quartus/pbl03.sdc
+ M rtl/aritmetica/multiply_unsigned_10x10.v
+ M rtl/aritmetica/multiply_unsigned_8x17.v
+ M rtl/top/top_pbl03.v
+?? docs/decisions/DEC-052.md
+?? docs/decisions/DEC-053.md
+?? docs/decisions/DEC-054.md
+?? docs/tasks/TASK-042.md
+?? docs/tasks/TASK-043.md
+?? sim/pbl03_top_verilator.cpp
+?? sim/run_pbl03_regression.sh
+?? sim/run_pbl03_top_verilator.sh
+?? verification/results/quartus/pbl03/rgb_paths.txt
+?? verification/results/task-036/
+?? verification/results/task-042/
+?? verification/results/task-043/
+Log: /home/edupires/orca/workspaces/02_PBL02/PBL-03/verification/results/task-036/regression-20261118T164526Z.log
+PBL03 source check: PASS
+== Icarus unit regression (hdlc/iverilog:latest) ==
+E: Unable to correct problems, you have held broken packages.

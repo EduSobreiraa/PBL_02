@@ -17,12 +17,12 @@ processador_f1 processador_1 (.clk(clk), .system_reset(system_reset), .start_pul
     .a1(a1), .b1(b1), .c1(c1), .x_cartesiano(x_cartesiano), .y_cartesiano(y_cartesiano),
     .busy(busy_f1), .done(done_f1), .error_a_zero(error_a_zero_f1),
     .error_vertex(error_vertex_f1), .display_enable(display_enable_f1),
-    .f1_hit(f1_hit), .f1_derivada_hit(f1_derivada_hit));
+    .f1_hit(f1_hit), .f1_derivada_hit(f1_derivada_hit), .f1_y());
 processador_f1 processador_2 (.clk(clk), .system_reset(system_reset), .start_pulse(start_pulse),
     .a1(a2), .b1(b2), .c1(c2), .x_cartesiano(x_cartesiano), .y_cartesiano(y_cartesiano),
     .busy(busy_f2), .done(done_f2), .error_a_zero(error_a_zero_f2_raw),
     .error_vertex(error_vertex_f2_raw), .display_enable(display_enable_f2),
-    .f1_hit(f2_hit), .f1_derivada_hit(f2_derivada_hit));
+    .f1_hit(f2_hit), .f1_derivada_hit(f2_derivada_hit), .f1_y());
 and (error_a_zero_f2, error_a_zero_f2_raw, f2_enabled);
 and (error_vertex_f2, error_vertex_f2_raw, f2_enabled);
 endmodule

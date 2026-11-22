@@ -177,3 +177,7 @@ APPROVED. O Code Auditor repetiu os quatro runners e aprovou os três gates. A e
 - 16/11/2026 | Context Analyst marcou READY após confirmar que a segunda instância reutiliza a interface F1 existente; erro de F2 nula é mascarado somente na fronteira do top.
 - 16/11/2026 | Code Implementer adicionou F2, runner e 25 ciclos VPI; regressões TASK-026–028 e TASK-027 passaram.
 - 16/11/2026 | Code Auditor repetiu quatro runners e aprovou Compliance, Functional e Integration sem findings. Registrou limitação de rastreamento Git para comparação byte a byte do QSF.
+
+### Revisão posterior de interface — DEC-055
+
+DEC-055 (CONSENSUS) autoriza uma única extensão explícita posterior às portas de `processador_f1`: saída interna `f1_y` signed[24:0], ligada ao resultado já existente em `datapath_f1` para igualdade exata F1/F2 da quinta cor VGA. A proibição acima de adicionar portas permanece aplicável a `enable`, handshake, status e demais interfaces. A extensão não altera a interface física do top e deve migrar todos os callers nomeados; resultado e timing exigem regressão end-to-end e STA conforme TASK-037.

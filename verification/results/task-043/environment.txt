@@ -1,0 +1,8 @@
+2026-11-18T16:34:36Z
+c7a98f42523eef5d44a07f88316c98b5db20ac27
+Quartus Prime Analysis & Synthesis
+Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+6f2e841c45f14888aeb6d8cc58e79ec7e7ca5dafddae7c32ef160381daacccc8  vendor/vga/vga_sync.v
+ef5e58eacbf15a1900b6bb4d7b1919a04687de15d97f747030d14c3db7304f80  rtl/aritmetica/multiply_unsigned_10x10.v
+1069ba032e7b2d42a7a09a42573ce597839f94e6dccfc101d01e58565be5dd3f  rtl/aritmetica/multiply_unsigned_8x17.v
+Icarus: Icarus Verilog version 14.0 (devel) (s20260301-394-g9edaf7b6a)

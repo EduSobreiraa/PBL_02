@@ -8,3 +8,4 @@ set_false_path -from [get_ports {KEY[1]}] -to [get_registers {*|dff_bit:key1_syn
 
 # VGA raster pixel period is 40 ns (25 MHz); constrain registered RGB paths.
 set_max_delay 40.000 -from [all_registers] -to [get_ports {VGA_R[*] VGA_G[*] VGA_B[*]}]
+set_max_delay 40.000 -from [all_registers] -to [get_ports {VGA_HS VGA_VS}]

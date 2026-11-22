@@ -1,0 +1,59 @@
+PBL03 TASK-036 aggregate regression
+UTC start: 2026-11-18T16:45:00Z
+Repository: /home/edupires/orca/workspaces/02_PBL02/PBL-03
+Git HEAD: c7a98f42523eef5d44a07f88316c98b5db20ac27
+Working tree status at start:
+ M docs/pendencias.md
+ M docs/tasks/TASK-035.md
+ M docs/tasks/TASK-036.md
+ M docs/tasks/TASK-037.md
+ M quartus/pbl03.sdc
+ M rtl/aritmetica/multiply_unsigned_10x10.v
+ M rtl/aritmetica/multiply_unsigned_8x17.v
+ M rtl/top/top_pbl03.v
+?? docs/decisions/DEC-052.md
+?? docs/decisions/DEC-053.md
+?? docs/decisions/DEC-054.md
+?? docs/tasks/TASK-042.md
+?? docs/tasks/TASK-043.md
+?? sim/pbl03_top_verilator.cpp
+?? sim/run_pbl03_regression.sh
+?? sim/run_pbl03_top_verilator.sh
+?? verification/results/quartus/pbl03/rgb_paths.txt
+?? verification/results/task-036/
+?? verification/results/task-042/
+?? verification/results/task-043/
+Log: /home/edupires/orca/workspaces/02_PBL02/PBL-03/verification/results/task-036/regression-20261118T164500Z.log
+PBL03 source check: PASS
+== Icarus unit regression (hdlc/iverilog:latest) ==
+Icarus version:
+Icarus Verilog version 14.0 (devel) (s20260301-394-g9edaf7b6a)
+
+Unable to get version from "/usr/local/lib/ivl/ivlpp -V"
+Unable to get version from "/usr/local/lib/ivl/ivl -V -C"/tmp/ivrlh68b7908c" -C"/usr/local/lib/ivl/vvp.conf""
+VVP version:
+Icarus Verilog runtime version 14.0 (devel) (s20260301-394-g9edaf7b6a)
+
+Copyright (c) 2001-2026 Stephen Williams (steve@icarus.com)
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+GCC version:
+gcc (Debian 10.2.1-6) 10.2.1 20210110
+RUN sim/run_video_axes_icarus.sh
+/workspace/sim/video_axes_icarus_vpi.c:1:10: fatal error: stdio.h: No such file or directory
+    1 | #include <stdio.h>
+      |          ^~~~~~~~~
+compilation terminated.

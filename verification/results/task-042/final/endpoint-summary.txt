@@ -1,0 +1,17 @@
+Quartus Prime Lite 25.1std.0; slow model; all paths constrained by 40.000 ns max delay
+Endpoint | Startpoint | Data arrival (ns) | Slack (ns)
+VGA_HS | vga_sync:raster|hsync_reg | 9.093 | 30.907
+VGA_VS | vga_sync:raster|vsync_reg | 9.258 | 30.742
+VGA_R[0] | vga_sync:raster|h_count_reg[7] | 37.862 | 2.138
+VGA_R[1] | vga_sync:raster|h_count_reg[7] | 37.873 | 2.127
+VGA_R[2] | vga_sync:raster|h_count_reg[7] | 37.888 | 2.112
+VGA_R[3] | vga_sync:raster|h_count_reg[7] | 37.867 | 2.133
+VGA_G[0] | vga_sync:raster|h_count_reg[7] | 37.554 | 2.446
+VGA_G[1] | vga_sync:raster|h_count_reg[7] | 37.167 | 2.833
+VGA_G[2] | vga_sync:raster|h_count_reg[7] | 37.506 | 2.494
+VGA_G[3] | vga_sync:raster|h_count_reg[7] | 37.516 | 2.484
+VGA_B[0] | vga_sync:raster|h_count_reg[7] | 37.445 | 2.555
+VGA_B[1] | vga_sync:raster|h_count_reg[7] | 37.462 | 2.538
+VGA_B[2] | vga_sync:raster|h_count_reg[7] | 37.315 | 2.685
+VGA_B[3] | vga_sync:raster|h_count_reg[7] | 37.374 | 2.626
+Minimum slack: 2.112 ns

@@ -1,0 +1,3 @@
+350fcb0cb1eda7d6ee1847c2ad2468a9bd5220ef3577595547fa17eb74fea79e  quartus/pbl03.qsf
+42825bc5e11eb33346b95fa135bae669a227a35e65d61005c2bb4e537986f863  quartus/pbl03.sdc
+6f2e841c45f14888aeb6d8cc58e79ec7e7ca5dafddae7c32ef160381daacccc8  vendor/vga/vga_sync.v

@@ -1,0 +1,189 @@
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+    Info: Copyright (C) 2025  Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions
+    Info: and other software and tools, and any partner logic
+    Info: functions, and any output files from any of the foregoing
+    Info: (including device programming or simulation files), and any
+    Info: associated documentation or information are expressly subject
+    Info: to the terms and conditions of the Altera Program License
+    Info: Subscription Agreement, the Altera Quartus Prime License Agreement,
+    Info: the Altera IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Altera and sold by Altera or its authorized distributors.  Please
+    Info: refer to the Altera Software License Subscription Agreements
+    Info: on the Quartus Prime software download page.
+    Info: Processing started: Wed Nov 18 14:23:00 2026
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off pbl03
+Info (20032): Parallel compilation is enabled and will use up to 2 processors
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v
+    Info (12023): Found entity 1: top_pbl03 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/controle/fsm_principal_pbl03.v
+    Info (12023): Found entity 1: fsm_principal_pbl03 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/controle/fsm_principal_pbl03.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/video/coordenadas_cartesianas.v
+    Info (12023): Found entity 1: coordenadas_cartesianas File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/video/coordenadas_cartesianas.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/video/detector_eixos.v
+    Info (12023): Found entity 1: detector_eixos File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/video/detector_eixos.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/video/compositor_rgb.v
+    Info (12023): Found entity 1: compositor_rgb File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/video/compositor_rgb.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/vendor/vga/vga_sync.v
+    Info (12023): Found entity 1: vga_sync File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/vendor/vga/vga_sync.v Line: 7
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/primitivos/dff_bit.v
+    Info (12023): Found entity 1: dff_bit File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/primitivos/dff_bit.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/primitivos/dff_sync_bit.v
+    Info (12023): Found entity 1: dff_sync_bit File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/primitivos/dff_sync_bit.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/primitivos/dff_sync8.v
+    Info (12023): Found entity 1: dff_sync8 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/primitivos/dff_sync8.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/sincronizador_keys.v
+    Info (12023): Found entity 1: sincronizador_keys File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/sincronizador_keys.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/detector_evento_key0.v
+    Info (12023): Found entity 1: detector_evento_key0 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/detector_evento_key0.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/conversor_sinal_magnitude.v
+    Info (12023): Found entity 1: conversor_sinal_magnitude File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/conversor_sinal_magnitude.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/validador_entrada.v
+    Info (12023): Found entity 1: validador_entrada File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/validador_entrada.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/fsm_entrada.v
+    Info (12023): Found entity 1: fsm_entrada File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/fsm_entrada.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/banco_coeficientes.v
+    Info (12023): Found entity 1: banco_coeficientes File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/banco_coeficientes.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/entrada_pbl03.v
+    Info (12023): Found entity 1: entrada_pbl03 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/entrada_pbl03.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/full_adder_1bit.v
+    Info (12023): Found entity 1: full_adder_1bit File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/full_adder_1bit.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_16.v
+    Info (12023): Found entity 1: addsub_16 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_16.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_18.v
+    Info (12023): Found entity 1: addsub_18 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_18.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_20.v
+    Info (12023): Found entity 1: addsub_20 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_20.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_25.v
+    Info (12023): Found entity 1: addsub_25 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_25.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_8.v
+    Info (12023): Found entity 1: conditional_negate_8 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_8.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_10.v
+    Info (12023): Found entity 1: conditional_negate_10 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_10.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_16.v
+    Info (12023): Found entity 1: conditional_negate_16 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_16.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_18.v
+    Info (12023): Found entity 1: conditional_negate_18 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_18.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_25.v
+    Info (12023): Found entity 1: conditional_negate_25 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/conditional_negate_25.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x8.v
+    Info (12023): Found entity 1: multiply_unsigned_8x8 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x8.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x10.v
+    Info (12023): Found entity 1: multiply_unsigned_8x10 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x10.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x17.v
+    Info (12023): Found entity 1: multiply_unsigned_8x17 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x17.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_10x10.v
+    Info (12023): Found entity 1: multiply_unsigned_10x10 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_10x10.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/signed_less_10.v
+    Info (12023): Found entity 1: signed_less_10 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/signed_less_10.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/signed_less_18.v
+    Info (12023): Found entity 1: signed_less_18 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/signed_less_18.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v
+    Info (12023): Found entity 1: avaliador_quadratico_f1 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_derivada_f1.v
+    Info (12023): Found entity 1: avaliador_derivada_f1 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_derivada_f1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/validador_vertice_f1.v
+    Info (12023): Found entity 1: validador_vertice_f1 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/validador_vertice_f1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/detector_hits_f1.v
+    Info (12023): Found entity 1: detector_hits_f1 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/detector_hits_f1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/datapath_f1.v
+    Info (12023): Found entity 1: datapath_f1 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/datapath_f1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/fsm_funcao_f1.v
+    Info (12023): Found entity 1: fsm_funcao_f1 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/fsm_funcao_f1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/processador_f1.v
+    Info (12023): Found entity 1: processador_f1 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/processador_f1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/display/decodificador_glifo_7seg_pbl03.v
+    Info (12023): Found entity 1: decodificador_glifo_7seg_pbl03 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/display/decodificador_glifo_7seg_pbl03.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/display/display_status_pbl03.v
+    Info (12023): Found entity 1: display_status_pbl03 File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/display/display_status_pbl03.v Line: 1
+Warning (10236): Verilog HDL Implicit Net warning at validador_vertice_f1.v(38): created implicit net for "inside_y" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/validador_vertice_f1.v Line: 38
+Info (12127): Elaborating entity "top_pbl03" for the top level hierarchy
+Info (12128): Elaborating entity "entrada_pbl03" for hierarchy "entrada_pbl03:entrada" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 47
+Info (12128): Elaborating entity "sincronizador_keys" for hierarchy "entrada_pbl03:entrada|sincronizador_keys:sincronizador" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/entrada_pbl03.v Line: 10
+Info (12128): Elaborating entity "dff_sync_bit" for hierarchy "entrada_pbl03:entrada|sincronizador_keys:sincronizador|dff_sync_bit:key0_sync_first" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/sincronizador_keys.v Line: 4
+Info (12128): Elaborating entity "dff_bit" for hierarchy "entrada_pbl03:entrada|sincronizador_keys:sincronizador|dff_bit:key1_sync_first" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/sincronizador_keys.v Line: 6
+Info (12128): Elaborating entity "detector_evento_key0" for hierarchy "entrada_pbl03:entrada|detector_evento_key0:detector" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/entrada_pbl03.v Line: 11
+Info (12128): Elaborating entity "conversor_sinal_magnitude" for hierarchy "entrada_pbl03:entrada|conversor_sinal_magnitude:conversor" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/entrada_pbl03.v Line: 12
+Info (12128): Elaborating entity "validador_entrada" for hierarchy "entrada_pbl03:entrada|validador_entrada:validador" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/entrada_pbl03.v Line: 13
+Info (12128): Elaborating entity "fsm_entrada" for hierarchy "entrada_pbl03:entrada|fsm_entrada:controle" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/entrada_pbl03.v Line: 14
+Info (12128): Elaborating entity "banco_coeficientes" for hierarchy "entrada_pbl03:entrada|banco_coeficientes:banco" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/entrada_pbl03.v Line: 15
+Info (12128): Elaborating entity "dff_sync8" for hierarchy "entrada_pbl03:entrada|banco_coeficientes:banco|dff_sync8:reg_a1" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/entrada/banco_coeficientes.v Line: 20
+Info (12128): Elaborating entity "fsm_principal_pbl03" for hierarchy "fsm_principal_pbl03:controle_principal" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 48
+Info (10264): Verilog HDL Case Statement information at fsm_principal_pbl03.v(25): all case item expressions in this case statement are onehot File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/controle/fsm_principal_pbl03.v Line: 25
+Info (12128): Elaborating entity "processador_f1" for hierarchy "processador_f1:processador" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 49
+Info (12128): Elaborating entity "datapath_f1" for hierarchy "processador_f1:processador|datapath_f1:datapath" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/processador_f1.v Line: 7
+Info (12128): Elaborating entity "avaliador_quadratico_f1" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/datapath_f1.v Line: 2
+Info (12128): Elaborating entity "conditional_negate_8" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|conditional_negate_8:abs_a1" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v Line: 13
+Info (12128): Elaborating entity "conditional_negate_10" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|conditional_negate_10:abs_x" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v Line: 15
+Info (12128): Elaborating entity "multiply_unsigned_10x10" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|multiply_unsigned_10x10:square_x" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v Line: 16
+Info (12128): Elaborating entity "addsub_20" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|multiply_unsigned_10x10:square_x|addsub_20:add_0_0" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_10x10.v Line: 113
+Info (12128): Elaborating entity "full_adder_1bit" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|multiply_unsigned_10x10:square_x|addsub_20:add_0_0|full_adder_1bit:bit_0" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/addsub_20.v Line: 6
+Info (12128): Elaborating entity "multiply_unsigned_8x17" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|multiply_unsigned_8x17:multiply_ax2" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v Line: 17
+Info (12128): Elaborating entity "addsub_25" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|multiply_unsigned_8x17:multiply_ax2|addsub_25:add_0_0" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x17.v Line: 156
+Info (12128): Elaborating entity "conditional_negate_25" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|conditional_negate_25:signed_ax2" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v Line: 18
+Info (12128): Elaborating entity "multiply_unsigned_8x10" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|multiply_unsigned_8x10:multiply_bx" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v Line: 19
+Info (12128): Elaborating entity "addsub_18" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|multiply_unsigned_8x10:multiply_bx|addsub_18:add_row_0" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x10.v Line: 12
+Info (12128): Elaborating entity "conditional_negate_18" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_quadratico_f1:quadratica|conditional_negate_18:signed_bx" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/avaliador_quadratico_f1.v Line: 21
+Info (12128): Elaborating entity "avaliador_derivada_f1" for hierarchy "processador_f1:processador|datapath_f1:datapath|avaliador_derivada_f1:derivada" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/datapath_f1.v Line: 3
+Info (12128): Elaborating entity "validador_vertice_f1" for hierarchy "processador_f1:processador|datapath_f1:datapath|validador_vertice_f1:validador" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/datapath_f1.v Line: 4
+Info (12128): Elaborating entity "multiply_unsigned_8x8" for hierarchy "processador_f1:processador|datapath_f1:datapath|validador_vertice_f1:validador|multiply_unsigned_8x8:multiply_ac" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/validador_vertice_f1.v Line: 25
+Info (12128): Elaborating entity "addsub_16" for hierarchy "processador_f1:processador|datapath_f1:datapath|validador_vertice_f1:validador|multiply_unsigned_8x8:multiply_ac|addsub_16:add_row_0" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/aritmetica/multiply_unsigned_8x8.v Line: 12
+Info (12128): Elaborating entity "conditional_negate_16" for hierarchy "processador_f1:processador|datapath_f1:datapath|validador_vertice_f1:validador|conditional_negate_16:signed_ac" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/validador_vertice_f1.v Line: 27
+Info (12128): Elaborating entity "signed_less_18" for hierarchy "processador_f1:processador|datapath_f1:datapath|validador_vertice_f1:validador|signed_less_18:below_lower" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/validador_vertice_f1.v Line: 34
+Info (12128): Elaborating entity "detector_hits_f1" for hierarchy "processador_f1:processador|datapath_f1:datapath|detector_hits_f1:detector" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/datapath_f1.v Line: 5
+Info (12128): Elaborating entity "signed_less_10" for hierarchy "processador_f1:processador|datapath_f1:datapath|detector_hits_f1:detector|signed_less_10:below_minimum" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/detector_hits_f1.v Line: 11
+Info (12128): Elaborating entity "fsm_funcao_f1" for hierarchy "processador_f1:processador|fsm_funcao_f1:controle" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/funcao/processador_f1.v Line: 8
+Info (12128): Elaborating entity "display_status_pbl03" for hierarchy "display_status_pbl03:status" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 86
+Info (12128): Elaborating entity "decodificador_glifo_7seg_pbl03" for hierarchy "display_status_pbl03:status|decodificador_glifo_7seg_pbl03:hex5" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/display/display_status_pbl03.v Line: 52
+Info (12128): Elaborating entity "vga_sync" for hierarchy "vga_sync:raster" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 88
+Warning (10230): Verilog HDL assignment warning at vga_sync.v(74): truncated value with size 32 to match size of target (10) File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/vendor/vga/vga_sync.v Line: 74
+Warning (10230): Verilog HDL assignment warning at vga_sync.v(78): truncated value with size 32 to match size of target (10) File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/vendor/vga/vga_sync.v Line: 78
+Info (12128): Elaborating entity "coordenadas_cartesianas" for hierarchy "coordenadas_cartesianas:coordenadas" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 91
+Info (12128): Elaborating entity "detector_eixos" for hierarchy "detector_eixos:detector" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 92
+Info (12128): Elaborating entity "compositor_rgb" for hierarchy "compositor_rgb:compositor" File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 93
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "LEDR[4]" is stuck at GND File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "LEDR[5]" is stuck at GND File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "LEDR[6]" is stuck at GND File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "LEDR[7]" is stuck at GND File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "LEDR[8]" is stuck at GND File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "LEDR[9]" is stuck at GND File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX0[5]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX1[1]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX2[0]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX2[1]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX2[2]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX2[3]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX2[4]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX2[5]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX2[6]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX3[0]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX3[1]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX3[2]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX3[3]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX3[5]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX4[0]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX4[1]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX4[2]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX4[3]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX4[5]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX5[1]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+    Warning (13410): Pin "HEX5[2]" is stuck at VCC File: /home/edupires/orca/workspaces/02_PBL02/PBL-03/rtl/top/top_pbl03.v Line: 1
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 6 registers lost all their fanouts during netlist optimizations.
+Info (144001): Generated suppressed messages file /home/edupires/orca/workspaces/02_PBL02/PBL-03/quartus/output_files_pbl03/pbl03.map.smsg
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 3413 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 12 input pins
+    Info (21059): Implemented 66 output pins
+    Info (21061): Implemented 3335 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 31 warnings
+    Info: Peak virtual memory: 469 megabytes
+    Info: Processing ended: Wed Nov 18 14:23:19 2026
+    Info: Elapsed time: 00:00:19
+    Info: Total CPU time (on all processors): 00:00:25

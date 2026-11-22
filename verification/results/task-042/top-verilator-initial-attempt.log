@@ -1,0 +1,30 @@
+%Warning-IMPLICIT: /workspace/quartus/../rtl/funcao/validador_vertice_f1.v:38:6: Signal definition not found, creating implicitly: 'inside_y'
+                                                                               : ... Suggested alternative: 'outside_y'
+   38 | not (inside_y, outside_y);
+      |      ^~~~~~~~
+                   ... For warning description see https://verilator.org/warn/IMPLICIT?v=5.053
+                   ... Use "/* verilator lint_off IMPLICIT */" and lint_on around source to disable this message.
+- V e r i l a t i o n   R e p o r t: Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+- Verilator: Built from 2.197 MB sources in 43 modules, into 3.810 MB in 17 C++ files needing 0.001 MB
+- Verilator: Walltime 15.432 s (elab=0.060, cvt=1.504, bld=13.787); cpu 1.639 s on 1 threads; allocated 149.312 MB
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: invalid +128 rejected without advancing
+TOP VERILATOR PASS: invalid -129 rejected without advancing
+TOP VERILATOR PASS: capture a1 after invalid entries
+TOP VERILATOR PASS: negative zero captured and normalized
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 valid and F2 disabled complete
+TOP VERILATOR PASS: reexecution revalidates retained coefficients
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 and F2 valid before full-frame scan
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR FAIL: unexpected full-frame active-low sync pulse counts: HS low=50400 falls=525 VS low=1600 falls=0

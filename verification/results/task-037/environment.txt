@@ -1,0 +1,7 @@
+Tested working-tree source/config fingerprint: 7997c064264d0d8e6f6e5e6ae52031ad19f727e57c0debca19334b552b42c0e8
+Git HEAD at run: c7a98f42523eef5d44a07f88316c98b5db20ac27
+Icarus/VVP: 14.0 devel (s20260301-394-g9edaf7b6a)
+GCC: 10.2.1
+Verilator: 5.053 devel rev v5.052-343-gdc7ef9bdb
+C++ compiler: Debian clang 11.0.1-2
+Quartus Prime Lite: 25.1std.0 Build 1129

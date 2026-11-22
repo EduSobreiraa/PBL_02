@@ -1,0 +1,8 @@
+python3 verification/check_pbl03_sources.py
+CXX=$(command -v clang++) sh sim/run_pbl03_top_verilator.sh  # in hdlc/verilator:latest, mounted workspace
+quartus_map --read_settings_files=on --write_settings_files=off pbl03
+quartus_fit --read_settings_files=on --write_settings_files=off pbl03
+quartus_sta pbl03
+quartus_sta -t /tmp/task42_final_paths.tcl  # 14 VGA outputs, -npaths 1 -detail full_path, slow model
+sha256sum vendor/vga/vga_sync.v
+ git diff --check

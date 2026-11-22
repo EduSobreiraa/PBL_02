@@ -1,0 +1,7 @@
+UTC: 2026-11-18T16:37:43Z
+Branch: EduSobreiraa/PBL-03
+HEAD: c7a98f42523eef5d44a07f88316c98b5db20ac27
+Quartus: Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+Verilator: Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+TASK-043 status: APPROVED
+vendor SHA-256: 6f2e841c45f14888aeb6d8cc58e79ec7e7ca5dafddae7c32ef160381daacccc8  vendor/vga/vga_sync.v

@@ -1,0 +1,73 @@
+Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+%Warning-IMPLICIT: /workspace/quartus/../rtl/funcao/validador_vertice_f1.v:38:6: Signal definition not found, creating implicitly: 'inside_y'
+                                                                               : ... Suggested alternative: 'outside_y'
+   38 | not (inside_y, outside_y);
+      |      ^~~~~~~~
+                   ... For warning description see https://verilator.org/warn/IMPLICIT?v=5.053
+                   ... Use "/* verilator lint_off IMPLICIT */" and lint_on around source to disable this message.
+- V e r i l a t i o n   R e p o r t: Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+- Verilator: Built from 2.190 MB sources in 43 modules, into 4.059 MB in 18 C++ files needing 0.001 MB
+- Verilator: Walltime 15.678 s (elab=0.052, cvt=1.507, bld=14.042); cpu 1.631 s on 1 threads; allocated 145.711 MB
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: invalid +128 rejected without advancing
+TOP VERILATOR PASS: invalid -129 rejected without advancing
+TOP VERILATOR PASS: capture a1 after invalid entries
+TOP VERILATOR PASS: negative zero captured and normalized
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 valid and F2 disabled complete
+TOP VERILATOR PASS: reexecution revalidates retained coefficients
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 and F2 valid before full-frame scan
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: both functions report a=0 with ERR F1 HEX priority
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 vertex outside screen with valid F2
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1 alongside F2 a=0 error
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1 alongside F2 vertex error
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: signed coefficient limits -128 and 127 remain valid
+TOP VERILATOR PASS: 1680469 vector checks; 1661568 20 ns system clock cycles
