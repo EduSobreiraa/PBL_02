@@ -1,0 +1,17 @@
+Quartus Prime 25.1std TimeQuest post-fit max-delay paths, SDC budget 40 ns
+Endpoint slack is the remaining margin against the 40 ns set_max_delay constraint.
+VGA_R[0]: 1.803 ns slack
+VGA_R[1]: 1.703 ns slack
+VGA_R[2]: 1.828 ns slack
+VGA_R[3]: 1.447 ns slack
+VGA_G[0]: 1.672 ns slack
+VGA_G[1]: 2.071 ns slack
+VGA_G[2]: 1.706 ns slack
+VGA_G[3]: 1.696 ns slack
+VGA_B[0]: 1.421 ns slack
+VGA_B[1]: 1.774 ns slack
+VGA_B[2]: 1.459 ns slack
+VGA_B[3]: 2.135 ns slack
+VGA_HS: 31.205 ns slack
+VGA_VS: 30.237 ns slack
+Worst endpoint: VGA_B[0], 1.421 ns slack; data arrival 38.579 ns of 40.000 ns.

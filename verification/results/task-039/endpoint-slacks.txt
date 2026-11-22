@@ -1,0 +1,14 @@
+VGA_R[0]: -30.759 ns
+VGA_R[1]: -31.406 ns
+VGA_R[2]: -30.759 ns
+VGA_R[3]: -31.338 ns
+VGA_G[0]: -30.884 ns
+VGA_G[1]: -30.901 ns
+VGA_G[2]: -31.286 ns
+VGA_G[3]: -31.296 ns
+VGA_B[0]: -31.102 ns
+VGA_B[1]: -31.043 ns
+VGA_B[2]: -31.443 ns
+VGA_B[3]: -31.079 ns
+VGA_HS: 30.732 ns
+VGA_VS: 30.857 ns

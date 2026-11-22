@@ -1,4 +1,4 @@
-module validador_vertice_f1(input signed [7:0] a1, input signed [7:0] b1, input signed [7:0] c1, output a1_zero, output vertice_y_fora, output function_valid);
+module validador_vertice_f1(input signed [7:0] a1, input signed [7:0] b1, input signed [7:0] c1, output a1_zero, output vertice_y_fora, output function_valid, output signed [8:0] x_num, output [8:0] x_den, output signed [17:0] y_num, output [9:0] y_den);
 wire [7:0] a1_magnitude;
 wire [7:0] b1_magnitude;
 wire [7:0] c1_magnitude;
@@ -14,12 +14,21 @@ wire [17:0] lower_limit;
 wire numerator_below_lower;
 wire numerator_above_upper;
 wire outside_y;
+wire inside_y;
 wire a1_nonzero;
 wire ac_negative;
+wire [15:0] x_den_product;
+wire [15:0] y_den_product;
+wire [6:0] x_den_unused;
+wire [5:0] y_den_unused;
+wire x_num_unused;
 
 nor (a1_zero, a1[0], a1[1], a1[2], a1[3], a1[4], a1[5], a1[6], a1[7]);
 not (a1_nonzero, a1_zero);
 conditional_negate_8 abs_a1 (.value(a1), .negate(a1[7]), .result(a1_magnitude));
+conditional_negate_10 normalize_x_numerator (.value({{2{b1[7]}}, b1}), .negate(~a1[7]), .result({x_num_unused, x_num}));
+multiply_unsigned_8x8 scale_x_denominator (.lhs(a1_magnitude), .rhs(8'd2), .product({x_den_unused, x_den}));
+multiply_unsigned_8x8 scale_y_denominator (.lhs(a1_magnitude), .rhs(8'd4), .product({y_den_unused, y_den}));
 conditional_negate_8 abs_b1 (.value(b1), .negate(b1[7]), .result(b1_magnitude));
 conditional_negate_8 abs_c1 (.value(c1), .negate(c1[7]), .result(c1_magnitude));
 multiply_unsigned_8x8 multiply_ac (.lhs(a1_magnitude), .rhs(c1_magnitude), .product(ac_magnitude));
@@ -28,6 +37,7 @@ conditional_negate_16 signed_ac (.value(ac_magnitude), .negate(ac_negative), .re
 multiply_unsigned_8x8 square_b (.lhs(b1_magnitude), .rhs(b1_magnitude), .product(b1_squared));
 addsub_18 numerator_subtract (.lhs({ac_signed, 2'b00}), .rhs({2'b00, b1_squared}), .subtract(1'b1), .result(vertex_numerator));
 conditional_negate_18 normalize_numerator (.value(vertex_numerator), .negate(a1[7]), .result(numerator_normalized));
+conditional_negate_18 export_y_numerator (.value(vertex_numerator), .negate(a1[7]), .result(y_num));
 addsub_18 multiply_denominator_240 (.lhs({a1_magnitude, 10'b0}), .rhs({4'b0, a1_magnitude, 6'b0}), .subtract(1'b1), .result(limit_240));
 addsub_18 multiply_denominator_239 (.lhs(limit_240), .rhs({8'b0, a1_magnitude, 2'b0}), .subtract(1'b1), .result(limit_239));
 conditional_negate_18 negate_lower_limit (.value(limit_239), .negate(1'b1), .result(lower_limit));

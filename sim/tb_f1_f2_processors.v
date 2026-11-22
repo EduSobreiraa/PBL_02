@@ -5,8 +5,10 @@ module tb_f1_f2_processors(input clk, input system_reset, input start_pulse,
     input signed [9:0] x_cartesiano, input signed [9:0] y_cartesiano,
     output busy_f1, output done_f1, output error_a_zero_f1, output error_vertex_f1,
     output display_enable_f1, output f1_hit, output f1_derivada_hit,
+    output signed [8:0] f1_x_num, output [8:0] f1_x_den, output signed [17:0] f1_y_num, output [9:0] f1_y_den,
     output busy_f2, output done_f2, output error_a_zero_f2, output error_vertex_f2,
-    output display_enable_f2, output f2_hit, output f2_derivada_hit);
+    output display_enable_f2, output f2_hit, output f2_derivada_hit,
+    output signed [8:0] f2_x_num, output [8:0] f2_x_den, output signed [17:0] f2_y_num, output [9:0] f2_y_den);
 wire error_a_zero_f2_raw;
 wire error_vertex_f2_raw;
 wire f2_enabled;
@@ -17,12 +19,14 @@ processador_f1 processador_1 (.clk(clk), .system_reset(system_reset), .start_pul
     .a1(a1), .b1(b1), .c1(c1), .x_cartesiano(x_cartesiano), .y_cartesiano(y_cartesiano),
     .busy(busy_f1), .done(done_f1), .error_a_zero(error_a_zero_f1),
     .error_vertex(error_vertex_f1), .display_enable(display_enable_f1),
-    .f1_hit(f1_hit), .f1_derivada_hit(f1_derivada_hit), .f1_y());
+    .f1_hit(f1_hit), .f1_derivada_hit(f1_derivada_hit), .f1_y(),
+    .vertex_x_num(f1_x_num), .vertex_x_den(f1_x_den), .vertex_y_num(f1_y_num), .vertex_y_den(f1_y_den));
 processador_f1 processador_2 (.clk(clk), .system_reset(system_reset), .start_pulse(start_pulse),
     .a1(a2), .b1(b2), .c1(c2), .x_cartesiano(x_cartesiano), .y_cartesiano(y_cartesiano),
     .busy(busy_f2), .done(done_f2), .error_a_zero(error_a_zero_f2_raw),
     .error_vertex(error_vertex_f2_raw), .display_enable(display_enable_f2),
-    .f1_hit(f2_hit), .f1_derivada_hit(f2_derivada_hit), .f1_y());
+    .f1_hit(f2_hit), .f1_derivada_hit(f2_derivada_hit), .f1_y(),
+    .vertex_x_num(f2_x_num), .vertex_x_den(f2_x_den), .vertex_y_num(f2_y_num), .vertex_y_den(f2_y_den));
 and (error_a_zero_f2, error_a_zero_f2_raw, f2_enabled);
 and (error_vertex_f2, error_vertex_f2_raw, f2_enabled);
 endmodule

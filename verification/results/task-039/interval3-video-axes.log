@@ -1,0 +1,11 @@
+VPI PASS: left x boundary and horizontal axis
+VPI PASS: right x boundary
+VPI PASS: top y boundary and vertical axis
+VPI PASS: bottom y boundary and vertical axis
+VPI PASS: origin activates both axes
+VPI PASS: off-axis pixel is black
+VPI PASS: video_on clips axis pixel to black
+VPI PASS: KEY1 pressed asserts active-high VGA reset
+VPI PASS: KEY1 released deasserts VGA reset
+VPI PASS: all 280 video composition cases passed
+IVERILOG PASS: top_pbl03 elaborated with the current QSF source list

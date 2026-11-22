@@ -22,6 +22,7 @@ static s_vpi_time readonly_time;
 static vpiHandle a1_h, b1_h, c1_h, x_h, y_h;
 static vpiHandle f_h, derivative_h, a_zero_h, vertex_outside_h, valid_h;
 static vpiHandle f_hit_h, derivative_hit_h;
+static vpiHandle x_num_h, x_den_h, y_num_h, y_den_h;
 
 static void add_case(int a, int b, int c, int x, int y, const char *name)
 {
@@ -134,6 +135,20 @@ static int64_t read_signed(vpiHandle handle, unsigned width)
         return (int64_t)raw - (INT64_C(1) << width);
     }
     return (int64_t)raw;
+}
+
+static uint32_t read_unsigned(vpiHandle handle, unsigned width)
+{
+    s_vpi_value value;
+    uint32_t mask = (1U << width) - 1U;
+    value.format = vpiVectorVal;
+    vpi_get_value(handle, &value);
+    if ((value.value.vector[0].bval & mask) != 0U) {
+        PLI_BYTE8 *name = vpi_get_str(vpiFullName, handle);
+        vpi_printf("VPI FAIL: %s contains X/Z bits\n", name);
+        exit(EXIT_FAILURE);
+    }
+    return value.value.vector[0].aval & mask;
 }
 
 static int read_bit(vpiHandle handle)
@@ -256,7 +271,20 @@ static PLI_INT32 check_case(p_cb_data callback_data)
         failed = 1; \
     } \
 } while (0)
+#define CHECK_UNSIGNED(handle, expected, width, label) do { \
+    uint32_t unsigned_actual = read_unsigned(handle, width); \
+    if (unsigned_actual != (uint32_t)(expected)) { \
+        vpi_printf("VPI FAIL: %s: %s expected %u, got %u\n", test->name, label, (unsigned)(expected), unsigned_actual); \
+        failed = 1; \
+    } \
+} while (0)
 
+    if (test->a != 0) {
+        CHECK_SIGNED(x_num_h, test->a > 0 ? -test->b : test->b, 9, "vertex x numerator");
+        CHECK_UNSIGNED(x_den_h, 2 * abs(test->a), 9, "vertex x denominator");
+        CHECK_SIGNED(y_num_h, numerator, 18, "vertex y numerator");
+        CHECK_UNSIGNED(y_den_h, 4 * abs(test->a), 10, "vertex y denominator");
+    }
     CHECK_SIGNED(f_h, f_expected, 25, "f1_y");
     CHECK_SIGNED(derivative_h, derivative_expected, 18, "f1_derivada");
     CHECK_BIT(a_zero_h, expected_a_zero, "a1_zero");
@@ -291,6 +319,10 @@ static PLI_INT32 start_test(p_cb_data callback_data)
     valid_h = get_handle("tb_f1_function.function_valid");
     f_hit_h = get_handle("tb_f1_function.f1_hit");
     derivative_hit_h = get_handle("tb_f1_function.f1_derivada_hit");
+    x_num_h = get_handle("tb_f1_function.x_num");
+    x_den_h = get_handle("tb_f1_function.x_den");
+    y_num_h = get_handle("tb_f1_function.y_num");
+    y_den_h = get_handle("tb_f1_function.y_den");
     build_cases();
     case_index = 0;
     schedule_next_drive();

@@ -1,0 +1,1603 @@
+Info: *******************************************************************
+Info: Running Quartus Prime Timing Analyzer
+    Info: Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+    Info: Copyright (C) 2025  Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions
+    Info: and other software and tools, and any partner logic
+    Info: functions, and any output files from any of the foregoing
+    Info: (including device programming or simulation files), and any
+    Info: associated documentation or information are expressly subject
+    Info: to the terms and conditions of the Altera Program License
+    Info: Subscription Agreement, the Altera Quartus Prime License Agreement,
+    Info: the Altera IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Altera and sold by Altera or its authorized distributors.  Please
+    Info: refer to the Altera Software License Subscription Agreements
+    Info: on the Quartus Prime software download page.
+    Info: Processing started: Sun Nov 22 14:22:45 2026
+Info: Command: quartus_sta -t ../verification/results/task-039/full_paths.tcl
+Info (20032): Parallel compilation is enabled and will use up to 2 processors
+Info (21076): High junction temperature operating condition is not set. Assuming a default value of '85'.
+Info (21076): Low junction temperature operating condition is not set. Assuming a default value of '0'.
+Info (332104): Reading SDC File: 'pbl03.sdc'
+Info (332151): Clock uncertainty is not calculated until you update the timing netlist.
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+OUTPUT_PATH VGA_R[0]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.803
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_R[0]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.803
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_R[0]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd13~11|datac
+    Info (332115):     32.953      0.298 FF  CELL  compositor|WideAnd13~11|combout
+    Info (332115):     33.221      0.268 FF    IC  compositor|WideAnd14~2|datac
+    Info (332115):     33.502      0.281 FR  CELL  compositor|WideAnd14~2|combout
+    Info (332115):     33.714      0.212 RR    IC  compositor|red[0]~1|datac
+    Info (332115):     34.018      0.304 RR  CELL  compositor|red[0]~1|combout
+    Info (332115):     35.369      1.351 RR    IC  VGA_R[0]~output|i
+    Info (332115):     38.197      2.828 RR  CELL  VGA_R[0]~output|o
+    Info (332115):     38.197      0.000 RR  CELL  VGA_R[0]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_R[0]
+    Info (332115): Data Arrival Time  :    38.197
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.803
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_R[1]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.703
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_R[1]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.703
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_R[1]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd13~11|datac
+    Info (332115):     32.953      0.298 FF  CELL  compositor|WideAnd13~11|combout
+    Info (332115):     33.221      0.268 FF    IC  compositor|WideAnd14~2|datac
+    Info (332115):     33.502      0.281 FR  CELL  compositor|WideAnd14~2|combout
+    Info (332115):     33.714      0.212 RR    IC  compositor|red[0]~1|datac
+    Info (332115):     34.018      0.304 RR  CELL  compositor|red[0]~1|combout
+    Info (332115):     35.490      1.472 RR    IC  VGA_R[1]~output|i
+    Info (332115):     38.297      2.807 RR  CELL  VGA_R[1]~output|o
+    Info (332115):     38.297      0.000 RR  CELL  VGA_R[1]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_R[1]
+    Info (332115): Data Arrival Time  :    38.297
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.703
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_R[2]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.828
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_R[2]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.828
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_R[2]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd13~11|datac
+    Info (332115):     32.953      0.298 FF  CELL  compositor|WideAnd13~11|combout
+    Info (332115):     33.221      0.268 FF    IC  compositor|WideAnd14~2|datac
+    Info (332115):     33.502      0.281 FR  CELL  compositor|WideAnd14~2|combout
+    Info (332115):     33.714      0.212 RR    IC  compositor|red[0]~1|datac
+    Info (332115):     34.018      0.304 RR  CELL  compositor|red[0]~1|combout
+    Info (332115):     35.345      1.327 RR    IC  VGA_R[2]~output|i
+    Info (332115):     38.172      2.827 RR  CELL  VGA_R[2]~output|o
+    Info (332115):     38.172      0.000 RR  CELL  VGA_R[2]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_R[2]
+    Info (332115): Data Arrival Time  :    38.172
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.828
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_R[3]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.447
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_R[3]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.447
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_R[3]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd13~11|datac
+    Info (332115):     32.953      0.298 FF  CELL  compositor|WideAnd13~11|combout
+    Info (332115):     33.221      0.268 FF    IC  compositor|WideAnd14~2|datac
+    Info (332115):     33.502      0.281 FR  CELL  compositor|WideAnd14~2|combout
+    Info (332115):     33.714      0.212 RR    IC  compositor|red[0]~1|datac
+    Info (332115):     34.018      0.304 RR  CELL  compositor|red[0]~1|combout
+    Info (332115):     35.735      1.717 RR    IC  VGA_R[3]~output|i
+    Info (332115):     38.553      2.818 RR  CELL  VGA_R[3]~output|o
+    Info (332115):     38.553      0.000 RR  CELL  VGA_R[3]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_R[3]
+    Info (332115): Data Arrival Time  :    38.553
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.447
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_G[0]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.672
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_G[0]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.672
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_G[0]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd14~0|datac
+    Info (332115):     32.936      0.281 FR  CELL  compositor|WideAnd14~0|combout
+    Info (332115):     33.146      0.210 RR    IC  compositor|WideAnd14~4|datad
+    Info (332115):     33.312      0.166 RR  CELL  compositor|WideAnd14~4|combout
+    Info (332115):     33.533      0.221 RR    IC  compositor|green[0]~2|datad
+    Info (332115):     33.699      0.166 RR  CELL  compositor|green[0]~2|combout
+    Info (332115):     35.531      1.832 RR    IC  VGA_G[0]~output|i
+    Info (332115):     38.328      2.797 RR  CELL  VGA_G[0]~output|o
+    Info (332115):     38.328      0.000 RR  CELL  VGA_G[0]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_G[0]
+    Info (332115): Data Arrival Time  :    38.328
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.672
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_G[1]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 2.071
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_G[1]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 2.071
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_G[1]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd14~0|datac
+    Info (332115):     32.936      0.281 FR  CELL  compositor|WideAnd14~0|combout
+    Info (332115):     33.146      0.210 RR    IC  compositor|WideAnd14~4|datad
+    Info (332115):     33.312      0.166 RR  CELL  compositor|WideAnd14~4|combout
+    Info (332115):     33.533      0.221 RR    IC  compositor|green[0]~2|datad
+    Info (332115):     33.699      0.166 RR  CELL  compositor|green[0]~2|combout
+    Info (332115):     35.142      1.443 RR    IC  VGA_G[1]~output|i
+    Info (332115):     37.929      2.787 RR  CELL  VGA_G[1]~output|o
+    Info (332115):     37.929      0.000 RR  CELL  VGA_G[1]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_G[1]
+    Info (332115): Data Arrival Time  :    37.929
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     2.071
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_G[2]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.706
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_G[2]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.706
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_G[2]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd14~0|datac
+    Info (332115):     32.936      0.281 FR  CELL  compositor|WideAnd14~0|combout
+    Info (332115):     33.146      0.210 RR    IC  compositor|WideAnd14~4|datad
+    Info (332115):     33.312      0.166 RR  CELL  compositor|WideAnd14~4|combout
+    Info (332115):     33.533      0.221 RR    IC  compositor|green[0]~2|datad
+    Info (332115):     33.699      0.166 RR  CELL  compositor|green[0]~2|combout
+    Info (332115):     35.517      1.818 RR    IC  VGA_G[2]~output|i
+    Info (332115):     38.294      2.777 RR  CELL  VGA_G[2]~output|o
+    Info (332115):     38.294      0.000 RR  CELL  VGA_G[2]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_G[2]
+    Info (332115): Data Arrival Time  :    38.294
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.706
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_G[3]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.696
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_G[3]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.696
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_G[3]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd14~0|datac
+    Info (332115):     32.936      0.281 FR  CELL  compositor|WideAnd14~0|combout
+    Info (332115):     33.146      0.210 RR    IC  compositor|WideAnd14~4|datad
+    Info (332115):     33.312      0.166 RR  CELL  compositor|WideAnd14~4|combout
+    Info (332115):     33.533      0.221 RR    IC  compositor|green[0]~2|datad
+    Info (332115):     33.699      0.166 RR  CELL  compositor|green[0]~2|combout
+    Info (332115):     35.517      1.818 RR    IC  VGA_G[3]~output|i
+    Info (332115):     38.304      2.787 RR  CELL  VGA_G[3]~output|o
+    Info (332115):     38.304      0.000 RR  CELL  VGA_G[3]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_G[3]
+    Info (332115): Data Arrival Time  :    38.304
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.696
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_B[0]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.421
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_B[0]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.421
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_B[0]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd13~11|datac
+    Info (332115):     32.953      0.298 FF  CELL  compositor|WideAnd13~11|combout
+    Info (332115):     33.221      0.268 FF    IC  compositor|WideAnd14~2|datac
+    Info (332115):     33.502      0.281 FR  CELL  compositor|WideAnd14~2|combout
+    Info (332115):     33.713      0.211 RR    IC  compositor|blue[0]~1|datac
+    Info (332115):     34.018      0.305 RR  CELL  compositor|blue[0]~1|combout
+    Info (332115):     35.792      1.774 RR    IC  VGA_B[0]~output|i
+    Info (332115):     38.579      2.787 RR  CELL  VGA_B[0]~output|o
+    Info (332115):     38.579      0.000 RR  CELL  VGA_B[0]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_B[0]
+    Info (332115): Data Arrival Time  :    38.579
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.421
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_B[1]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.774
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_B[1]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.774
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_B[1]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd13~11|datac
+    Info (332115):     32.953      0.298 FF  CELL  compositor|WideAnd13~11|combout
+    Info (332115):     33.221      0.268 FF    IC  compositor|WideAnd14~2|datac
+    Info (332115):     33.502      0.281 FR  CELL  compositor|WideAnd14~2|combout
+    Info (332115):     33.713      0.211 RR    IC  compositor|blue[0]~1|datac
+    Info (332115):     34.018      0.305 RR  CELL  compositor|blue[0]~1|combout
+    Info (332115):     35.429      1.411 RR    IC  VGA_B[1]~output|i
+    Info (332115):     38.226      2.797 RR  CELL  VGA_B[1]~output|o
+    Info (332115):     38.226      0.000 RR  CELL  VGA_B[1]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_B[1]
+    Info (332115): Data Arrival Time  :    38.226
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.774
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_B[2]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 1.459
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_B[2]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 1.459
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_B[2]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd13~11|datac
+    Info (332115):     32.953      0.298 FF  CELL  compositor|WideAnd13~11|combout
+    Info (332115):     33.221      0.268 FF    IC  compositor|WideAnd14~2|datac
+    Info (332115):     33.502      0.281 FR  CELL  compositor|WideAnd14~2|combout
+    Info (332115):     33.713      0.211 RR    IC  compositor|blue[0]~1|datac
+    Info (332115):     34.018      0.305 RR  CELL  compositor|blue[0]~1|combout
+    Info (332115):     35.764      1.746 RR    IC  VGA_B[2]~output|i
+    Info (332115):     38.541      2.777 RR  CELL  VGA_B[2]~output|o
+    Info (332115):     38.541      0.000 RR  CELL  VGA_B[2]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_B[2]
+    Info (332115): Data Arrival Time  :    38.541
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     1.459
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_B[3]
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 2.135
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_B[3]}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 2.135
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|h_count_reg[6]
+    Info (332115): To Node      : VGA_B[3]
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.080      1.393 RR    IC  raster|h_count_reg[6]|clk
+    Info (332115):      3.590      0.510 RR  CELL  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.207     uTco  vga_sync:raster|h_count_reg[6]
+    Info (332115):      3.797      0.000 FF  CELL  raster|h_count_reg[6]|q
+    Info (332115):      4.222      0.425 FF    IC  coordenadas|x_cartesiano[9]~0|dataa
+    Info (332115):      4.627      0.405 FF  CELL  coordenadas|x_cartesiano[9]~0|combout
+    Info (332115):      5.115      0.488 FF    IC  processador|datapath|quadratica|abs_x|carry[3]|datad
+    Info (332115):      5.246      0.131 FF  CELL  processador|datapath|quadratica|abs_x|carry[3]|combout
+    Info (332115):      5.735      0.489 FF    IC  processador|datapath|quadratica|abs_x|result[3]~9|datac
+    Info (332115):      6.038      0.303 FF  CELL  processador|datapath|quadratica|abs_x|result[3]~9|combout
+    Info (332115):      6.576      0.538 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|datac
+    Info (332115):      6.879      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_3|carry_out~0|combout
+    Info (332115):      7.862      0.983 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|datad
+    Info (332115):      7.993      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_4|carry_out~0|combout
+    Info (332115):      8.295      0.302 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|datab
+    Info (332115):      8.719      0.424 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_5|carry_out~0|combout
+    Info (332115):      9.474      0.755 FF    IC  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|datac
+    Info (332115):      9.777      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_0_0|bit_6|sum|combout
+    Info (332115):     10.551      0.774 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|datad
+    Info (332115):     10.682      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_6|carry_out~0|combout
+    Info (332115):     10.960      0.278 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|datac
+    Info (332115):     11.263      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_7|carry_out~0|combout
+    Info (332115):     11.927      0.664 FF    IC  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|datad
+    Info (332115):     12.058      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_1_0|bit_8|carry_out~0|combout
+    Info (332115):     12.320      0.262 FF    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|datad
+    Info (332115):     12.481      0.161 FR  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~0|combout
+    Info (332115):     13.149      0.668 RR    IC  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|datac
+    Info (332115):     13.433      0.284 RF  CELL  processador|datapath|quadratica|square_x|add_2_0|bit_9|sum~1|combout
+    Info (332115):     13.701      0.268 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|datad
+    Info (332115):     13.832      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_9|carry_out~0|combout
+    Info (332115):     14.514      0.682 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|datac
+    Info (332115):     14.817      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_10|carry_out~0|combout
+    Info (332115):     15.088      0.271 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|datad
+    Info (332115):     15.219      0.131 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_11|carry_out~1|combout
+    Info (332115):     15.951      0.732 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|datac
+    Info (332115):     16.254      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_12|carry_out~0|combout
+    Info (332115):     16.546      0.292 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|datac
+    Info (332115):     16.849      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_13|carry_out~0|combout
+    Info (332115):     17.243      0.394 FF    IC  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|datac
+    Info (332115):     17.546      0.303 FF  CELL  processador|datapath|quadratica|square_x|add_final|bit_14|carry_out~0|combout
+    Info (332115):     17.851      0.305 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|datad
+    Info (332115):     18.012      0.161 FR  CELL  processador_f2|datapath|quadratica|multiply_ax2|partial_15[0]|combout
+    Info (332115):     18.789      0.777 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|datac
+    Info (332115):     19.093      0.304 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_0_7|bit_15|axb|combout
+    Info (332115):     19.297      0.204 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|datac
+    Info (332115):     19.602      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_15|carry_out~0|combout
+    Info (332115):     19.822      0.220 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|datad
+    Info (332115):     19.988      0.166 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_16|carry_out~0|combout
+    Info (332115):     20.731      0.743 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|datac
+    Info (332115):     21.036      0.305 RR  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_1_3|bit_17|carry_out~0|combout
+    Info (332115):     22.083      1.047 RR    IC  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|dataa
+    Info (332115):     22.522      0.439 RF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_2_1|bit_18|sum|combout
+    Info (332115):     23.324      0.802 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|datac
+    Info (332115):     23.627      0.303 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_3_0|bit_18|axbc|combout
+    Info (332115):     23.958      0.331 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|datab
+    Info (332115):     24.382      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_19|carry_out~0|combout
+    Info (332115):     24.674      0.292 FF    IC  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|datab
+    Info (332115):     25.098      0.424 FF  CELL  processador_f2|datapath|quadratica|multiply_ax2|add_final|bit_20|carry_out~0|combout
+    Info (332115):     25.353      0.255 FF    IC  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|datac
+    Info (332115):     25.656      0.303 FF  CELL  processador_f2|datapath|quadratica|signed_ax2|toggled[21]~17|combout
+    Info (332115):     25.949      0.293 FF    IC  processador_f2|datapath|quadratica|signed_ax2|result[21]|datab
+    Info (332115):     26.394      0.445 FR  CELL  processador_f2|datapath|quadratica|signed_ax2|result[21]|combout
+    Info (332115):     27.181      0.787 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|dataa
+    Info (332115):     27.590      0.409 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_21|carry_out~0|combout
+    Info (332115):     28.021      0.431 RR    IC  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|datac
+    Info (332115):     28.326      0.305 RR  CELL  processador_f2|datapath|quadratica|add_ax2_bx|bit_23|carry_out~0|combout
+    Info (332115):     29.062      0.736 RR    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|dataa
+    Info (332115):     29.501      0.439 RF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~0|combout
+    Info (332115):     29.743      0.242 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|datac
+    Info (332115):     30.046      0.303 FF  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum~1|combout
+    Info (332115):     30.291      0.245 FF    IC  processador_f2|datapath|quadratica|add_c|bit_24|sum|datad
+    Info (332115):     30.452      0.161 FR  CELL  processador_f2|datapath|quadratica|add_c|bit_24|sum|combout
+    Info (332115):     30.655      0.203 RR    IC  compositor|pixel_intersection~13|datac
+    Info (332115):     30.960      0.305 RR  CELL  compositor|pixel_intersection~13|combout
+    Info (332115):     31.337      0.377 RR    IC  compositor|pixel_intersection~14|datac
+    Info (332115):     31.642      0.305 RR  CELL  compositor|pixel_intersection~14|combout
+    Info (332115):     31.872      0.230 RR    IC  compositor|pixel_marker~0|datad
+    Info (332115):     32.017      0.145 RF  CELL  compositor|pixel_marker~0|combout
+    Info (332115):     32.263      0.246 FF    IC  compositor|WideAnd13~0|datad
+    Info (332115):     32.394      0.131 FF  CELL  compositor|WideAnd13~0|combout
+    Info (332115):     32.655      0.261 FF    IC  compositor|WideAnd13~11|datac
+    Info (332115):     32.953      0.298 FF  CELL  compositor|WideAnd13~11|combout
+    Info (332115):     33.221      0.268 FF    IC  compositor|WideAnd14~2|datac
+    Info (332115):     33.502      0.281 FR  CELL  compositor|WideAnd14~2|combout
+    Info (332115):     33.713      0.211 RR    IC  compositor|blue[0]~1|datac
+    Info (332115):     34.018      0.305 RR  CELL  compositor|blue[0]~1|combout
+    Info (332115):     35.088      1.070 RR    IC  VGA_B[3]~output|i
+    Info (332115):     37.865      2.777 RR  CELL  VGA_B[3]~output|o
+    Info (332115):     37.865      0.000 RR  CELL  VGA_B[3]
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  R  oExt  VGA_B[3]
+    Info (332115): Data Arrival Time  :    37.865
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :     2.135
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_HS
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 31.205
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_HS}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 31.205
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|hsync_reg
+    Info (332115): To Node      : VGA_HS
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.109      1.422 RR    IC  raster|hsync_reg|clk
+    Info (332115):      3.619      0.510 RR  CELL  vga_sync:raster|hsync_reg
+    Info (332115):      3.826      0.207     uTco  vga_sync:raster|hsync_reg
+    Info (332115):      3.826      0.000 RR  CELL  raster|hsync_reg|q
+    Info (332115):      6.028      2.202 RR    IC  VGA_HS~output|i
+    Info (332115):      8.795      2.767 RF  CELL  VGA_HS~output|o
+    Info (332115):      8.795      0.000 FF  CELL  VGA_HS
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  F  oExt  VGA_HS
+    Info (332115): Data Arrival Time  :     8.795
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :    31.205
+    Info (332115): ===================================================================
+OUTPUT_PATH VGA_VS
+Info (332115): Report Timing: Found 1 setup paths (0 violated).  Worst case slack is 30.237
+    Info (332115): -from [all_registers]
+    Info (332115): -to [get_ports {VGA_VS}]
+    Info (332115): -setup
+    Info (332115): -npaths 1
+    Info (332115): -detail full_path
+    Info (332115): -stdout
+Info (332115): Path #1: Setup slack is 30.237
+    Info (332115): ===================================================================
+    Info (332115): From Node    : vga_sync:raster|vsync_reg
+    Info (332115): To Node      : VGA_VS
+    Info (332115): Launch Clock : MAX10_CLK1_50
+    Info (332115): Latch Clock  : n/a
+    Info (332115): Max Delay Exception      : 40.000
+    Info (332115): Data Arrival Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):      0.000      0.000           launch edge time
+    Info (332115):      0.000      0.000           source latency
+    Info (332115):      0.000      0.000           MAX10_CLK1_50
+    Info (332115):      0.000      0.000 RR    IC  MAX10_CLK1_50~input|i
+    Info (332115):      0.793      0.793 RR  CELL  MAX10_CLK1_50~input|o
+    Info (332115):      1.687      0.894 RR    IC  MAX10_CLK1_50~inputclkctrl|inclk[0]
+    Info (332115):      1.687      0.000 RR  CELL  MAX10_CLK1_50~inputclkctrl|outclk
+    Info (332115):      3.098      1.411 RR    IC  raster|vsync_reg|clk
+    Info (332115):      3.608      0.510 RR  CELL  vga_sync:raster|vsync_reg
+    Info (332115):      3.815      0.207     uTco  vga_sync:raster|vsync_reg
+    Info (332115):      3.815      0.000 RR  CELL  raster|vsync_reg|q
+    Info (332115):      6.976      3.161 RR    IC  VGA_VS~output|i
+    Info (332115):      9.763      2.787 RF  CELL  VGA_VS~output|o
+    Info (332115):      9.763      0.000 FF  CELL  VGA_VS
+    Info (332115): Data Required Path:
+    Info (332115): Total (ns)  Incr (ns)     Type  Element
+    Info (332115): ==========  ========= ==  ====  ===================================
+    Info (332115):     40.000     40.000           latch edge time
+    Info (332115):     40.000      0.000  R        clock network delay
+    Info (332115):     40.000      0.000  F  oExt  VGA_VS
+    Info (332115): Data Arrival Time  :     9.763
+    Info (332115): Data Required Time :    40.000
+    Info (332115): Slack              :    30.237
+    Info (332115): ===================================================================
+Info (23030): Evaluation of Tcl script ../verification/results/task-039/full_paths.tcl was successful
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 464 megabytes
+    Info: Processing ended: Sun Nov 22 14:22:46 2026
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01

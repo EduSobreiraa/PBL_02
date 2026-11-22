@@ -141,6 +141,32 @@ struct Scenario {
         return static_cast<std::int64_t>(2) * a * x + b;
     }
 
+    static int roundRational(std::int64_t numerator, std::int64_t denominator) {
+        const bool negative = numerator < 0;
+        const std::uint64_t magnitude = static_cast<std::uint64_t>(negative ? -numerator : numerator);
+        const std::uint64_t den = static_cast<std::uint64_t>(denominator);
+        std::uint64_t quotient = magnitude / den;
+        const std::uint64_t remainder = magnitude % den;
+        if (2 * remainder >= den)
+            ++quotient;
+        return negative ? -static_cast<int>(quotient) : static_cast<int>(quotient);
+    }
+
+    static bool vertexPixel(int a, int b, int c, int &x, int &y) {
+        if (a == 0)
+            return false;
+        const std::int64_t sign = a < 0 ? -1 : 1;
+        const std::int64_t y_num = sign * (4LL * a * c - static_cast<std::int64_t>(b) * b);
+        const std::int64_t y_den = 4LL * std::abs(a);
+        if (y_num < -239LL * y_den || y_num > 240LL * y_den)
+            return false;
+        const std::int64_t x_num = a > 0 ? -static_cast<std::int64_t>(b) : b;
+        const std::int64_t x_den = 2LL * std::abs(a);
+        x = roundRational(x_num, x_den);
+        y = roundRational(y_num, y_den);
+        return true;
+    }
+
     static std::array<unsigned, 3> referenceRgb(int x_pixel, int y_pixel,
                                                  const std::array<int, 6> &c,
                                                  std::array<std::uint64_t, 6> &hits) {
@@ -148,22 +174,34 @@ struct Scenario {
             return {0, 0, 0};
         const int x = x_pixel - 320;
         const int y = 240 - y_pixel;
+        const bool f2_enabled = c[3] != 0 || c[4] != 0 || c[5] != 0;
+        int f1_vertex_x = 0, f1_vertex_y = 0, f2_vertex_x = 0, f2_vertex_y = 0;
+        const bool f1_valid = vertexPixel(c[0], c[1], c[2], f1_vertex_x, f1_vertex_y);
+        const bool f2_valid = f2_enabled && vertexPixel(c[3], c[4], c[5], f2_vertex_x, f2_vertex_y);
         const std::array<std::int64_t, 4> values = {
             functionY(c[0], c[1], c[2], x), derivativeY(c[0], c[1], x),
             functionY(c[3], c[4], c[5], x), derivativeY(c[3], c[4], x)};
-        const bool f2_enabled = c[3] != 0 || c[4] != 0 || c[5] != 0;
         std::array<bool, 4> hit{};
         for (unsigned i = 0; i < hit.size(); ++i) {
             hit[i] = values[i] >= -239 && values[i] <= 240 && values[i] == y;
-            if (i >= 2 && !f2_enabled)
+            if (i < 2 && !f1_valid)
+                hit[i] = false;
+            if (i >= 2 && !f2_valid)
                 hit[i] = false;
             hits[i] += hit[i];
         }
-        const bool intersection = f2_enabled && hit[0] && hit[2] && values[0] == values[2];
+        const bool intersection = f2_valid && hit[0] && hit[2] && values[0] == values[2];
         hits[5] += intersection;
         const bool axis = (x == 0 || y == 0);
         hits[4] += axis;
         if (intersection) return {15, 0, 15};
+        const bool marker_f1 = f1_valid &&
+                               ((x == f1_vertex_x && (y == f1_vertex_y - 1 || y == f1_vertex_y || y == f1_vertex_y + 1)) ||
+                                (y == f1_vertex_y && (x == f1_vertex_x - 1 || x == f1_vertex_x + 1)));
+        const bool marker_f2 = f2_valid &&
+                               ((x == f2_vertex_x && (y == f2_vertex_y - 1 || y == f2_vertex_y || y == f2_vertex_y + 1)) ||
+                                (y == f2_vertex_y && (x == f2_vertex_x - 1 || x == f2_vertex_x + 1)));
+        if (marker_f1 || marker_f2) return {0, 15, 0};
         if (hit[0]) return {0, 0, 15};
         if (hit[1]) return {0, 15, 15};
         if (hit[2]) return {15, 0, 0};
@@ -189,6 +227,7 @@ struct Scenario {
         constexpr int search_limit = 900000;
         bool saw_vsync_high = false;
         int previous_vsync = dut.VGA_VS;
+        const bool f2_enabled = coefficients[3] != 0 || coefficients[4] != 0 || coefficients[5] != 0;
         int aligned = false;
         for (int i = 0; i < search_limit; ++i) {
             pixelStep();
@@ -228,7 +267,14 @@ struct Scenario {
             hs_low += !hs;
             vs_low += !vs;
             frame.push_back({{dut.VGA_R, dut.VGA_G, dut.VGA_B}, hs, vs});
-            expectEqual(led(), 2, "LEDR DONE during frame");
+            int marker_x = 0, marker_y = 0;
+            const bool f1_error = coefficients[0] == 0 ||
+                                  !vertexPixel(coefficients[0], coefficients[1], coefficients[2], marker_x, marker_y);
+            const bool f2_error = f2_enabled &&
+                                  (coefficients[3] == 0 ||
+                                   !vertexPixel(coefficients[3], coefficients[4], coefficients[5], marker_x, marker_y));
+            const unsigned expected_led = 2U | (f1_error ? 4U : 0U) | (f2_error ? 8U : 0U);
+            expectEqual(led(), expected_led, "LEDR DONE/errors during frame");
         }
         require(hs_low == 96 * 525 && vs_low == 2 * 800 &&
                     hs_falls == 525 && vs_falls == 1,
@@ -286,11 +332,15 @@ struct Scenario {
         }
         require(active_pixels == 640 * 480 && blanking_pixels == frame_pixels - 640 * 480,
                 "active/blanking raster dimensions were not 640x480 within 800x525");
+        int checked_vertex_x = 0, checked_vertex_y = 0;
+        const bool f1_valid = vertexPixel(coefficients[0], coefficients[1], coefficients[2],
+                                          checked_vertex_x, checked_vertex_y);
+        const bool f2_valid = f2_enabled &&
+                              vertexPixel(coefficients[3], coefficients[4], coefficients[5],
+                                          checked_vertex_x, checked_vertex_y);
         for (unsigned i = 0; i < 5; ++i) {
-            if (i == 2 || i == 3) {
-                if (coefficients[3] == 0 && coefficients[4] == 0 && coefficients[5] == 0)
-                    continue;
-            }
+            if ((i < 2 && !f1_valid) || (i >= 2 && i < 4 && !f2_valid))
+                continue;
             require(hits[i] != 0, "full frame did not exercise expected curve/axis index " +
                                        std::to_string(i));
         }
@@ -319,9 +369,16 @@ struct Scenario {
         const std::array<int, 6> f2_disabled = {1, 0, 0, 0, 0, 0};
         const std::array<int, 6> both_a_zero = {0, 1, 0, 0, 1, 0};
         const std::array<int, 6> f1_vertex_out = {1, 127, 0, 1, 0, 0};
+        const std::array<int, 6> f2_only_marker = {0, 0, 0, 1, 2, 1};
+        const std::array<int, 6> vertices_on_active_y_edges = {-1, 22, 119, 1, 22, -118};
         const std::array<int, 6> f2_a_zero = {1, 0, 0, 0, 1, 0};
         const std::array<int, 6> f2_vertex_out = {1, 0, 0, 1, 127, 0};
         const std::array<int, 6> coefficient_limits = {-128, 0, 0, 127, 0, 0};
+        const std::array<int, 6> negative_coordinate_tie = {1, 3, 1, 0, 0, 0};
+        const std::array<int, 6> positive_coordinate_tie = {-1, 1, 0, 0, 0, 0};
+        const std::array<int, 6> negative_half_boundary = {1, 1, 0, 0, 0, 0};
+        const std::array<int, 6> negative_three_halves = {1, 3, 1, 0, 0, 0};
+        const std::array<int, 6> positive_three_halves = {-1, 3, 0, 0, 0, 0};
 
         resetSession();
         cycles(2, 128, 7);
@@ -352,6 +409,41 @@ struct Scenario {
         captureTuple(fractional_intersection);
         startProcessing(2, -1, "fractional-only intersection functions valid");
         scanFullFrame(fractional_intersection, "fractional-only intersection x=-1/3", 0);
+
+        resetSession();
+        captureTuple(negative_coordinate_tie);
+        startProcessing(2, -1, "negative rational vertex coordinate");
+        scanFullFrame(negative_coordinate_tie, "nearest-pixel vertex rounding, negative tie away from zero", 0);
+
+        resetSession();
+        captureTuple(negative_half_boundary);
+        startProcessing(2, -1, "negative half tie at outer neighborhood boundary");
+        scanFullFrame(negative_half_boundary, "n/d=-1/2 includes k=-2", 0);
+
+        resetSession();
+        captureTuple(negative_three_halves);
+        startProcessing(2, -1, "negative three-halves outer neighborhood boundary");
+        scanFullFrame(negative_three_halves, "n/d=-3/2 excludes k=0", 0);
+
+        resetSession();
+        captureTuple(positive_three_halves);
+        startProcessing(2, -1, "positive three-halves outer neighborhood boundary");
+        scanFullFrame(positive_three_halves, "n/d=+3/2 excludes k=0", 0);
+
+        resetSession();
+        captureTuple(positive_coordinate_tie);
+        startProcessing(2, -1, "positive rational vertex coordinate");
+        scanFullFrame(positive_coordinate_tie, "nearest-pixel vertex rounding, positive tie away from zero", 0);
+
+        resetSession();
+        captureTuple(f2_only_marker);
+        startProcessing(6, 0, "F1 a=0 while F2 remains marker eligible");
+        scanFullFrame(f2_only_marker, "F2 valid isolated marker with invalid F1", 0);
+
+        resetSession();
+        captureTuple(vertices_on_active_y_edges);
+        startProcessing(2, -1, "valid F1/F2 vertices at both active y edges");
+        scanFullFrame(vertices_on_active_y_edges, "upper/lower vertex crosses clipped at y=240/-239", 0);
 
         resetSession();
         captureTuple(f2_disabled);
