@@ -26,18 +26,20 @@ typedef struct {
     int f1_y_num;
     int f1_y_den;
     int intersection;
+    int root_marker;
+    int root_label;
 } test_case;
 
 static test_case cases[300] = {
-    {"left x boundary and horizontal axis", 0, 240, 1, 15, 15, 15, 1, 0, -320, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {"right x boundary", 639, 240, 1, 15, 15, 15, 1, 0, 319, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {"top y boundary and vertical axis", 320, 0, 1, 15, 15, 15, 0, 1, 0, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {"bottom y boundary and vertical axis", 320, 479, 1, 15, 15, 15, 0, 1, 0, -239, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {"origin activates both axes", 320, 240, 1, 15, 15, 15, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {"off-axis pixel is black", 10, 10, 1, 0, 0, 0, 0, 0, -310, 230, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {"video_on clips axis pixel to black", 320, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {"KEY1 pressed asserts active-high VGA reset", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-    {"KEY1 released deasserts VGA reset", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    {"left x boundary and horizontal axis", 0, 240, 1, 15, 15, 15, 1, 0, -320, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {"right x boundary", 639, 240, 1, 15, 15, 15, 1, 0, 319, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {"top y boundary and vertical axis", 320, 0, 1, 15, 15, 15, 0, 1, 0, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {"bottom y boundary and vertical axis", 320, 479, 1, 15, 15, 15, 0, 1, 0, -239, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {"origin activates both axes", 320, 240, 1, 15, 15, 15, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {"off-axis pixel is black", 10, 10, 1, 0, 0, 0, 0, 0, -310, 230, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {"video_on clips axis pixel to black", 320, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {"KEY1 pressed asserts active-high VGA reset", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {"KEY1 released deasserts VGA reset", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
 static size_t case_count = 9;
@@ -48,6 +50,7 @@ static vpiHandle x_cart_h, y_cart_h, red_h, green_h, blue_h;
 static vpiHandle horizontal_h, vertical_h, key_h, reset_h;
 static vpiHandle processing_done_h, intersection_hit_h, f1_hit_h, f1_derivada_hit_h, f2_hit_h, f2_derivada_hit_h;
 static vpiHandle marker_enable_f1_h, f1_x_num_h, f1_x_den_h, f1_y_num_h, f1_y_den_h;
+static vpiHandle root_marker_h, root_label_h;
 
 static vpiHandle get_handle(const char *path)
 {
@@ -124,6 +127,8 @@ static PLI_INT32 drive_case(p_cb_data callback_data)
         write_integer(video_on_h, test->video_on);
         write_integer(processing_done_h, test->processing_done);
         write_integer(intersection_hit_h, test->intersection);
+        write_integer(root_marker_h, test->root_marker);
+        write_integer(root_label_h, test->root_label);
         write_integer(f1_hit_h, test->hits & 1);
         write_integer(f1_derivada_hit_h, (test->hits >> 1) & 1);
         write_integer(f2_hit_h, (test->hits >> 2) & 1);
@@ -246,6 +251,45 @@ static void add_marker_cases(void)
     }
 }
 
+
+static void add_root_priority_cases(void)
+{
+    int i;
+    for (i = 0; i < 3; i++) {
+        test_case *test = &cases[case_count++];
+        memset(test, 0, sizeof(*test));
+        test->name = i == 0 ? "root marker over vertex, curve and axes" :
+                     i == 1 ? "root label over vertex, curve and axes" :
+                              "magenta intersection over root marker and label";
+        test->x = 320;
+        test->y = 240;
+        test->x_cart = 0;
+        test->y_cart = 0;
+        test->video_on = 1;
+        test->processing_done = 1;
+        test->hits = 1;
+        test->marker_enable_f1 = 1;
+        test->f1_x_num = 0;
+        test->f1_x_den = 2;
+        test->f1_y_num = 0;
+        test->f1_y_den = 4;
+        test->horizontal = 1;
+        test->vertical = 1;
+        test->root_marker = i != 1;
+        test->root_label = i != 0;
+        if (i == 2) {
+            test->intersection = 1;
+            test->red = 15;
+            test->green = 0;
+            test->blue = 15;
+        } else {
+            test->red = 15;
+            test->green = 8;
+            test->blue = 0;
+        }
+    }
+}
+
 static PLI_INT32 start_test(p_cb_data callback_data)
 {
     (void)callback_data;
@@ -254,6 +298,8 @@ static PLI_INT32 start_test(p_cb_data callback_data)
     video_on_h = get_handle("tb_video_axes.video_on");
     processing_done_h = get_handle("tb_video_axes.processing_done");
     intersection_hit_h = get_handle("tb_video_axes.intersection_hit");
+    root_marker_h = get_handle("tb_video_axes.root_marker_hit");
+    root_label_h = get_handle("tb_video_axes.root_label_hit");
     f1_hit_h = get_handle("tb_video_axes.f1_hit");
     f1_derivada_hit_h = get_handle("tb_video_axes.f1_derivada_hit");
     f2_hit_h = get_handle("tb_video_axes.f2_hit");
@@ -281,6 +327,7 @@ static PLI_INT32 start_test(p_cb_data callback_data)
     }
     add_composition_cases();
     add_marker_cases();
+    add_root_priority_cases();
     case_index = 0;
     schedule_next_drive();
     return 0;

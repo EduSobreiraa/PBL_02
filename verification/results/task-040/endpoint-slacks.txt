@@ -1,0 +1,16 @@
+Quartus TimeQuest post-fit setup slack against the 40 ns max-delay constraint.
+VGA_R[0]: -54.832 ns slack
+VGA_R[1]: -54.982 ns slack
+VGA_R[2]: -54.851 ns slack
+VGA_R[3]: -54.841 ns slack
+VGA_G[0]: -55.101 ns slack
+VGA_G[1]: -54.754 ns slack
+VGA_G[2]: -54.947 ns slack
+VGA_G[3]: -55.101 ns slack
+VGA_B[0]: -54.631 ns slack
+VGA_B[1]: -54.635 ns slack
+VGA_B[2]: -54.978 ns slack
+VGA_B[3]: -54.609 ns slack
+VGA_HS: 29.897 ns slack
+VGA_VS: 30.140 ns slack
+Worst endpoint: VGA_G[0], -55.101 ns slack.

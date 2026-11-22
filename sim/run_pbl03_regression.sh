@@ -75,6 +75,8 @@ for runner in \
     sim/run_f1_function_icarus.sh \
     sim/run_f1_processor_icarus.sh \
     sim/run_f1_f2_processors_icarus.sh \
+    sim/run_quadratic_roots_icarus.sh \
+    sim/run_root_renderer_icarus.sh \
     sim/run_main_handshake_pbl03_icarus.sh \
     sim/run_status_errors_pbl03_icarus.sh; do
     echo "RUN $runner"

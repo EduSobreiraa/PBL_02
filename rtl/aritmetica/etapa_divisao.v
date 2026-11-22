@@ -1,0 +1,51 @@
+module etapa_divisao(input wire [7:0] previous, input wire next_bit,
+    input wire [7:0] divisor, output wire [7:0] remainder, output wire quotient_bit);
+    wire [8:0] diferenca, divisor_invertido;
+    wire [8:0] vai_um;
+    wire restaurar;
+    wire [7:0] manter_tentativa, manter_diferenca;
+    // A subtração usa o complemento de dois do divisor.
+    not inv0(divisor_invertido[0], divisor[0]);
+    not inv1(divisor_invertido[1], divisor[1]);
+    not inv2(divisor_invertido[2], divisor[2]);
+    not inv3(divisor_invertido[3], divisor[3]);
+    not inv4(divisor_invertido[4], divisor[4]);
+    not inv5(divisor_invertido[5], divisor[5]);
+    not inv6(divisor_invertido[6], divisor[6]);
+    not inv7(divisor_invertido[7], divisor[7]);
+    somador_completo_divisao sub0(.a(next_bit), .b(divisor_invertido[0]), .cin(1'b1), .sum(diferenca[0]), .cout(vai_um[1]));
+    somador_completo_divisao sub1(.a(previous[0]), .b(divisor_invertido[1]), .cin(vai_um[1]), .sum(diferenca[1]), .cout(vai_um[2]));
+    somador_completo_divisao sub2(.a(previous[1]), .b(divisor_invertido[2]), .cin(vai_um[2]), .sum(diferenca[2]), .cout(vai_um[3]));
+    somador_completo_divisao sub3(.a(previous[2]), .b(divisor_invertido[3]), .cin(vai_um[3]), .sum(diferenca[3]), .cout(vai_um[4]));
+    somador_completo_divisao sub4(.a(previous[3]), .b(divisor_invertido[4]), .cin(vai_um[4]), .sum(diferenca[4]), .cout(vai_um[5]));
+    somador_completo_divisao sub5(.a(previous[4]), .b(divisor_invertido[5]), .cin(vai_um[5]), .sum(diferenca[5]), .cout(vai_um[6]));
+    somador_completo_divisao sub6(.a(previous[5]), .b(divisor_invertido[6]), .cin(vai_um[6]), .sum(diferenca[6]), .cout(vai_um[7]));
+    somador_completo_divisao sub7(.a(previous[6]), .b(divisor_invertido[7]), .cin(vai_um[7]), .sum(diferenca[7]), .cout(vai_um[8]));
+    somador_completo_divisao sub8(.a(previous[7]), .b(1'b1), .cin(vai_um[8]), .sum(diferenca[8]), .cout(quotient_bit));
+    not restore_select(restaurar, quotient_bit);
+    // O resto escolhido é menor que o divisor, então seu bit mais alto é zero.
+    and trial0(manter_tentativa[0], next_bit, restaurar);
+    and diff0(manter_diferenca[0], diferenca[0], quotient_bit);
+    or select0(remainder[0], manter_tentativa[0], manter_diferenca[0]);
+    and trial1(manter_tentativa[1], previous[0], restaurar);
+    and diff1(manter_diferenca[1], diferenca[1], quotient_bit);
+    or select1(remainder[1], manter_tentativa[1], manter_diferenca[1]);
+    and trial2(manter_tentativa[2], previous[1], restaurar);
+    and diff2(manter_diferenca[2], diferenca[2], quotient_bit);
+    or select2(remainder[2], manter_tentativa[2], manter_diferenca[2]);
+    and trial3(manter_tentativa[3], previous[2], restaurar);
+    and diff3(manter_diferenca[3], diferenca[3], quotient_bit);
+    or select3(remainder[3], manter_tentativa[3], manter_diferenca[3]);
+    and trial4(manter_tentativa[4], previous[3], restaurar);
+    and diff4(manter_diferenca[4], diferenca[4], quotient_bit);
+    or select4(remainder[4], manter_tentativa[4], manter_diferenca[4]);
+    and trial5(manter_tentativa[5], previous[4], restaurar);
+    and diff5(manter_diferenca[5], diferenca[5], quotient_bit);
+    or select5(remainder[5], manter_tentativa[5], manter_diferenca[5]);
+    and trial6(manter_tentativa[6], previous[5], restaurar);
+    and diff6(manter_diferenca[6], diferenca[6], quotient_bit);
+    or select6(remainder[6], manter_tentativa[6], manter_diferenca[6]);
+    and trial7(manter_tentativa[7], previous[6], restaurar);
+    and diff7(manter_diferenca[7], diferenca[7], quotient_bit);
+    or select7(remainder[7], manter_tentativa[7], manter_diferenca[7]);
+endmodule

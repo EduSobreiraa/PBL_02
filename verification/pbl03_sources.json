@@ -203,5 +203,85 @@
     "path": "rtl/display/display_status_pbl03.v",
     "module": "display_status_pbl03",
     "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/quadratic_roots.v",
+    "module": "quadratic_roots",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/ramo_raizes.v",
+    "module": "ramo_raizes",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/nega_condicional_8.v",
+    "module": "nega_condicional_8",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/nega_condicional_9.v",
+    "module": "nega_condicional_9",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/nega_condicional_10.v",
+    "module": "nega_condicional_10",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/soma_subtrai_10.v",
+    "module": "soma_subtrai_10",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/incrementa_9.v",
+    "module": "incrementa_9",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/raiz_quadrada_17.v",
+    "module": "raiz_quadrada_17",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/etapa_raiz.v",
+    "module": "etapa_raiz",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/somador_completo_raiz.v",
+    "module": "somador_completo_raiz",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/divisor_9_por_8.v",
+    "module": "divisor_9_por_8",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/etapa_divisao.v",
+    "module": "etapa_divisao",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/somador_completo_divisao.v",
+    "module": "somador_completo_divisao",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/multiplica_com_sinal_8_por_8.v",
+    "module": "multiplica_com_sinal_8_por_8",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/subtrator_18.v",
+    "module": "subtrator_18",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/video/renderizador_raizes.v",
+    "module": "renderizador_raizes",
+    "category": "structural"
   }
 ]

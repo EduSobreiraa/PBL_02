@@ -28,7 +28,7 @@ export LD_LIBRARY_PATH="$ivl_root/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 "$cc_bin" -std=c99 -Wall -Wextra -Werror -fPIC -shared \
     -I"$ivl_root/include/iverilog" \
     -o "$build_dir/f1_processor_vpi.vpi" \
-    "$repo_root/sim/f1_processor_vpi.c"
+    "$repo_root/sim/f1_processor_vpi.c" -lm
 
 "$iverilog_bin" -g2005 -s tb_f1_processor -o "$build_dir/f1_processor.vvp" \
     "$repo_root/rtl/aritmetica/full_adder_1bit.v" \
@@ -54,6 +54,21 @@ export LD_LIBRARY_PATH="$ivl_root/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
     "$repo_root/rtl/funcao/datapath_f1.v" \
     "$repo_root/rtl/funcao/fsm_funcao_f1.v" \
     "$repo_root/rtl/funcao/processador_f1.v" \
+    "$repo_root/rtl/funcao/quadratic_roots.v" \
+    "$repo_root/rtl/funcao/ramo_raizes.v" \
+    "$repo_root/rtl/aritmetica/nega_condicional_8.v" \
+    "$repo_root/rtl/aritmetica/nega_condicional_9.v" \
+    "$repo_root/rtl/aritmetica/nega_condicional_10.v" \
+    "$repo_root/rtl/aritmetica/soma_subtrai_10.v" \
+    "$repo_root/rtl/aritmetica/incrementa_9.v" \
+    "$repo_root/rtl/aritmetica/raiz_quadrada_17.v" \
+    "$repo_root/rtl/aritmetica/etapa_raiz.v" \
+    "$repo_root/rtl/aritmetica/somador_completo_raiz.v" \
+    "$repo_root/rtl/aritmetica/divisor_9_por_8.v" \
+    "$repo_root/rtl/aritmetica/etapa_divisao.v" \
+    "$repo_root/rtl/aritmetica/somador_completo_divisao.v" \
+    "$repo_root/rtl/aritmetica/multiplica_com_sinal_8_por_8.v" \
+    "$repo_root/rtl/aritmetica/subtrator_18.v" \
     "$repo_root/rtl/primitivos/dff_bit.v" \
     "$repo_root/rtl/primitivos/dff_sync_bit.v" \
     "$repo_root/rtl/primitivos/dff_sync8.v" \
@@ -109,6 +124,22 @@ export LD_LIBRARY_PATH="$ivl_root/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
     "$repo_root/rtl/funcao/detector_hits_f1.v" \
     "$repo_root/rtl/funcao/datapath_f1.v" \
     "$repo_root/rtl/funcao/fsm_funcao_f1.v" \
-    "$repo_root/rtl/funcao/processador_f1.v"
+    "$repo_root/rtl/funcao/processador_f1.v" \
+    "$repo_root/rtl/funcao/quadratic_roots.v" \
+    "$repo_root/rtl/funcao/ramo_raizes.v" \
+    "$repo_root/rtl/aritmetica/nega_condicional_8.v" \
+    "$repo_root/rtl/aritmetica/nega_condicional_9.v" \
+    "$repo_root/rtl/aritmetica/nega_condicional_10.v" \
+    "$repo_root/rtl/aritmetica/soma_subtrai_10.v" \
+    "$repo_root/rtl/aritmetica/incrementa_9.v" \
+    "$repo_root/rtl/aritmetica/raiz_quadrada_17.v" \
+    "$repo_root/rtl/aritmetica/etapa_raiz.v" \
+    "$repo_root/rtl/aritmetica/somador_completo_raiz.v" \
+    "$repo_root/rtl/aritmetica/divisor_9_por_8.v" \
+    "$repo_root/rtl/aritmetica/etapa_divisao.v" \
+    "$repo_root/rtl/aritmetica/somador_completo_divisao.v" \
+    "$repo_root/rtl/aritmetica/multiplica_com_sinal_8_por_8.v" \
+    "$repo_root/rtl/aritmetica/subtrator_18.v" \
+    "$repo_root/rtl/video/renderizador_raizes.v"
 
 echo "IVERILOG PASS: top_pbl03 elaborated with the complete QSF source list"

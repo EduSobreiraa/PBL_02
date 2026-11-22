@@ -2,6 +2,7 @@
 #include "verilated.h"
 
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
@@ -167,6 +168,62 @@ struct Scenario {
         return true;
     }
 
+    static std::array<int, 2> roots(int a, int b, int c, bool &valid) {
+        const std::int64_t delta = static_cast<std::int64_t>(b) * b -
+                                   4LL * a * c;
+        valid = a != 0 && delta >= 0;
+        if (!valid)
+            return {0, 0};
+        const double radical = std::sqrt(static_cast<double>(delta));
+        const double denominator = static_cast<double>(2 * a);
+        return {static_cast<int>(std::round((-b + radical) / denominator)),
+                static_cast<int>(std::round((-b - radical) / denominator))};
+    }
+
+    static int glyphIndex(char ch) {
+        if (ch >= '0' && ch <= '9') return ch - '0';
+        if (ch == 'F') return 10;
+        if (ch == 'x') return 11;
+        if (ch == '=') return 12;
+        if (ch == '+') return 13;
+        if (ch == '-') return 14;
+        return -1;
+    }
+
+    static bool labelPixel(int x, int y, int root, int y_base, const std::string &prefix) {
+        static const std::array<std::array<const char *, 7>, 15> font = {{
+            {{"01110","10001","10011","10101","11001","10001","01110"}},
+            {{"00100","01100","00100","00100","00100","00100","01110"}},
+            {{"01110","10001","00001","00010","00100","01000","11111"}},
+            {{"11110","00001","00001","01110","00001","00001","11110"}},
+            {{"00010","00110","01010","10010","11111","00010","00010"}},
+            {{"11111","10000","10000","11110","00001","00001","11110"}},
+            {{"01110","10000","10000","11110","10001","10001","01110"}},
+            {{"11111","00001","00010","00100","01000","01000","01000"}},
+            {{"01110","10001","10001","01110","10001","10001","01110"}},
+            {{"01110","10001","10001","01111","00001","00001","01110"}},
+            {{"11111","10000","10000","11110","10000","10000","10000"}},
+            {{"00000","10001","01010","00100","01010","10001","00000"}},
+            {{"00000","00000","11111","00000","11111","00000","00000"}},
+            {{"00000","00100","00100","11111","00100","00100","00000"}},
+            {{"00000","00000","00000","11111","00000","00000","00000"}}
+        }};
+        if (y < y_base || y >= y_base + 7)
+            return false;
+        const int local_x = x - (320 + root - 27);
+        if (local_x < 0 || local_x >= 54 || local_x % 6 >= 5)
+            return false;
+        char digits[4];
+        const int magnitude = std::abs(root);
+        digits[0] = static_cast<char>('0' + (magnitude / 100) % 10);
+        digits[1] = static_cast<char>('0' + (magnitude / 10) % 10);
+        digits[2] = static_cast<char>('0' + magnitude % 10);
+        digits[3] = '\0';
+        const std::string text = prefix + (root < 0 ? "-" : "+") + digits;
+        const int glyph = glyphIndex(text[static_cast<std::size_t>(local_x / 6)]);
+        return glyph >= 0 && font[static_cast<std::size_t>(glyph)][static_cast<std::size_t>(y - y_base)][local_x % 6] == '1';
+    }
+
     static std::array<unsigned, 3> referenceRgb(int x_pixel, int y_pixel,
                                                  const std::array<int, 6> &c,
                                                  std::array<std::uint64_t, 6> &hits) {
@@ -178,6 +235,9 @@ struct Scenario {
         int f1_vertex_x = 0, f1_vertex_y = 0, f2_vertex_x = 0, f2_vertex_y = 0;
         const bool f1_valid = vertexPixel(c[0], c[1], c[2], f1_vertex_x, f1_vertex_y);
         const bool f2_valid = f2_enabled && vertexPixel(c[3], c[4], c[5], f2_vertex_x, f2_vertex_y);
+        bool f1_roots_valid = false, f2_roots_valid = false;
+        const auto f1_roots = roots(c[0], c[1], c[2], f1_roots_valid);
+        const auto f2_roots = roots(c[3], c[4], c[5], f2_roots_valid);
         const std::array<std::int64_t, 4> values = {
             functionY(c[0], c[1], c[2], x), derivativeY(c[0], c[1], x),
             functionY(c[3], c[4], c[5], x), derivativeY(c[3], c[4], x)};
@@ -195,6 +255,25 @@ struct Scenario {
         const bool axis = (x == 0 || y == 0);
         hits[4] += axis;
         if (intersection) return {15, 0, 15};
+        const bool root_f1_eligible = f1_roots_valid;
+        const bool root_f2_eligible = f2_enabled && f2_roots_valid;
+        const std::array<int, 4> root_values = {f1_roots[0], f1_roots[1], f2_roots[0], f2_roots[1]};
+        const std::array<bool, 4> root_eligible = {root_f1_eligible, root_f1_eligible,
+                                                   root_f2_eligible, root_f2_eligible};
+        const std::array<int, 4> label_y = {208, 216, 224, 232};
+        const std::array<const char *, 4> label_prefix = {"F1x1=", "F1x2=", "F2x1=", "F2x2="};
+        bool root_marker = false, root_label = false;
+        for (unsigned i = 0; i < root_values.size(); ++i) {
+            const int center_x = root_values[i];
+            if (root_eligible[i] &&
+                ((x == center_x && (y == -1 || y == 0 || y == 1)) ||
+                 (y == 0 && (x == center_x - 1 || x == center_x + 1))))
+                root_marker = true;
+            if (root_eligible[i] && labelPixel(x_pixel, y_pixel, root_values[i], label_y[i], label_prefix[i]))
+                root_label = true;
+        }
+        if (root_marker) return {15, 8, 0};
+        if (root_label) return {15, 8, 0};
         const bool marker_f1 = f1_valid &&
                                ((x == f1_vertex_x && (y == f1_vertex_y - 1 || y == f1_vertex_y || y == f1_vertex_y + 1)) ||
                                 (y == f1_vertex_y && (x == f1_vertex_x - 1 || x == f1_vertex_x + 1)));
@@ -225,6 +304,12 @@ struct Scenario {
                        const std::string &label, std::uint64_t expected_intersections) {
         constexpr int frame_pixels = 800 * 525;
         constexpr int search_limit = 900000;
+        if (label == "integer intersection x=0,y=0") {
+            std::array<std::uint64_t, 6> probe_hits{};
+            const auto probe = referenceRgb(638, 0, coefficients, probe_hits);
+            require(probe == std::array<unsigned, 3>{0, 0, 0},
+                    "reference probe for x=638,y=0 with integer-intersection coefficients must be black");
+        }
         bool saw_vsync_high = false;
         int previous_vsync = dut.VGA_VS;
         const bool f2_enabled = coefficients[3] != 0 || coefficients[4] != 0 || coefficients[5] != 0;
@@ -323,7 +408,13 @@ struct Scenario {
                                              std::to_string(y) + " channel=" +
                                              std::to_string(channel) + " expected=" +
                                              std::to_string(expected[channel]) + " observed=" +
-                                             std::to_string(observed.rgb[channel]));
+                                             std::to_string(observed.rgb[channel]) +
+                                             " expectedRGB=" + std::to_string(expected[0]) + "," +
+                                             std::to_string(expected[1]) + "," +
+                                             std::to_string(expected[2]) + " observedRGB=" +
+                                             std::to_string(observed.rgb[0]) + "," +
+                                             std::to_string(observed.rgb[1]) + "," +
+                                             std::to_string(observed.rgb[2]));
                 }
                 ++checks;
             }
@@ -366,6 +457,7 @@ struct Scenario {
         const std::array<int, 6> integer_intersection = {1, 0, 0, 1, 1, 0};
         const std::array<int, 6> coincident = {1, 0, 0, 1, 0, 0};
         const std::array<int, 6> fractional_intersection = {1, 0, 0, 1, 3, 1};
+        const std::array<int, 6> no_real_roots_valid_function = {1, 0, 1, 0, 0, 0};
         const std::array<int, 6> f2_disabled = {1, 0, 0, 0, 0, 0};
         const std::array<int, 6> both_a_zero = {0, 1, 0, 0, 1, 0};
         const std::array<int, 6> f1_vertex_out = {1, 127, 0, 1, 0, 0};
@@ -409,6 +501,11 @@ struct Scenario {
         captureTuple(fractional_intersection);
         startProcessing(2, -1, "fractional-only intersection functions valid");
         scanFullFrame(fractional_intersection, "fractional-only intersection x=-1/3", 0);
+
+        resetSession();
+        captureTuple(no_real_roots_valid_function);
+        startProcessing(2, -1, "valid F1 parabola with negative discriminant");
+        scanFullFrame(no_real_roots_valid_function, "negative discriminant suppresses roots only", 0);
 
         resetSession();
         captureTuple(negative_coordinate_tie);

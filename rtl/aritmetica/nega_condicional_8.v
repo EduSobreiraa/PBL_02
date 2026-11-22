@@ -1,0 +1,20 @@
+module nega_condicional_8(input wire [7:0] value,input wire negate,output wire [7:0] result);
+    wire [7:0] valor_invertido;
+    wire [8:0] vai_um;
+    xor x0(valor_invertido[0],value[0],negate);
+    somador_completo_raiz somador_bit_0(.a(valor_invertido[0]),.b(1'b0),.cin(negate),.sum(result[0]),.cout(vai_um[1]));
+    xor raiz_x1(valor_invertido[1],value[1],negate);
+    somador_completo_raiz somador_bit_1(.a(valor_invertido[1]),.b(1'b0),.cin(vai_um[1]),.sum(result[1]),.cout(vai_um[2]));
+    xor raiz_x2(valor_invertido[2],value[2],negate);
+    somador_completo_raiz somador_bit_2(.a(valor_invertido[2]),.b(1'b0),.cin(vai_um[2]),.sum(result[2]),.cout(vai_um[3]));
+    xor x3(valor_invertido[3],value[3],negate);
+    somador_completo_raiz somador_bit_3(.a(valor_invertido[3]),.b(1'b0),.cin(vai_um[3]),.sum(result[3]),.cout(vai_um[4]));
+    xor x4(valor_invertido[4],value[4],negate);
+    somador_completo_raiz somador_bit_4(.a(valor_invertido[4]),.b(1'b0),.cin(vai_um[4]),.sum(result[4]),.cout(vai_um[5]));
+    xor x5(valor_invertido[5],value[5],negate);
+    somador_completo_raiz somador_bit_5(.a(valor_invertido[5]),.b(1'b0),.cin(vai_um[5]),.sum(result[5]),.cout(vai_um[6]));
+    xor x6(valor_invertido[6],value[6],negate);
+    somador_completo_raiz somador_bit_6(.a(valor_invertido[6]),.b(1'b0),.cin(vai_um[6]),.sum(result[6]),.cout(vai_um[7]));
+    xor x7(valor_invertido[7],value[7],negate);
+    somador_completo_raiz somador_bit_7(.a(valor_invertido[7]),.b(1'b0),.cin(vai_um[7]),.sum(result[7]),.cout(vai_um[8]));
+endmodule

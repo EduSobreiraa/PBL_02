@@ -1,0 +1,24 @@
+module soma_subtrai_10(input wire [9:0] lhs,rhs,input wire subtract,output wire [9:0] result);
+    wire [9:0] valor_invertido;
+    wire [10:0] vai_um;
+    xor x0(valor_invertido[0],rhs[0],subtract);
+    somador_completo_raiz somador_bit_0(.a(lhs[0]),.b(valor_invertido[0]),.cin(subtract),.sum(result[0]),.cout(vai_um[1]));
+    xor raiz_x1(valor_invertido[1],rhs[1],subtract);
+    somador_completo_raiz somador_bit_1(.a(lhs[1]),.b(valor_invertido[1]),.cin(vai_um[1]),.sum(result[1]),.cout(vai_um[2]));
+    xor raiz_x2(valor_invertido[2],rhs[2],subtract);
+    somador_completo_raiz somador_bit_2(.a(lhs[2]),.b(valor_invertido[2]),.cin(vai_um[2]),.sum(result[2]),.cout(vai_um[3]));
+    xor x3(valor_invertido[3],rhs[3],subtract);
+    somador_completo_raiz somador_bit_3(.a(lhs[3]),.b(valor_invertido[3]),.cin(vai_um[3]),.sum(result[3]),.cout(vai_um[4]));
+    xor x4(valor_invertido[4],rhs[4],subtract);
+    somador_completo_raiz somador_bit_4(.a(lhs[4]),.b(valor_invertido[4]),.cin(vai_um[4]),.sum(result[4]),.cout(vai_um[5]));
+    xor x5(valor_invertido[5],rhs[5],subtract);
+    somador_completo_raiz somador_bit_5(.a(lhs[5]),.b(valor_invertido[5]),.cin(vai_um[5]),.sum(result[5]),.cout(vai_um[6]));
+    xor x6(valor_invertido[6],rhs[6],subtract);
+    somador_completo_raiz somador_bit_6(.a(lhs[6]),.b(valor_invertido[6]),.cin(vai_um[6]),.sum(result[6]),.cout(vai_um[7]));
+    xor x7(valor_invertido[7],rhs[7],subtract);
+    somador_completo_raiz somador_bit_7(.a(lhs[7]),.b(valor_invertido[7]),.cin(vai_um[7]),.sum(result[7]),.cout(vai_um[8]));
+    xor x8(valor_invertido[8],rhs[8],subtract);
+    somador_completo_raiz somador_bit_8(.a(lhs[8]),.b(valor_invertido[8]),.cin(vai_um[8]),.sum(result[8]),.cout(vai_um[9]));
+    xor x9(valor_invertido[9],rhs[9],subtract);
+    somador_completo_raiz somador_bit_9(.a(lhs[9]),.b(valor_invertido[9]),.cin(vai_um[9]),.sum(result[9]),.cout(vai_um[10]));
+endmodule

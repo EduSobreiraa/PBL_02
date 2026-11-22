@@ -1,0 +1,3 @@
+module tb_root_renderer(input video_on, input processing_done, input f2_enabled, input root_domain_valid_f1, input root_domain_valid_f2, input signed [9:0] x_cartesiano, input signed [9:0] y_cartesiano, input signed [8:0] f1_x1, input signed [8:0] f1_x2, input signed [8:0] f2_x1, input signed [8:0] f2_x2, output root_marker_hit, output root_label_hit);
+renderizador_raizes dut (.video_on(video_on), .processing_done(processing_done), .f2_enabled(f2_enabled), .root_domain_valid_f1(root_domain_valid_f1), .root_domain_valid_f2(root_domain_valid_f2), .x_cartesiano(x_cartesiano), .y_cartesiano(y_cartesiano), .f1_x1(f1_x1), .f1_x2(f1_x2), .f2_x1(f2_x1), .f2_x2(f2_x2), .root_marker_hit(root_marker_hit), .root_label_hit(root_label_hit));
+endmodule

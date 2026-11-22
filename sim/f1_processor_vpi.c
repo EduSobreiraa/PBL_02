@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include <vpi_user.h>
@@ -38,6 +39,7 @@ static s_cb_data scheduled_callbacks[4];
 static s_vpi_time scheduled_times[4];
 static vpiHandle clk_h, reset_h, start_h, a_h, b_h, c_h, x_h, y_h;
 static vpiHandle busy_h, done_h, error_a_h, error_vertex_h, display_h, hit_h, derivative_hit_h;
+static vpiHandle root_x1_h, root_x2_h, root_valid_h;
 static vpiHandle key_h, sw_h, entry_reset_h, entry_start_h, entry_ready_h, entry_done_h, entry_busy_h, entry_a_h;
 
 static void fail_now(const char *message)
@@ -99,6 +101,26 @@ static int read_signed(vpiHandle handle, unsigned width)
     raw = v.value.vector[0].aval & mask;
     if ((raw & (1U << (width - 1U))) != 0U) raw |= ~mask;
     return (int)raw;
+}
+
+static int rounded_root(long double value)
+{
+    return value < 0.0L ? (int)ceill(value - 0.5L) : (int)floorl(value + 0.5L);
+}
+
+static void expected_roots(int a, int b, int c, int *x1, int *x2, int *valid)
+{
+    int delta = b * b - 4 * a * c;
+    *valid = a != 0 && delta >= 0;
+    if (!*valid) {
+        *x1 = 0;
+        *x2 = 0;
+    } else {
+        long double radical = sqrtl((long double)delta);
+        long double denominator = (long double)(2 * a);
+        *x1 = rounded_root((-(long double)b + radical) / denominator);
+        *x2 = rounded_root((-(long double)b - radical) / denominator);
+    }
 }
 
 static void add_step(int reset, int start, int a, int b, int c, int x, int y,
@@ -282,6 +304,7 @@ static PLI_INT32 check_step(p_cb_data cb)
 {
     test_step *step = &steps[step_index];
     int failed = 0;
+    int expected_x1, expected_x2, expected_valid;
     (void)cb;
     check_output(busy_h, step->busy, "busy", &failed);
     check_output(done_h, step->done, "done", &failed);
@@ -290,6 +313,18 @@ static PLI_INT32 check_step(p_cb_data cb)
     check_output(display_h, step->display_enable, "display_enable", &failed);
     check_output(hit_h, step->f1_hit, "f1_hit", &failed);
     check_output(derivative_hit_h, step->f1_derivative_hit, "f1_derivada_hit", &failed);
+    expected_roots(step->a, step->b, step->c, &expected_x1, &expected_x2, &expected_valid);
+    {
+        int actual_x1 = read_signed(root_x1_h, 9);
+        int actual_x2 = read_signed(root_x2_h, 9);
+        int actual_valid = read_bit(root_valid_h);
+        if (actual_x1 != expected_x1 || actual_x2 != expected_x2 || actual_valid != expected_valid) {
+            vpi_printf("VPI FAIL: step %lu (%s): roots expected (%d,%d valid=%d), got (%d,%d valid=%d)\n",
+                       (unsigned long)step_index, step->label, expected_x1, expected_x2,
+                       expected_valid, actual_x1, actual_x2, actual_valid);
+            failed = 1;
+        }
+    }
     if (step->check_entry) {
         check_output(entry_reset_h, step->entry_system_reset, "entry_system_reset", &failed);
         check_output(entry_start_h, step->entry_start, "entry_start_pulse", &failed);
@@ -341,6 +376,9 @@ static PLI_INT32 start_test(p_cb_data cb)
     display_h = get_handle("tb_f1_processor.display_enable");
     hit_h = get_handle("tb_f1_processor.f1_hit");
     derivative_hit_h = get_handle("tb_f1_processor.f1_derivada_hit");
+    root_x1_h = get_handle("tb_f1_processor.root_x1");
+    root_x2_h = get_handle("tb_f1_processor.root_x2");
+    root_valid_h = get_handle("tb_f1_processor.root_domain_valid");
     key_h = get_handle("tb_f1_processor.key_n");
     sw_h = get_handle("tb_f1_processor.sw");
     entry_reset_h = get_handle("tb_f1_processor.entry_system_reset");
