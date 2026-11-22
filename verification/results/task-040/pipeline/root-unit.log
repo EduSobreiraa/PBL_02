@@ -1,0 +1,2 @@
+debconf: delaying package configuration, since apt-utils is not installed
+VPI PASS: 30 directed, 256 deterministic integer-reference vectors; N+22 token, one-cycle valid, hold, START clear, inactive lane, reset flush

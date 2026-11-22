@@ -1,0 +1,445 @@
+PBL03 TASK-036 aggregate regression
+UTC start: 2026-11-22T20:54:51Z
+Repository: /home/edupires/orca/workspaces/02_PBL02/PBL-03
+Git HEAD: a064436c682771b41328cdf1254fd058783b06d0
+Worktree SHA256: f77d7b02b7864da7cf4a4de6ea6e16d4714b1da77ef77dc95b78b774b934b227
+Worktree manifest: /home/edupires/orca/workspaces/02_PBL02/PBL-03/verification/results/task-036/tree-manifest-20261122T205451Z.sha256
+Fingerprint scope: RTL, test harnesses, runners, checker, QSF/SDC input files (.v .sv .vh .svh .c .h .cpp .hpp .sh .py .qsf .sdc); excludes docs and verification/results
+Fingerprint command: git ls-files -co --exclude-standard -z | LC_ALL=C sort -z | grep -zE '\.(v|sv|vh|svh|c|h|cpp|hpp|sh|py|qsf|sdc)$' | xargs -0 -r sha256sum; sha256sum <manifest>
+Working tree status at start:
+ M docs/tasks/TASK-040.md
+ M rtl/controle/fsm_principal_pbl03.v
+ M rtl/funcao/processador_f1.v
+ M rtl/funcao/quadratic_roots.v
+ M rtl/top/top_pbl03.v
+ M sim/f1_f2_processors_vpi.c
+ M sim/f1_processor_vpi.c
+ M sim/main_handshake_pbl03_vpi.c
+ M sim/quadratic_roots_vpi.c
+ M sim/run_quadratic_roots_icarus.sh
+ M sim/status_errors_pbl03_vpi.c
+ M sim/tb_f1_f2_processors.v
+ M sim/tb_f1_processor.v
+ M sim/tb_main_handshake_pbl03.v
+ M sim/tb_quadratic_roots.v
+?? docs/decisions/DEC-064.md
+?? verification/results/task-036/regression-20261122T205451Z.log
+?? verification/results/task-036/tree-manifest-20261122T205451Z.sha256
+?? verification/results/task-040/pipeline/
+Log: /home/edupires/orca/workspaces/02_PBL02/PBL-03/verification/results/task-036/regression-20261122T205451Z.log
+PBL03 source check: PASS
+== Icarus unit regression (hdlc/iverilog:latest) ==
+Icarus version:
+Icarus Verilog version 14.0 (devel) (s20260301-394-g9edaf7b6a)
+
+Unable to get version from "/usr/local/lib/ivl/ivlpp -V"
+Unable to get version from "/usr/local/lib/ivl/ivl -V -C"/tmp/ivrlh71783296" -C"/usr/local/lib/ivl/vvp.conf""
+VVP version:
+Icarus Verilog runtime version 14.0 (devel) (s20260301-394-g9edaf7b6a)
+
+Copyright (c) 2001-2026 Stephen Williams (steve@icarus.com)
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+GCC version:
+gcc (Debian 10.2.1-6) 10.2.1 20210110
+RUN sim/run_video_axes_icarus.sh
+VPI PASS: left x boundary and horizontal axis
+VPI PASS: right x boundary
+VPI PASS: top y boundary and vertical axis
+VPI PASS: bottom y boundary and vertical axis
+VPI PASS: origin activates both axes
+VPI PASS: off-axis pixel is black
+VPI PASS: video_on clips axis pixel to black
+VPI PASS: KEY1 pressed asserts active-high VGA reset
+VPI PASS: KEY1 released deasserts VGA reset
+VPI PASS: all 283 video composition cases passed
+IVERILOG PASS: top_pbl03 elaborated with the current QSF source list
+RUN PASS sim/run_video_axes_icarus.sh
+RUN sim/run_coefficient_input_pbl03.sh
+VPI PASS: synchronized KEY1 reset clears initialized session
+VPI PASS: release KEY1 without a spurious KEY0 event
+VPI PASS: positive magnitude 128 rejected without advancing
+VPI PASS: a1 captures +127 once despite a held KEY0
+VPI PASS: negative magnitude 129 rejected without advancing
+VPI PASS: b1 captures -128
+VPI PASS: c1 normalizes negative zero to zero
+VPI PASS: a2 captures zero for disabled F2
+VPI PASS: b2 captures zero for disabled F2
+VPI PASS: c2 completes ordered capture but does not start
+VPI PASS: separate KEY0 event starts after c2
+VPI PASS: START pulse deasserts after one cycle
+VPI PASS: KEY0 event ignored while processing_done is low
+VPI PASS: processing_done rearms start wait
+VPI PASS: new START accepted while old processing_done remains high
+VPI PASS: START pulse deasserts after one cycle
+VPI PASS: KEY0 event ignored while stale processing_done remains high
+VPI PASS: processing_done low is observed before next completion
+VPI PASS: KEY0 event ignored during rearmed processing
+VPI PASS: new completion rearms start wait after low-to-high handshake
+VPI PASS: later START rearmed after processing_done deassertion and assertion
+VPI PASS: START pulse deasserts after one cycle
+VPI PASS: KEY1 synchronously clears all six coefficients and progress
+VPI PASS: release KEY1 without a spurious KEY0 event
+VPI PASS: new session a1=1
+VPI PASS: new session b1=2
+VPI PASS: new session c1=3
+VPI PASS: F2 tuple a2=0
+VPI PASS: F2 tuple b2=1 retained for processor error classification
+VPI PASS: F2 a2=0 nonzero tuple captured without input-range error
+VPI PASS: F2 tuple remains stored after completion of input
+VPI PASS: all 187 coefficient-input steps passed
+RUN PASS sim/run_coefficient_input_pbl03.sh
+RUN sim/run_f1_function_icarus.sh
+VPI PASS: 3421 datapath cases passed
+RUN PASS sim/run_f1_function_icarus.sh
+RUN sim/run_f1_processor_icarus.sh
+VPI PASS: 118 F1 processor cycles passed
+IVERILOG PASS: top_pbl03 elaborated with the complete QSF source list
+RUN PASS sim/run_f1_processor_icarus.sh
+RUN sim/run_f1_f2_processors_icarus.sh
+VPI PASS: 25 F1/F2 processor cycles
+IVERILOG PASS: top_pbl03 elaborated with the complete QSF source list
+RUN PASS sim/run_f1_f2_processors_icarus.sh
+RUN sim/run_quadratic_roots_icarus.sh
+VPI PASS: 30 directed, 256 deterministic integer-reference vectors; N+22 token, one-cycle valid, hold, START clear, inactive lane, reset flush
+RUN PASS sim/run_quadratic_roots_icarus.sh
+RUN sim/run_root_renderer_icarus.sh
+VPI PASS: 1538 root renderer pixel/gating cases
+RUN PASS sim/run_root_renderer_icarus.sh
+RUN sim/run_main_handshake_pbl03_icarus.sh
+VPI PASS: initial synchronized KEY1 reset
+VPI PASS: START ignored before input_ready
+VPI PASS: main enters REVIEW after input_ready
+VPI PASS: reset overrides START in REVIEW
+VPI PASS: START enters processor wait
+VPI PASS: F1 DONE alone does not finish main handshake
+VPI PASS: F2 DONE alone and START while waiting do not finish
+VPI PASS: both processor DONEs wait for roots_ready
+VPI PASS: both DONEs and roots_ready release DISPLAY
+VPI PASS: main DONE retained independently of incoming levels
+VPI PASS: new START clears stale main DONE
+VPI PASS: reset during WAIT_PROCESSORS
+VPI PASS: reset in DISPLAY has priority over new START
+VPI PASS: prepare physical-button integration
+VPI PASS: six coefficients captured; review before START
+VPI PASS: review holds coefficients without starting
+VPI PASS: review holds coefficients without starting
+VPI PASS: review holds coefficients without starting
+VPI PASS: KEY0 produces one START pulse
+VPI PASS: START clears main DONE and validates both processors
+VPI PASS: main waits until it observes both processor DONEs
+VPI PASS: F2 null completes without errors or stuck BUSY
+VPI PASS: DONE retained and coefficients preserved
+VPI PASS: KEY0 produces one START pulse
+VPI PASS: START clears main DONE and validates both processors
+VPI PASS: main waits until it observes both processor DONEs
+VPI PASS: new execution completes without recapturing coefficients
+VPI PASS: DONE retained and coefficients preserved
+VPI PASS: reset in DISPLAY clears all coefficients and main outputs
+VPI PASS: six coefficients captured; review before START
+VPI PASS: reset in REVIEW clears captured coefficients
+VPI PASS: six coefficients captured; review before START
+VPI PASS: START emitted while KEY1 enters synchronizer
+VPI PASS: validation begins before synchronized reset is consumed
+VPI PASS: synchronized KEY1 resets main and processors during validation
+VPI PASS: release after validation reset returns to fresh entry
+VPI PASS: six coefficients captured; review before START
+VPI PASS: KEY0 produces one START pulse
+VPI PASS: START clears main DONE and validates both processors
+VPI PASS: main waits until it observes both processor DONEs
+VPI PASS: both enabled processors complete after reset
+VPI PASS: DONE retained and coefficients preserved
+VPI PASS: all 347 main-handshake cycles passed
+IVERILOG PASS: top_pbl03 elaborated with the current QSF source list
+RUN PASS sim/run_main_handshake_pbl03_icarus.sh
+RUN sim/run_status_errors_pbl03_icarus.sh
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: retained errors precede global DONE with HEX blank
+VPI PASS: global DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: 64 status combinations, all 8 glyph codes and 1103 total status/top cycles
+IVERILOG PASS: top_pbl03 elaborated with the current QSF source list
+RUN PASS sim/run_status_errors_pbl03_icarus.sh
+== Verilator top-level integration (hdlc/verilator:latest) ==
+Verilator version:
+Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+C++ compiler version:
+Debian clang version 11.0.1-2
+- V e r i l a t i o n   R e p o r t: Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+- Verilator: Built from 20.363 MB sources in 59 modules, into 13.221 MB in 22 C++ files needing 0.002 MB
+- Verilator: Walltime 44.262 s (elab=0.681, cvt=8.116, bld=34.985); cpu 9.180 s on 1 threads; allocated 468.961 MB
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: invalid +128 rejected without advancing
+TOP VERILATOR PASS: invalid -129 rejected without advancing
+TOP VERILATOR PASS: capture a1 after invalid entries
+TOP VERILATOR PASS: negative zero captured and normalized
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 valid and F2 disabled complete
+TOP VERILATOR PASS: reexecution revalidates retained coefficients
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 and F2 valid before full-frame scan
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: integer intersection x=0,y=0; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=1
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: coincident functions complete
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: coincident functions; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=31
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: fractional-only intersection functions valid
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: fractional-only intersection x=-1/3; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1 parabola with negative discriminant
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: negative discriminant suppresses roots only; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: negative rational vertex coordinate
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: nearest-pixel vertex rounding, negative tie away from zero; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: negative half tie at outer neighborhood boundary
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: n/d=-1/2 includes k=-2; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: negative three-halves outer neighborhood boundary
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: n/d=-3/2 excludes k=0; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: positive three-halves outer neighborhood boundary
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: n/d=+3/2 excludes k=0; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: positive rational vertex coordinate
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: nearest-pixel vertex rounding, positive tie away from zero; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 a=0 while F2 remains marker eligible
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: F2 valid isolated marker with invalid F1; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1/F2 vertices at both active y edges
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: upper/lower vertex crosses clipped at y=240/-239; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F2 null tuple disables intersections
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: F2 disabled; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: both functions report a=0 with ERR F1 HEX priority
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 vertex outside screen with valid F2
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1 alongside F2 a=0 error
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1 alongside F2 vertex error
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: signed coefficient limits -128 and 127 remain valid
+TOP VERILATOR PASS: 20161162 vector checks; 19930543 20 ns system clock cycles
+RUN PASS sim/run_pbl03_top_verilator.sh
+PBL03 source check: PASS
+UTC finish: 2026-11-22T20:59:36Z
+PBL03 TASK-036 AGGREGATE PASS

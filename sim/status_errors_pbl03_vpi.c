@@ -71,7 +71,11 @@ static void execute(int errors, int previous_done, int previous_errors)
     for(i=0;i<3;++i) add(2,0,0,previous_done,previous_errors,NULL);
     add(2,0,1,0,0,"BUSY clears old message during validation");
     add(2,0,1,0,errors,"retained errors precede global DONE with HEX blank");
-    add(2,0,0,1,errors,"global DONE presents selected message and both error LEDs");
+    for(i=0;i<24;++i) {
+        test_step *wait=add(3,0,1,0,errors,NULL);
+        wait->busy=-1; wait->done=-1;
+    }
+    add(3,0,0,1,errors,"global DONE presents selected message and both error LEDs");
     for(i=0;i<5;++i) add(3,0,0,1,errors,i==4?"message retained after DONE":NULL);
 }
 static void scenario(void)

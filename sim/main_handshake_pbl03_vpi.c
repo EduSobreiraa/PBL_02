@@ -8,7 +8,7 @@ typedef struct {
     int key_n, sw, start, busy, done, ready, processor_busy, processor_done;
     int coefficients[COEFFICIENTS];
     int check_coefficients;
-    int probe_reset, probe_ready, probe_start, probe_f1, probe_f2;
+    int probe_reset, probe_ready, probe_start, probe_f1, probe_f2, probe_roots_ready;
     int probe_busy, probe_done;
     const char *label;
 } test_step;
@@ -17,7 +17,7 @@ static int count, index_now, expected_coefficients[COEFFICIENTS];
 static vpiHandle clk_h, key_h, sw_h, start_h, busy_h, done_h, ready_h;
 static vpiHandle coefficient_h[COEFFICIENTS], busy1_h, busy2_h, done1_h, done2_h;
 static vpiHandle error2_h, vertex2_h, reset_h;
-static vpiHandle probe_reset_h, probe_ready_h, probe_start_h, probe_f1_h, probe_f2_h;
+static vpiHandle probe_reset_h, probe_ready_h, probe_start_h, probe_f1_h, probe_f2_h, probe_roots_ready_h;
 static vpiHandle probe_busy_h, probe_done_h;
 static s_vpi_time readonly_time;
 
@@ -62,6 +62,7 @@ static test_step *add(int key, int sw, int start, int busy, int done, int ready,
     s->start = start; s->busy = busy; s->done = done; s->ready = ready;
     s->processor_busy = -1; s->processor_done = -1;
     s->probe_reset = 1; s->probe_busy = 0; s->probe_done = 0;
+    s->probe_roots_ready = 1;
     s->check_coefficients = 1;
     memcpy(s->coefficients, expected_coefficients, sizeof(s->coefficients));
     s->label = label;
@@ -108,6 +109,11 @@ static void execute(const char *label)
     s->processor_busy = 1; s->processor_done = 0;
     s = add(2, 0, 0, 1, 0, 1, "main waits until it observes both processor DONEs");
     s->processor_busy = 0; s->processor_done = 1;
+    for (i = 0; i < 32; ++i) {
+        s = add(2, 0, 0, 1, 0, 1, NULL);
+        s->busy = -1; s->done = -1;
+        s->processor_busy = 0; s->processor_done = 1;
+    }
     add(2, 0, 0, 0, 1, 1, label);
     for (i = 0; i < 5; ++i) add(3, 0, 0, 0, 1, 1, i == 4 ? "DONE retained and coefficients preserved" : NULL);
 }
@@ -121,6 +127,13 @@ static void probe_step(int reset, int ready, int start, int f1, int f2,
     s->probe_busy = busy; s->probe_done = done;
 }
 
+static void probe_step_with_roots(int reset, int ready, int start, int f1, int f2,
+                                  int roots_ready, int busy, int done, const char *label)
+{
+    probe_step(reset, ready, start, f1, f2, busy, done, label);
+    steps[count - 1].probe_roots_ready = roots_ready;
+}
+
 static void build_scenario(void)
 {
     int i;
@@ -132,7 +145,8 @@ static void build_scenario(void)
     probe_step(0,1,1,0,0,1,0,"START enters processor wait");
     probe_step(0,1,0,1,0,1,0,"F1 DONE alone does not finish main handshake");
     probe_step(0,1,1,0,1,1,0,"F2 DONE alone and START while waiting do not finish");
-    probe_step(0,1,0,1,1,0,1,"both DONEs release DISPLAY");
+    probe_step_with_roots(0,1,0,1,1,0,1,0,"both processor DONEs wait for roots_ready");
+    probe_step_with_roots(0,1,0,1,1,1,0,1,"both DONEs and roots_ready release DISPLAY");
     probe_step(0,1,0,0,0,0,1,"main DONE retained independently of incoming levels");
     probe_step(0,1,1,1,1,1,0,"new START clears stale main DONE");
     probe_step(1,1,0,0,0,0,0,"reset during WAIT_PROCESSORS");
@@ -195,6 +209,7 @@ static PLI_INT32 drive(p_cb_data cb)
     put(clk_h,0); put(key_h,s->key_n); put(sw_h,s->sw);
     put(probe_reset_h,s->probe_reset); put(probe_ready_h,s->probe_ready);
     put(probe_start_h,s->probe_start); put(probe_f1_h,s->probe_f1); put(probe_f2_h,s->probe_f2);
+    put(probe_roots_ready_h,s->probe_roots_ready);
     later(raise_clock);
     return 0;
 }
@@ -258,6 +273,7 @@ static PLI_INT32 startup_test(p_cb_data cb)
     H(error2_h,"dut.error_a_zero_f2"); H(vertex2_h,"dut.error_vertex_f2"); H(reset_h,"dut.system_reset");
     H(probe_reset_h,"probe_reset"); H(probe_ready_h,"probe_ready"); H(probe_start_h,"probe_start");
     H(probe_f1_h,"probe_done_f1"); H(probe_f2_h,"probe_done_f2");
+    H(probe_roots_ready_h,"probe_roots_ready");
     H(probe_busy_h,"probe_busy"); H(probe_done_h,"probe_done");
 #undef H
     for(i=0;i<COEFFICIENTS;++i) {

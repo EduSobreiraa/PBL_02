@@ -22,6 +22,7 @@ typedef struct {
     int key_n;
     int sw;
     int check_entry;
+    int check_roots;
     int entry_system_reset;
     int entry_start;
     int entry_input_ready;
@@ -148,6 +149,7 @@ static void add_step(int reset, int start, int a, int b, int c, int x, int y,
     step->key_n = 3;
     step->sw = 0;
     step->check_entry = 0;
+    step->check_roots = 0;
     step->entry_system_reset = 0;
     step->entry_start = 0;
     step->entry_input_ready = 0;
@@ -232,6 +234,17 @@ static void build_steps(void)
     add_entry_cycles(1,3,0,1,0,0,1,1,0,1,"second validation completes after processing_done was low");
     add_entry_cycles(1,3,0,1,0,0,1,1,0,1,"entry observes second DONE high");
     add_entry_cycles(2,3,0,1,0,0,1,1,0,1,"entry remains rearmed after new DONE high");
+    ADD(1,0,1,0,0,0,0, 0,0,0,0,0,0,0,"isolated root monitor reset");
+    ADD(0,1,1,0,0,0,0, 1,0,0,0,0,0,0,"isolated root monitor START");
+    {
+        int i;
+        for (i = 0; i < 22; ++i)
+            add_step(0,0,1,0,0,0,0, 0,1,0,0,1,1,1,NULL);
+    }
+    add_step(0,0,1,0,0,0,0, 0,1,0,0,1,1,1,"isolated root pipeline token N+22");
+    steps[step_count - 1].check_roots = 1;
+    ADD(1,0,1,0,0,0,0, 0,0,0,0,0,0,0,"root-domain sticky output clears on reset");
+    steps[step_count - 1].check_roots = 1;
 #undef ADD
 }
 
@@ -313,8 +326,9 @@ static PLI_INT32 check_step(p_cb_data cb)
     check_output(display_h, step->display_enable, "display_enable", &failed);
     check_output(hit_h, step->f1_hit, "f1_hit", &failed);
     check_output(derivative_hit_h, step->f1_derivative_hit, "f1_derivada_hit", &failed);
-    expected_roots(step->a, step->b, step->c, &expected_x1, &expected_x2, &expected_valid);
-    {
+    if (step->check_roots) {
+        expected_roots(step->a, step->b, step->c, &expected_x1, &expected_x2, &expected_valid);
+        if (step->reset) expected_valid = 0;
         int actual_x1 = read_signed(root_x1_h, 9);
         int actual_x2 = read_signed(root_x2_h, 9);
         int actual_valid = read_bit(root_valid_h);

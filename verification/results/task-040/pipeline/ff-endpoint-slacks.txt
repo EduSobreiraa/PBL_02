@@ -1,0 +1,2 @@
+FF-to-FF setup: worst slack 0.873 ns (0 violated)
+FF-to-FF hold: worst slack 0.247 ns (0 violated)

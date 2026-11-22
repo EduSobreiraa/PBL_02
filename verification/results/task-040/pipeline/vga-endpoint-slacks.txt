@@ -1,0 +1,15 @@
+Endpoint setup slacks from final Quartus fit (ns)
+VGA_R[0]: 2.945
+VGA_R[1]: 2.697
+VGA_R[2]: 2.777
+VGA_R[3]: 3.013
+VGA_G[0]: 2.587
+VGA_G[1]: 3.005
+VGA_G[2]: 2.634
+VGA_G[3]: 2.987
+VGA_B[0]: 2.713
+VGA_B[1]: 2.732
+VGA_B[2]: 2.810
+VGA_B[3]: 2.798
+VGA_HS: 31.472
+VGA_VS: 31.342
