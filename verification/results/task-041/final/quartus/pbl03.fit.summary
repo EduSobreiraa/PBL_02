@@ -1,0 +1,18 @@
+Fitter Status : Successful - Sun Nov 22 19:15:46 2026
+Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+Revision Name : pbl03
+Top-level Entity Name : top_pbl03
+Family : MAX 10
+Device : 10M50DAF484C7G
+Timing Models : Final
+Total logic elements : 8,871 / 49,760 ( 18 % )
+    Total combinational functions : 8,742 / 49,760 ( 18 % )
+    Dedicated logic registers : 996 / 49,760 ( 2 % )
+Total registers : 996
+Total pins : 78 / 360 ( 22 % )
+Total virtual pins : 0
+Total memory bits : 960 / 1,677,312 ( < 1 % )
+Embedded Multiplier 9-bit elements : 0 / 288 ( 0 % )
+Total PLLs : 0 / 4 ( 0 % )
+UFM blocks : 0 / 1 ( 0 % )
+ADC blocks : 0 / 2 ( 0 % )
