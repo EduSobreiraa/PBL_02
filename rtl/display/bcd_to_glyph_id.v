@@ -1,0 +1,23 @@
+module bcd_to_glyph_id(input [3:0] digit, output [4:0] glyph_id);
+wire [3:0] digit_n;
+wire [9:0] select;
+not (digit_n[0], digit[0]);
+not (digit_n[1], digit[1]);
+not (digit_n[2], digit[2]);
+not (digit_n[3], digit[3]);
+and (select[0], digit_n[0], digit_n[1], digit_n[2], digit_n[3]);
+and (select[1], digit[0], digit_n[1], digit_n[2], digit_n[3]);
+and (select[2], digit_n[0], digit[1], digit_n[2], digit_n[3]);
+and (select[3], digit[0], digit[1], digit_n[2], digit_n[3]);
+and (select[4], digit_n[0], digit_n[1], digit[2], digit_n[3]);
+and (select[5], digit[0], digit_n[1], digit[2], digit_n[3]);
+and (select[6], digit_n[0], digit[1], digit[2], digit_n[3]);
+and (select[7], digit[0], digit[1], digit[2], digit_n[3]);
+and (select[8], digit_n[0], digit_n[1], digit_n[2], digit[3]);
+and (select[9], digit[0], digit_n[1], digit_n[2], digit[3]);
+or (glyph_id[0], select[0], select[2], select[4], select[6], select[8]);
+or (glyph_id[1], select[1], select[2], select[5], select[6], select[9]);
+or (glyph_id[2], select[3], select[4], select[5], select[6]);
+or (glyph_id[3], select[7], select[8], select[9]);
+and (glyph_id[4], 1'b0, 1'b0);
+endmodule

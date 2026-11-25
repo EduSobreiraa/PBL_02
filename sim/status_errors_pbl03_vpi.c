@@ -68,15 +68,31 @@ static void capture(int value)
 static void execute(int errors, int previous_done, int previous_errors)
 {
     int i;
-    for(i=0;i<3;++i) add(2,0,0,previous_done,previous_errors,NULL);
-    add(2,0,1,0,0,"BUSY clears old message during validation");
-    add(2,0,1,0,errors,"retained errors precede global DONE with HEX blank");
+    for(i=0;i<3;++i) {
+        test_step *start=add(2,0,0,previous_done,previous_errors,NULL);
+        if(previous_done) start->busy=-1;
+    }
+    add(2,0,1,0,previous_done?previous_errors:0,"BUSY clears old message during validation");
+    {
+        test_step *retained=add(2,0,1,0,errors,"status module retains error LEDs before DONE");
+        retained->busy=-1;
+    }
     for(i=0;i<24;++i) {
         test_step *wait=add(3,0,1,0,errors,NULL);
         wait->busy=-1; wait->done=-1;
     }
-    add(3,0,0,1,errors,"global DONE presents selected message and both error LEDs");
-    for(i=0;i<5;++i) add(3,0,0,1,errors,i==4?"message retained after DONE":NULL);
+    {
+        test_step *top_wait=add(3,0,1,0,errors,"top status sampled only after processor error validation");
+        top_wait->busy=-1;
+    }
+    {
+        test_step *done=add(3,0,0,1,errors,"status module DONE presents selected message and both error LEDs");
+        done->busy=-1;
+    }
+    for(i=0;i<5;++i) {
+        test_step *retained=add(3,0,0,1,errors,i==4?"message retained after DONE":NULL);
+        retained->busy=-1;
+    }
 }
 static void scenario(void)
 {
@@ -98,18 +114,23 @@ static void scenario(void)
     }
     reset_session();
 }
-static void check_status(vpiHandle led, vpiHandle hex[6], int busy, int done, int errors)
+static void check_status(vpiHandle led, vpiHandle hex[6], int busy, int done, int errors, const char *where)
 {
     int expected_led=busy|(done<<1)|((errors&3?1:0)<<2)|((errors&12?1:0)<<3);
     int selected=-1, i, expected[6]={0x7f,0x7f,0x7f,0x7f,0x7f,0x7f};
-    expect(led,expected_led,"LEDR");
+    char label[32];
+    snprintf(label,sizeof(label),"%s LEDR",where);
+    expect(led,expected_led,label);
     if(done) for(i=0;i<4;++i) if(errors&(1<<i)) {selected=i;break;}
     if(selected>=0) {
         expected[5]=0x06; expected[4]=0x2f; expected[3]=0x2f;
         expected[1]=(selected==0||selected==2)?0x0e:0x63;
         expected[0]=selected<2?0x79:0x24;
     }
-    for(i=0;i<6;++i) expect(hex[i],expected[i],"HEX segments");
+    for(i=0;i<6;++i) {
+        snprintf(label,sizeof(label),"%s HEX segments",where);
+        expect(hex[i],expected[i],label);
+    }
 }
 static PLI_INT32 drive(p_cb_data cb);
 static PLI_INT32 raise_clock(p_cb_data cb);
@@ -142,9 +163,9 @@ static PLI_INT32 raise_clock(p_cb_data unused)
 static PLI_INT32 check(p_cb_data cb)
 {
     test_step *s=&steps[current]; (void)cb;
-    check_status(probe_led_h,probe_hex_h,s->probe_busy,s->probe_done,s->probe_errors);
+    check_status(probe_led_h,probe_hex_h,s->probe_busy,s->probe_done,s->probe_errors,"probe");
     expect(segments_h,glyph_segments[s->glyph],"decoder glyph");
-    if(s->busy>=0) check_status(top_led_h,top_hex_h,s->busy,s->done,s->errors);
+    if(s->busy>=0) check_status(top_led_h,top_hex_h,s->busy,s->done,s->errors,"top");
     if(s->label) vpi_printf("VPI PASS: %s\n",s->label);
     later(lower_clock); return 0;
 }

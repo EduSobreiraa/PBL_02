@@ -1,0 +1,115 @@
+/opt/quartus/eda/sim_lib/altera_mf.v:47807: warning: input port wren_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47808: warning: input port wren_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47809: warning: input port rden_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47810: warning: input port rden_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47815: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47817: warning: input port clocken0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47818: warning: input port clocken1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47819: warning: input port clocken2 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47820: warning: input port clocken3 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47821: warning: input port aclr0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47822: warning: input port aclr1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47825: warning: input port addressstall_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47826: warning: input port addressstall_b is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:39: warning: input port wren_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:39: warning: input port rden_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:39: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47807: warning: input port wren_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47808: warning: input port wren_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47809: warning: input port rden_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47810: warning: input port rden_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47815: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47817: warning: input port clocken0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47818: warning: input port clocken1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47819: warning: input port clocken2 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47820: warning: input port clocken3 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47821: warning: input port aclr0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47822: warning: input port aclr1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47825: warning: input port addressstall_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47826: warning: input port addressstall_b is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:40: warning: input port wren_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:40: warning: input port rden_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:40: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47807: warning: input port wren_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47808: warning: input port wren_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47809: warning: input port rden_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47810: warning: input port rden_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47815: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47817: warning: input port clocken0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47818: warning: input port clocken1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47819: warning: input port clocken2 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47820: warning: input port clocken3 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47821: warning: input port aclr0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47822: warning: input port aclr1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47825: warning: input port addressstall_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47826: warning: input port addressstall_b is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41: warning: input port wren_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41: warning: input port rden_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41: warning: input port clock0 is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41: warning: Port 21 (q_a) of module altsyncram expects 9 bit(s), given 5.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41:        : Padding 4 high bits of the port.
+/workspace/quartus/../rtl/top/top_pbl03.v:205: warning: input port clk is coerced to inout.
+/workspace/quartus/../rtl/top/top_pbl03.v:205: warning: input port write_enable is coerced to inout.
+VPI PASS: left x boundary and horizontal axis
+VPI PASS: right x boundary
+VPI PASS: top y boundary and vertical axis
+VPI PASS: bottom y boundary and vertical axis
+VPI PASS: origin activates both axes
+VPI PASS: off-axis pixel is black
+VPI PASS: video_on clips axis pixel to black
+VPI PASS: KEY1 pressed asserts active-high VGA reset
+VPI PASS: KEY1 released deasserts VGA reset
+VPI PASS: all 284 video composition cases passed
+/opt/quartus/eda/sim_lib/altera_mf.v:47807: warning: input port wren_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47808: warning: input port wren_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47809: warning: input port rden_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47810: warning: input port rden_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47815: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47817: warning: input port clocken0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47818: warning: input port clocken1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47819: warning: input port clocken2 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47820: warning: input port clocken3 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47821: warning: input port aclr0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47822: warning: input port aclr1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47825: warning: input port addressstall_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47826: warning: input port addressstall_b is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:39: warning: input port wren_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:39: warning: input port rden_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:39: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47807: warning: input port wren_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47808: warning: input port wren_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47809: warning: input port rden_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47810: warning: input port rden_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47815: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47817: warning: input port clocken0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47818: warning: input port clocken1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47819: warning: input port clocken2 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47820: warning: input port clocken3 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47821: warning: input port aclr0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47822: warning: input port aclr1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47825: warning: input port addressstall_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47826: warning: input port addressstall_b is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:40: warning: input port wren_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:40: warning: input port rden_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:40: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47807: warning: input port wren_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47808: warning: input port wren_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47809: warning: input port rden_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47810: warning: input port rden_b is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47815: warning: input port clock0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47817: warning: input port clocken0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47818: warning: input port clocken1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47819: warning: input port clocken2 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47820: warning: input port clocken3 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47821: warning: input port aclr0 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47822: warning: input port aclr1 is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47825: warning: input port addressstall_a is coerced to inout.
+/opt/quartus/eda/sim_lib/altera_mf.v:47826: warning: input port addressstall_b is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41: warning: input port wren_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41: warning: input port rden_a is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41: warning: input port clock0 is coerced to inout.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41: warning: Port 21 (q_a) of module altsyncram expects 9 bit(s), given 5.
+/workspace/quartus/../rtl/funcao/coordinate_frame_ram.v:41:        : Padding 4 high bits of the port.
+/workspace/quartus/../rtl/top/top_pbl03.v:205: warning: input port clk is coerced to inout.
+/workspace/quartus/../rtl/top/top_pbl03.v:205: warning: input port write_enable is coerced to inout.
+IVERILOG PASS: top_pbl03 elaborated with the current QSF source list

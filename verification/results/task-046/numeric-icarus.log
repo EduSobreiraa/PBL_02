@@ -1,0 +1,2 @@
+TASK-046 NUMERIC PASS: BCD 0..8192, signed glyph boundaries, and rational half-away rounding grid
+/workspace/sim/tb_task046_numeric.v:67: $finish called at 8341000 (1ps)

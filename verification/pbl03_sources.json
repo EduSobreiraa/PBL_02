@@ -283,5 +283,155 @@
     "path": "rtl/video/renderizador_raizes.v",
     "module": "renderizador_raizes",
     "category": "structural"
+  },
+  {
+    "path": "rtl/controle/fsm_frame_builder.v",
+    "module": "fsm_frame_builder",
+    "category": "fsm"
+  },
+  {
+    "path": "rtl/video/coordinate_frame_hits.v",
+    "module": "coordinate_frame_hits",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync10.v",
+    "module": "dff_sync10",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync41.v",
+    "module": "dff_sync41",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync8_struct.v",
+    "module": "dff_sync8_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync17_struct.v",
+    "module": "dff_sync17_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync18_struct.v",
+    "module": "dff_sync18_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync25_struct.v",
+    "module": "dff_sync25_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/funcao/coordinate_frame_function_pipeline.v",
+    "module": "coordinate_frame_function_pipeline",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/coordinate_frame_format.v",
+    "module": "coordinate_frame_format",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/coordinate_frame_ram.v",
+    "module": "coordinate_frame_ram",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/round_signed_ratio_18_10.v",
+    "module": "round_signed_ratio_18_10",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync14_struct.v",
+    "module": "dff_sync14_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/display/bcd_add3_digit.v",
+    "module": "bcd_add3_digit",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/display/bcd_stage14.v",
+    "module": "bcd_stage14",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/display/binary_to_bcd14.v",
+    "module": "binary_to_bcd14",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/display/signed_to_magnitude14.v",
+    "module": "signed_to_magnitude14",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/display/bcd_to_glyph_id.v",
+    "module": "bcd_to_glyph_id",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/display/signed_to_bcd_glyphs14.v",
+    "module": "signed_to_bcd_glyphs14",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/display/glyph_5x7.v",
+    "module": "glyph_5x7",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/video/renderizador_prompt_vga.v",
+    "module": "renderizador_prompt_vga",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/video/renderizador_quadro_info_vga.v",
+    "module": "renderizador_quadro_info_vga",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync2_struct.v",
+    "module": "dff_sync2_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync6_struct.v",
+    "module": "dff_sync6_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync10_struct.v",
+    "module": "dff_sync10_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_sync22_struct.v",
+    "module": "dff_sync22_struct",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/aritmetica/restoring_division_18_step10.v",
+    "module": "restoring_division_18_step10",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/restoring_division_18_group4.v",
+    "module": "restoring_division_18_group4",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/restoring_division_18_group2.v",
+    "module": "restoring_division_18_group2",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/aritmetica/round_signed_ratio_18_10_pipeline.v",
+    "module": "round_signed_ratio_18_10_pipeline",
+    "category": "structural"
   }
 ]

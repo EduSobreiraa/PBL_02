@@ -6,11 +6,23 @@ set_global_assignment -name ORIGINAL_QUARTUS_VERSION 25.1std.0
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files_pbl03
 set_global_assignment -name VERILOG_FILE ../rtl/top/top_pbl03.v
 set_global_assignment -name VERILOG_FILE ../rtl/controle/fsm_principal_pbl03.v
+set_global_assignment -name VERILOG_FILE ../rtl/controle/fsm_frame_builder.v
 set_global_assignment -name VERILOG_FILE ../rtl/video/coordenadas_cartesianas.v
 set_global_assignment -name VERILOG_FILE ../rtl/video/detector_eixos.v
 set_global_assignment -name VERILOG_FILE ../rtl/video/compositor_rgb.v
+set_global_assignment -name VERILOG_FILE ../rtl/video/coordinate_frame_hits.v
 set_global_assignment -name VERILOG_FILE ../vendor/vga/vga_sync.v
 set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_bit.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync10.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync41.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync8_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync2_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync6_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync10_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync22_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync17_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync18_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync25_struct.v
 set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync_bit.v
 set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync8.v
 set_global_assignment -name VERILOG_FILE ../rtl/entrada/sincronizador_keys.v
@@ -29,6 +41,10 @@ set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/conditional_negate_8.
 set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/conditional_negate_10.v
 set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/conditional_negate_16.v
 set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/conditional_negate_18.v
+set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/restoring_division_18_step10.v
+set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/restoring_division_18_group4.v
+set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/restoring_division_18_group2.v
+set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/round_signed_ratio_18_10_pipeline.v
 set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/conditional_negate_25.v
 set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/multiply_unsigned_8x8.v
 set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/multiply_unsigned_8x10.v
@@ -43,6 +59,9 @@ set_global_assignment -name VERILOG_FILE ../rtl/funcao/detector_hits_f1.v
 set_global_assignment -name VERILOG_FILE ../rtl/funcao/datapath_f1.v
 set_global_assignment -name VERILOG_FILE ../rtl/funcao/fsm_funcao_f1.v
 set_global_assignment -name VERILOG_FILE ../rtl/funcao/processador_f1.v
+set_global_assignment -name VERILOG_FILE ../rtl/funcao/coordinate_frame_format.v
+set_global_assignment -name VERILOG_FILE ../rtl/funcao/coordinate_frame_function_pipeline.v
+set_global_assignment -name VERILOG_FILE ../rtl/funcao/coordinate_frame_ram.v
 set_global_assignment -name VERILOG_FILE ../rtl/display/decodificador_glifo_7seg_pbl03.v
 set_global_assignment -name VERILOG_FILE ../rtl/display/display_status_pbl03.v
 
@@ -223,3 +242,15 @@ set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/somador_completo_divi
 set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/multiplica_com_sinal_8_por_8.v
 set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/subtrator_18.v
 set_global_assignment -name VERILOG_FILE ../rtl/video/renderizador_raizes.v
+
+set_global_assignment -name VERILOG_FILE ../rtl/aritmetica/round_signed_ratio_18_10.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync14_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/display/bcd_add3_digit.v
+set_global_assignment -name VERILOG_FILE ../rtl/display/bcd_stage14.v
+set_global_assignment -name VERILOG_FILE ../rtl/display/binary_to_bcd14.v
+set_global_assignment -name VERILOG_FILE ../rtl/display/signed_to_magnitude14.v
+set_global_assignment -name VERILOG_FILE ../rtl/display/bcd_to_glyph_id.v
+set_global_assignment -name VERILOG_FILE ../rtl/display/signed_to_bcd_glyphs14.v
+set_global_assignment -name VERILOG_FILE ../rtl/display/glyph_5x7.v
+set_global_assignment -name VERILOG_FILE ../rtl/video/renderizador_prompt_vga.v
+set_global_assignment -name VERILOG_FILE ../rtl/video/renderizador_quadro_info_vga.v

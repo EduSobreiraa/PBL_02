@@ -1,0 +1,2 @@
+TASK-046 COMPOSITOR PASS: prompt, opaque panel, graph fallthrough, axis and blanking priorities
+/workspace/sim/tb_task046_compositor.v:50: $finish called at 6000 (1ps)

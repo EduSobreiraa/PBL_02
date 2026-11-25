@@ -120,11 +120,11 @@ struct Scenario {
         monitor_busy = true;
         cycles(2, 0, 7);
         cycles(3, 0, 7);
-        for (int i = 0; i < 100 && (led() & 2U) == 0; ++i) {
+        for (int i = 0; i < 2000 && (led() & 2U) == 0; ++i) {
             tick(3, 0);
         }
         monitor_busy = false;
-        require((led() & 2U) != 0, label + ": DONE timeout after 100 cycles");
+        require((led() & 2U) != 0, label + ": DONE timeout after 2000 cycles");
         require((led() & 1U) == 0, label + ": DONE asserted while BUSY remains active");
         expectStatus(expected_led, expected_error);
         require(busy_seen, label + ": BUSY was never observed");

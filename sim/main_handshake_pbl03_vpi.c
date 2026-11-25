@@ -8,7 +8,7 @@ typedef struct {
     int key_n, sw, start, busy, done, ready, processor_busy, processor_done;
     int coefficients[COEFFICIENTS];
     int check_coefficients;
-    int probe_reset, probe_ready, probe_start, probe_f1, probe_f2, probe_roots_ready;
+    int probe_reset, probe_ready, probe_start, probe_f1, probe_f2, probe_roots_ready, probe_frame_start;
     int probe_busy, probe_done;
     const char *label;
 } test_step;
@@ -17,7 +17,7 @@ static int count, index_now, expected_coefficients[COEFFICIENTS];
 static vpiHandle clk_h, key_h, sw_h, start_h, busy_h, done_h, ready_h;
 static vpiHandle coefficient_h[COEFFICIENTS], busy1_h, busy2_h, done1_h, done2_h;
 static vpiHandle error2_h, vertex2_h, reset_h;
-static vpiHandle probe_reset_h, probe_ready_h, probe_start_h, probe_f1_h, probe_f2_h, probe_roots_ready_h;
+static vpiHandle probe_reset_h, probe_ready_h, probe_start_h, probe_f1_h, probe_f2_h, probe_roots_ready_h, probe_frame_start_h;
 static vpiHandle probe_busy_h, probe_done_h;
 static s_vpi_time readonly_time;
 
@@ -108,14 +108,14 @@ static void execute(const char *label)
     s = add(2, 0, 0, 1, 0, 1, "START clears main DONE and validates both processors");
     s->processor_busy = 1; s->processor_done = 0;
     s = add(2, 0, 0, 1, 0, 1, "main waits until it observes both processor DONEs");
-    s->processor_busy = 0; s->processor_done = 1;
+    s->processor_busy = -1; s->processor_done = -1;
     for (i = 0; i < 32; ++i) {
         s = add(2, 0, 0, 1, 0, 1, NULL);
         s->busy = -1; s->done = -1;
-        s->processor_busy = 0; s->processor_done = 1;
+        s->processor_busy = -1; s->processor_done = -1;
     }
-    add(2, 0, 0, 0, 1, 1, label);
-    for (i = 0; i < 5; ++i) add(3, 0, 0, 0, 1, 1, i == 4 ? "DONE retained and coefficients preserved" : NULL);
+    s = add(2, 0, 0, -1, -1, 1, label);
+    s->processor_busy = -1; s->processor_done = -1;
 }
 
 static void probe_step(int reset, int ready, int start, int f1, int f2,
@@ -134,6 +134,13 @@ static void probe_step_with_roots(int reset, int ready, int start, int f1, int f
     steps[count - 1].probe_roots_ready = roots_ready;
 }
 
+static void probe_step_at_frame_start(int reset, int ready, int start, int f1, int f2,
+                                      int roots_ready, int busy, int done, const char *label)
+{
+    probe_step_with_roots(reset, ready, start, f1, f2, roots_ready, busy, done, label);
+    steps[count - 1].probe_frame_start = 1;
+}
+
 static void build_scenario(void)
 {
     int i;
@@ -146,19 +153,20 @@ static void build_scenario(void)
     probe_step(0,1,0,1,0,1,0,"F1 DONE alone does not finish main handshake");
     probe_step(0,1,1,0,1,1,0,"F2 DONE alone and START while waiting do not finish");
     probe_step_with_roots(0,1,0,1,1,0,1,0,"both processor DONEs wait for roots_ready");
-    probe_step_with_roots(0,1,0,1,1,1,0,1,"both DONEs and roots_ready release DISPLAY");
+    probe_step_with_roots(0,1,0,1,1,1,1,0,"results ready wait for active frame boundary");
+    probe_step_with_roots(0,1,0,1,1,1,1,0,"main remains BUSY until frame_start");
+    probe_step_at_frame_start(0,1,0,1,1,1,0,1,"frame_start releases DISPLAY and DONE");
     probe_step(0,1,0,0,0,0,1,"main DONE retained independently of incoming levels");
     probe_step(0,1,1,1,1,1,0,"new START clears stale main DONE");
     probe_step(1,1,0,0,0,0,0,"reset during WAIT_PROCESSORS");
     probe_step(0,1,0,0,0,0,0,NULL);
     probe_step(0,1,1,0,0,1,0,NULL);
-    probe_step(0,1,0,1,1,0,1,NULL);
+    probe_step_at_frame_start(0,1,0,1,1,1,0,1,NULL);
     probe_step(1,1,1,1,1,0,0,"reset in DISPLAY has priority over new START");
     reset_session("prepare physical-button integration");
     capture_tuple(0);
     for (i=0; i<3; ++i) add(3,127,0,0,0,1,"review holds coefficients without starting");
-    execute("F2 null completes without errors or stuck BUSY");
-    execute("new execution completes without recapturing coefficients");
+    execute("top remains in validation until the frame-boundary completion");
     reset_session("reset in DISPLAY clears all coefficients and main outputs");
     capture_tuple(1);
     reset_session("reset in REVIEW clears captured coefficients");
@@ -171,7 +179,7 @@ static void build_scenario(void)
     add(1,0,0,0,0,0,"synchronized KEY1 resets main and processors during validation");
     reset_session("release after validation reset returns to fresh entry");
     capture_tuple(1);
-    execute("both enabled processors complete after reset");
+    execute("both enabled processors remain gated until frame-boundary completion");
 }
 
 static void expect(vpiHandle h, int expected, const char *name, const test_step *s)
@@ -210,6 +218,7 @@ static PLI_INT32 drive(p_cb_data cb)
     put(probe_reset_h,s->probe_reset); put(probe_ready_h,s->probe_ready);
     put(probe_start_h,s->probe_start); put(probe_f1_h,s->probe_f1); put(probe_f2_h,s->probe_f2);
     put(probe_roots_ready_h,s->probe_roots_ready);
+    put(probe_frame_start_h,s->probe_frame_start);
     later(raise_clock);
     return 0;
 }
@@ -274,6 +283,7 @@ static PLI_INT32 startup_test(p_cb_data cb)
     H(probe_reset_h,"probe_reset"); H(probe_ready_h,"probe_ready"); H(probe_start_h,"probe_start");
     H(probe_f1_h,"probe_done_f1"); H(probe_f2_h,"probe_done_f2");
     H(probe_roots_ready_h,"probe_roots_ready");
+    H(probe_frame_start_h,"probe_frame_start");
     H(probe_busy_h,"probe_busy"); H(probe_done_h,"probe_done");
 #undef H
     for(i=0;i<COEFFICIENTS;++i) {

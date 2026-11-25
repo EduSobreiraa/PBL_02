@@ -1,6 +1,6 @@
 # REGRAS — PBL03
 
-Versão: 1.2 — 16/11/2026
+Versão: 1.3 — 24/11/2026
 
 ## 1. Escopo e fontes
 
@@ -46,15 +46,16 @@ O sistema será implementado na FPGA DE10-Lite e exibirá até duas funções qu
 Decisões atuais da equipe, sujeitas a revisão documentada:
 
 - Utilizar uma FSM principal, uma FSM de entrada e uma FSM por processador de função.
+- A FSM de preparação coordena a geração sequencial das colunas, a escrita em RAM e `frame_ready`; o cálculo de cada coluna continua em datapaths estruturais.
 - A FSM de entrada emite `START` como pulso após c₂ quando recebe novo evento de `KEY0`.
 - `BUSY` permanece ativo durante a preparação e a validação das funções, antes de habilitar a exibição. `DONE` fica retido até um novo `START` ou `KEY1`.
-- Depois de `DONE`, um novo evento de `KEY0` inicia nova validação/execução com os coeficientes retidos. `DONE` habilita a exibição; os cálculos combinacionais continuam respondendo às coordenadas do VGA.
+- Depois de `DONE`, um novo evento de `KEY0` inicia nova execução com os coeficientes retidos. `DONE` habilita a exibição somente quando a tabela e os resultados auxiliares do frame atual estiverem prontos.
 - As FSMs controlam etapas e estados. Operações aritméticas permanecem em datapaths estruturais.
 - Manter dois caminhos de processamento em paralelo, um para cada função.
 - Desenvolver e validar primeiro F1 e sua derivada. Somente depois implementar F2.
 - Preferir duas instâncias do mesmo conjunto de módulos de função, evitando versões divergentes de F1 e F2.
 - Compartilhar a integração com a saída VGA e a composição final das cores.
-- Calcular f(x) e f'(x) combinacionalmente a partir do x corrente do VGA, com caminhos paralelos para F1 e F2.
+- Antes da varredura exibida, calcular em ordem as 640 colunas em caminhos paralelos para F1/F2, armazená-las na tabela de DEC-068 e durante a exibição consultar a coluna corrente da tabela.
 - Verificar o custo do paralelismo e a temporização na síntese; não afirmar que o circuito é mínimo sem avaliação.
 
 ## 5. VGA e coordenadas
@@ -67,10 +68,12 @@ Decisões atuais da equipe, sujeitas a revisão documentada:
 6. O contador de coluna deve percorrer **0 até 639**, inclusive. O valor 640 pode servir como condição de término, mas não como coluna adicional a processar.
 7. A faixa vertical visível, para coordenadas cartesianas, é **-239 até 240**.
 8. Usar pelo menos 10 bits com sinal para x cartesiano. A subtração de 320 deve preservar corretamente o sinal.
-9. Redimensionar multiplicadores, somadores e resultados intermediários: o `polinomio_y` anterior, com x de 8 bits, não atende diretamente ao domínio atual. Para a avaliação direta, usar x signed10, x² unsigned17, f(x) signed25 e f'(x) signed18. A demonstração de limites está em DEC-044; síntese e temporização ainda precisam de evidência real.
-10. Calcular f(x) e f'(x) para cada um dos 640 valores inteiros de x e para cada função habilitada e válida.
+9. Redimensionar multiplicadores, somadores e resultados intermediários: o `polinomio_y` anterior, com x de 8 bits, não atende ao domínio atual. Usar x signed10, x² unsigned17, f(x) signed25 e f'(x) signed18. A demonstração de limites está em DEC-044; síntese e temporização ainda precisam de evidência real.
+10. Antes da plotagem, calcular as 640 colunas em ordem e armazenar a palavra lógica de 41 bits definida em DEC-068: quatro y signed9, quatro flags de validade e uma flag de interseção. Preservar resultados completos até a comparação f₁/f₂ e o clipping; não gerar hits por truncamento.
 11. Aplicar clipping antes de utilizar resultados como coordenadas de desenho. Pontos fora da tela não devem provocar coordenadas inválidas nem overflow na interface VGA.
 12. Respeitar `video_on` e a temporização fornecida pelo periférico VGA.
+13. A leitura síncrona da tabela deve permanecer alinhada com coordenadas, `video_on`, `p_tick` e sincronismos, sem alterar `vga_sync.v`. Liberar o gráfico e os overlays da execução atual somente após `frame_ready`.
+14. Antes de `frame_ready && processing_done`, mostrar centralizada em branco sobre fundo preto a mensagem `Insira a1.b1.c1...` e ocultar todas as camadas gráficas e o quadro de informação. Invalidar o frame anterior em reset/KEY1 ou START aceito e manter BUSY/DONE coerentes com a preparação.
 
 ## 6. Periférico VGA imutável
 
@@ -106,11 +109,13 @@ Fonte: https://github.com/LordWalace/Controlador-VGA-DE10-Lite
 
 ### Extras opcionais do projeto
 
-- Exibir no VGA as coordenadas dos vértices V1 e V2 e das raízes X1 e X2, identificando a função correspondente.
+- Exibir no quadro inferior direito as coordenadas arredondadas dos vértices V1/V2 e as raízes reais X1/X2, identificando F1/F2. Raízes reutilizam signed9 já arredondado; coordenadas de vértice vêm dos termos racionais com arredondamento ao pixel inteiro mais próximo, empate afastado de zero, sem alterar a validação exata.
+- O quadro de informação tem retângulo fixo `x_pixel=520…639`, `y_pixel=300…479`, mostra swatches quando as cores dos marcadores de raiz e vértice forem diferentes e aparece após os resultados atuais estarem prontos. Para `a=0` ou ausência de raízes reais mostrar `N/A`; conjunto F2 nulo mostra `OFF`.
+- A composição do quadro tem prioridade sobre pixels de gráfico dentro de seu retângulo; se algum hit gráfico vier a coincidir, ocultá-lo atrás do quadro. Fora do retângulo, preservar as prioridades aprovadas. Não alterar a origem cartesiana, escala ou resolução.
 - Destacar com a quinta cor as colunas inteiras em que f₁(x) = f₂(x), comparando os valores completos antes de converter y para pixel. Não incluir cruzamentos envolvendo derivadas. Interseções com x fracionário não são destacadas. Parábolas coincidentes usam a quinta cor em todos os pontos válidos e visíveis.
 - Destacar as raízes com uma sexta cor.
 
-Os extras devem ser implementados depois do funcionamento dos requisitos obrigatórios. A ordem entre os extras ainda não está fechada. A conversão em ponto fixo dos marcadores extras também precisa de definição antes de sua implementação.
+As decisões de conteúdo, arredondamento e posição do quadro estão registradas em DEC-067; o contrato do prompt e de `frame_ready` está em DEC-066. Fonte/glifos, temporização e integração devem ser especificados e verificados nas TASKs sob as restrições estruturais.
 
 ## 9. Reaproveitamento do PBL02
 
@@ -140,8 +145,7 @@ Base de referência: https://github.com/EduSobreiraa/PBL_02/tree/feature/led-bcd
 
 ## 11. Decisões pendentes
 
-1. Formato e arredondamento dos marcadores de vértice e raízes nos extras.
-2. Cor e prioridade do marcador de raízes, conforme a ordem de implementação dos extras.
-3. Viabilidade do caminho combinacional direto, recursos e temporização, a confirmar por síntese Quartus.
+1. A implementação deve selecionar e registrar P estágios de pipeline suficientes para cumprir o limite FF→FF de 20 ns, medido no Quartus; nenhum P, fit ou slack é presumido antes da execução.
+2. Recursos, temporização integrada e funcionamento físico na DE10-Lite ainda precisam de resultados reais. As decisões funcionais das três frentes estão registradas em DEC-066/067/068 e o contrato do pré-cálculo em DEC-065/068.
 
-As FSMs principal, de entrada e de função estão especificadas em DEC-049, DEC-046/DEC-044 e DEC-048, respectivamente. DEC-050 fecha a prioridade das mensagens de erro e o mapeamento dos LEDs. As escolhas fechadas em DEC-044 deixam de ser pendências. Nenhum dos itens restantes deve ser tratado como escolha já aprovada.
+As FSMs principal, de entrada e de função estão especificadas em DEC-049, DEC-046/DEC-044 e DEC-048, respectivamente. DEC-050 fecha a prioridade das mensagens de erro e o mapeamento dos LEDs. DEC-065/068 definem pré-cálculo e frame_ready; P, recursos e timing continuam gates de medição, não decisões presumidas.

@@ -247,7 +247,25 @@ static void add_marker_cases(void)
         if (i == 8) test->green = 15;
         if (i == 10) test->green = 0;
         if (i == 13 || i == 14) { test->red = 15; test->blue = 15; }
-        if (i == 9) { test->intersection = 1; test->red = 15; test->green = 0; test->blue = 15; }
+        if (i == 9) { test->intersection = 1; test->hits = 1; test->red = 15; test->green = 0; test->blue = 15; }
+    }
+
+    {
+        test_case *test = &cases[case_count++];
+        memset(test, 0, sizeof(*test));
+        test->name = "column intersection flag does not paint off-curve pixel";
+        test->x = 320;
+        test->y = 240;
+        test->x_cart = 0;
+        test->y_cart = 0;
+        test->video_on = 1;
+        test->processing_done = 1;
+        test->intersection = 1;
+        test->horizontal = 1;
+        test->vertical = 1;
+        test->red = 15;
+        test->green = 15;
+        test->blue = 15;
     }
 }
 
