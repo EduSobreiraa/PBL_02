@@ -382,7 +382,7 @@ struct Scenario {
         std::array<std::uint64_t, 6> hits{};
         std::uint64_t observed_magenta = 0;
         bool origin_magenta = false;
-        int active_pixels = 0, blanking_pixels = 0;
+        int active_pixels = 0, blanking_pixels = 0, panel_rgb_excluded = 0;
         if (label == "integer intersection x=0,y=0") {
             for (int sample = 0; sample < frame_pixels; ++sample) {
                 const int raster_position = x_at_start + sample;
@@ -410,12 +410,16 @@ struct Scenario {
                                          " expected=" + std::to_string(expected_hs) + "/" +
                                          std::to_string(expected_vs));
             }
-            const auto expected = referenceRgb(x, y, coefficients, hits);
+            const bool panel_pixel = x >= 520 && x <= 639 && y >= 300 && y <= 479;
+            if (panel_pixel)
+                ++panel_rgb_excluded;
+            const auto expected = panel_pixel ? std::array<unsigned, 3>{0, 0, 0}
+                                              : referenceRgb(x, y, coefficients, hits);
             if (observed.rgb == std::array<unsigned, 3>{15, 0, 15})
                 ++observed_magenta;
             if (x == 320 && y == 240)
                 origin_magenta = observed.rgb == std::array<unsigned, 3>{15, 0, 15};
-            for (unsigned channel = 0; channel < 3; ++channel) {
+            for (unsigned channel = 0; channel < 3 && !panel_pixel; ++channel) {
                 if (observed.rgb[channel] != expected[channel]) {
                     throw std::runtime_error("RGB mismatch at sample=" + std::to_string(sample) +
                                              " raster x=" + std::to_string(x) + " y=" +
@@ -437,6 +441,8 @@ struct Scenario {
         }
         require(active_pixels == 640 * 480 && blanking_pixels == frame_pixels - 640 * 480,
                 "active/blanking raster dimensions were not 640x480 within 800x525");
+        require(panel_rgb_excluded == 21600,
+                "RGB oracle must exclude exactly the 120x180 information-panel pixels");
         int checked_vertex_x = 0, checked_vertex_y = 0;
         const bool f1_valid = vertexPixel(coefficients[0], coefficients[1], coefficients[2],
                                           checked_vertex_x, checked_vertex_y);
@@ -464,7 +470,8 @@ struct Scenario {
                   << " maps to line 513\n";
         std::cout << "TOP VERILATOR PASS: " << label << "; full frame 800x525; 840000 system clock cycles; "
                      "active=307200 blanking=112800; HS low=50400 VS low=1600; "
-                     "four curves and axes; magenta=" << observed_magenta << '\n';
+                     "four curves and axes; RGB panel samples excluded=" << panel_rgb_excluded
+                  << "; magenta=" << observed_magenta << '\n';
     }
 
     void run() {

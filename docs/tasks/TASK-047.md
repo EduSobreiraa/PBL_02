@@ -6,7 +6,7 @@ Na branch `EduSobreiraa/PBL-03-Plus-Registers`, substituir somente o armazenamen
 
 ## Status
 
-BLOCKED — a variante FF-only sintetiza e fecha temporização, mas o gate funcional encontra uma falha preexistente no painel protegido por esta TASK: em `(520,280)`, `panel_active=1` embora a caixa contratada comece em `y=300`. O full-frame Verilator confirma a sobreposição branca no mesmo pixel. A correção pertence à tarefa do painel; não altere o overlay nesta variante.
+APPROVED — a variante FF-only, alinhamento HS/VS e limite do painel foram verificados em conjunto. TASK-048 corrigiu o leak herdado em `(520,280)` para manter o painel exatamente em `y=300…479`; a auditoria independente aprovou a revisão combinada. A validação física em placa permanece pendente fora dos critérios desta TASK.
 
 ## Decisões relacionadas
 
@@ -50,7 +50,7 @@ BLOCKED — a variante FF-only sintetiza e fecha temporização, mas o gate func
 - Checker de fontes confirma ausência de `altsyncram`, inferência de RAM/arrays, `generate`, loops e construções proibidas na variante RTL.
 - Teste de memória independente grava padrões únicos em todos os 640 endereços e compara os 26.240 bits; verifica endereço 0/639, escrita/overwrite, retenção das palavras não selecionadas, leitura contínua 1/ciclo, duas bordas exatas de latência, seletores inválidos zero e blanking.
 - Teste top/frame verifica que `frame_ready` permanece baixo durante escrita, 640 writes ordenados, nenhum conteúdo antigo vaza e KEY1/START invalidam o frame atual.
-- Captura full-frame 800×525 confirma a tabela, pixel de origem/eixos/curvas/interseção/derivada/quadro, video_on/blanking, `p_tick` e alinhamento de HS/VS/RGB às duas fases; o periférico do professor permanece intacto.
+- Captura full-frame 800×525 confirma tabela, origem/eixos/curvas/interseção/derivada, prompt, video_on/blanking, `p_tick` e alinhamento HS/VS/RGB às duas fases. O retângulo do painel (120×180) fica fora da comparação RGB do oracle C++ e é coberto por referência VPI pixel a pixel em múltiplos cenários, mais amostras integradas dos limites e gates.
 - Quartus Analysis & Synthesis/Fitter/TimeQuest real: tabela sem blocos RAM, confirmar uso real de FF/LE, Fmax ≥50 MHz, pior setup/hold não negativo no clock de 20 ns e 14 RGB paths dentro de 40 ns.
 - Code Auditor independente classifica esta TASK como APPROVED somente se todos os gates funcionais e Quartus passarem. Se recurso ou timing falhar, registrar resultado BLOCKED e evidências; não alegar funcionamento na placa.
 
@@ -86,7 +86,7 @@ O payload exige 26.240 bits distintos. A leitura exige 410 bits da fase 1 e 41 b
 - Ler todos os 640 payloads únicos após gravação; provar `bank0,row0` em endereço 0 e `bank9,row63` em 639, escrita overwrite, retenção das outras palavras e endereços inválidos 640…1023 com saída zero e sem escrita.
 - Ler em ciclos consecutivos sem bolhas e verificar fase 1/fase 2 para endereço e dados, inclusive transições de banco 63→64, 127→128, 575→576, bordas de linha, início/fim da área ativa e blanking. Verificar saída final zero para seletores 10…15.
 - Reset/START durante DISPLAY e durante preparação: `frame_ready` permanece baixo até exatamente 640 escritas do novo frame; o token de leitura também recomeça inválido; nenhum pixel da tabela anterior ou de pipeline não preenchida aparece.
-- Full-frame: 800×525 clocks raster, mas só contar amostras em `p_tick` segundo a cadência VGA real; comparar coordenadas/data e RGB de fase 2, HS/VS, video_on/blanking, eixos, curvas/derivadas, interseção, raízes, painel e prompt.
+- Full-frame: 800×525 clocks raster, mas só contar amostras em `p_tick` segundo a cadência VGA real; comparar coordenadas/data e RGB de fase 2, HS/VS, video_on/blanking, eixos, curvas/derivadas, interseção, raízes e prompt. Excluir exatamente o retângulo RGB do painel da oracle C++ e verificar esses pixels separadamente por referência VPI pixel a pixel e integração top dos quatro limites/gates.
 
 ### Gate de viabilidade
 
@@ -104,9 +104,11 @@ Somente Quartus real nesta branch decide se a forma estrutural cabe: zero memór
 - Quartus real, comando `QUARTUS_ROOTDIR=/home/edupires/altera_lite/25.1std/quartus /home/edupires/altera_lite/25.1std/quartus/bin/quartus_sh --flow compile quartus/pbl03 -c pbl03`: compile/Fitter/TimeQuest PASS, 0 erros e 36 warnings; 45.022 LEs (90%), 28.486 FFs, 960 memory bits de lógica existente (a tabela não usa memória), Fmax 51,27 MHz, setup +0,494 ns, hold +0,187 ns. Log e snapshots em `verification/results/task-047/coverage/quartus-sync-align/`.
 - O runner Icarus full-frame foi corrigido para exigir sentinelas `FULL FRAME PASS:` do TB e `VPI PASS: ...` do observador. O log histórico `verification/results/task-047/regression-20261125T034127Z.log` não contém essas sentinelas, embora mostre `RUN PASS`; é inconclusivo e não prova quadro completo. Não foi executada outra captura Icarus full-frame devido ao runtime histórico superior a duas horas.
 
-### Bloqueio funcional herdado
+- A regressão Verilator pós-TASK-048 substitui a captura Icarus inconclusiva: 12 cenários de 800×525 passaram, com 19.383.562 comparações vetoriais e 35.889.792 clocks. O harness compara RGB fora da caixa; o VPI e o teste integrado cobrem o painel e seus limites. Cada cenário confirma exatamente 21.600 pixels do painel excluídos da comparação RGB, além de raster, HS/VS, blanking e cadência.
+- Quartus pós-TASK-048: 45.217/49.760 LEs (91%), 28.485 FFs, sem memória para a tabela, Fmax 51,0 MHz, pior setup +0,392 ns, hold +0,188 ns e 14 endpoints VGA sem violações (pior slack +5,510 ns sob 40 ns). Relatórios em `verification/results/task-048/quartus/`.
+
+### Defeito funcional herdado e corrigido em TASK-048
 
 - O teste de overlay em `(520,280)` mostra `x_cart=200`, `y_cart=-40`, eixos/hits/raízes=0, mas `panel_active=1` e RGB `fff`. Isso viola a caixa aprovada `x=520…639, y=300…479`. O log reproduzível é `verification/results/task-047/coverage/top-overlay-panel-boundary-fail-20261125T070000Z.log`.
-- O RTL do painel está protegido pelo brief TASK-047 e é idêntico ao da branch base; a variante de armazenamento não deve modificá-lo. O painel faz a regressão Icarus focada falhar no pixel acima da caixa.
-- O Verilator full-frame passou pelo novo pixel-alignment conhecido (x302 preto, x303 preto, x304 vermelho, x305 preto), e depois encontrou o mesmo painel em x520,y280: esperado RGB 000, observado RGB fff. Resultado literal em `verification/results/task-047/coverage/verilator-sync-align-20261125T065054Z.log`.
-- Portanto a implementação FF-only compila e fecha timing, mas a aceitação funcional/full-frame permanece BLOCKED até a correção do painel no escopo autorizado. Não alterar/mascarar o teste nem marcar APPROVED nesta TASK.
+- O teste e full-frame anteriores documentaram o leak em `(520,280)`. TASK-048 corrigiu o comparador estrutural `y_in_box`; os testes confirmam inativo/preto em y=299/480 e ativo/borda branca em y=300/479.
+- A implementação foi reavaliada no worktree combinado após a correção; não há bloqueio funcional pendente nesta TASK.

@@ -1,0 +1,251 @@
+%Warning-PINMISSING: /workspace/quartus/../rtl/display/bcd_stage14.v:5:16: Instance has missing pin: 'adjusted_msb'
+    5 | bcd_add3_digit thousands (.digit_in(bcd_in[15:12]), .shift_in(carry_hundreds), .shifted(bcd_out[15:12]));
+      |                ^~~~~~~~~
+                     /workspace/quartus/../rtl/display/bcd_add3_digit.v:1:90: ... Location of port declaration
+    1 | module bcd_add3_digit(input [3:0] digit_in, input shift_in, output [3:0] shifted, output adjusted_msb);
+      |                                                                                          ^~~~~~~~~~~~
+                     ... For warning description see https://verilator.org/warn/PINMISSING?v=5.053
+                     ... Use "/* verilator lint_off PINMISSING */" and lint_on around source to disable this message.
+%Warning-IMPLICIT: /workspace/quartus/../rtl/video/renderizador_quadro_info_vga.v:737:6: Signal definition not found, creating implicitly: 'root_normal_f2_na'
+                                                                                       : ... Suggested alternative: 'root_normal_f2'
+  737 | not (root_normal_f2_na, root_na_f2);
+      |      ^~~~~~~~~~~~~~~~~
+                   ... For warning description see https://verilator.org/warn/IMPLICIT?v=5.053
+                   ... Use "/* verilator lint_off IMPLICIT */" and lint_on around source to disable this message.
+%Warning-IMPLICIT: /workspace/quartus/../rtl/video/renderizador_quadro_info_vga.v:740:6: Signal definition not found, creating implicitly: 'vertex_normal_f2_na'
+                                                                                       : ... Suggested alternative: 'vertex_normal_f2'
+  740 | not (vertex_normal_f2_na, vertex_na_f2);
+      |      ^~~~~~~~~~~~~~~~~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:11:15: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'WAIT_INPUT' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   11 |         state <= WAIT_INPUT;
+      |               ^~
+                      ... For warning description see https://verilator.org/warn/WIDTHEXPAND?v=5.053
+                      ... Use "/* verilator lint_off WIDTHEXPAND */" and lint_on around source to disable this message.
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:14:48: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'REVIEW' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   14 |             WAIT_INPUT: if (input_ready) state <= REVIEW;
+      |                                                ^~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:15:44: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'WAIT_PROCESSORS' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   15 |             REVIEW: if (start_pulse) state <= WAIT_PROCESSORS;
+      |                                            ^~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:21:45: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'WAIT_PROCESSORS' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   21 |             DISPLAY: if (start_pulse) state <= WAIT_PROCESSORS;
+      |                                             ^~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:22:28: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'WAIT_INPUT' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   22 |             default: state <= WAIT_INPUT;
+      |                            ^~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:13:9: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'WAIT_INPUT' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   13 |         case (state)
+      |         ^~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:13:9: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'REVIEW' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   13 |         case (state)
+      |         ^~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:13:9: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'WAIT_PROCESSORS' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   13 |         case (state)
+      |         ^~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:31:5: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'REVIEW' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   31 |     case (state)
+      |     ^~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:31:5: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'WAIT_PROCESSORS' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   31 |     case (state)
+      |     ^~~~
+- V e r i l a t i o n   R e p o r t: Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+- Verilator: Built from 47.430 MB sources in 96 modules, into 64.588 MB in 70 C++ files needing 0.001 MB
+- Verilator: Walltime 198.788 s (elab=0.956, cvt=55.202, bld=141.040); cpu 57.509 s on 1 threads; allocated 1714.574 MB
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: invalid +128 rejected without advancing
+TOP VERILATOR PASS: invalid -129 rejected without advancing
+TOP VERILATOR PASS: capture a1 after invalid entries
+TOP VERILATOR PASS: negative zero captured and normalized
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 valid and F2 disabled complete
+TOP VERILATOR PASS: reexecution revalidates retained coefficients
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 and F2 valid before full-frame scan
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR DEBUG external sample=9902 raster=302,0 HS/VS=1/1 RGB=0,0,0
+TOP VERILATOR DEBUG external sample=9903 raster=303,0 HS/VS=1/1 RGB=0,0,0
+TOP VERILATOR DEBUG external sample=9904 raster=304,0 HS/VS=1/1 RGB=15,0,0
+TOP VERILATOR DEBUG external sample=9905 raster=305,0 HS/VS=1/1 RGB=0,0,0
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: integer intersection x=0,y=0; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=1
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: coincident functions complete
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: coincident functions; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=31
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: fractional-only intersection functions valid
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: fractional-only intersection x=-1/3; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1 parabola with negative discriminant
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: negative discriminant suppresses roots only; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: negative rational vertex coordinate
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: nearest-pixel vertex rounding, negative tie away from zero; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: negative half tie at outer neighborhood boundary
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: n/d=-1/2 includes k=-2; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: negative three-halves outer neighborhood boundary
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: n/d=-3/2 excludes k=0; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: positive three-halves outer neighborhood boundary
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: n/d=+3/2 excludes k=0; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: positive rational vertex coordinate
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: nearest-pixel vertex rounding, positive tie away from zero; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 a=0 while F2 remains marker eligible
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: F2 valid isolated marker with invalid F1; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1/F2 vertices at both active y edges
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: upper/lower vertex crosses clipped at y=240/-239; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F2 null tuple disables intersections
+TOP VERILATOR INFO: frame aligned at external VGA_VS falling edge
+TOP VERILATOR INFO: external phase offsets x0=0 y0=513; VS falling at sample=0 maps to line 513
+TOP VERILATOR PASS: F2 disabled; full frame 800x525; 840000 system clock cycles; active=307200 blanking=112800; HS low=50400 VS low=1600; four curves and axes; RGB panel samples excluded=21600; magenta=0
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: both functions report a=0 with ERR F1 HEX priority
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: F1 vertex outside screen with valid F2
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1 alongside F2 a=0 error
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: valid F1 alongside F2 vertex error
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: capture a1
+TOP VERILATOR PASS: capture b1
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+TOP VERILATOR PASS: signed coefficient limits -128 and 127 remain valid
+TOP VERILATOR PASS: 19383562 vector checks; 35889792 20 ns system clock cycles

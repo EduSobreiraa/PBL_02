@@ -141,6 +141,43 @@ task sample_at;
     end
 endtask
 
+task sample_panel_boundary;
+    input [9:0] v;
+    input expected_active;
+    input expected_video;
+    input [11:0] expected_rgb;
+    integer boundary_tick_seen;
+    integer boundary_cycle;
+    begin
+        boundary_tick_seen=0;
+        for(boundary_cycle=0;boundary_cycle<4 && !boundary_tick_seen;boundary_cycle=boundary_cycle+1) begin
+            @(negedge MAX10_CLK1_50);
+            case(dut.raster.pixel_reg)
+                1'b1: boundary_tick_seen=1;
+                default: ;
+            endcase
+        end
+        case(boundary_tick_seen)
+            1'b1: ;
+            default: $fatal(1,"TASK-048 TOP FAIL: boundary pixel tick timeout at y=%0d",v);
+        endcase
+        force dut.raster.h_count_reg=10'd520;
+        force dut.raster.v_count_reg=v;
+        @(posedge MAX10_CLK1_50);
+        @(posedge MAX10_CLK1_50);#1;
+        release dut.raster.h_count_reg;
+        release dut.raster.v_count_reg;
+        case ((dut.x_pixel_delayed2 === 10'd520) && (dut.y_pixel_delayed2 === v) && dut.p_tick_delayed2)
+            1'b1: ;
+            default: $fatal(1,"TASK-048 TOP FAIL: phase-2 raster mismatch at y=%0d",v);
+        endcase
+        case ({dut.panel_active,dut.video_on_delayed2,VGA_R,VGA_G,VGA_B})
+            {expected_active,expected_video,expected_rgb}: ;
+            default: $fatal(1,"TASK-048 TOP FAIL: y=%0d expected active/video/rgb=%b/%b/%h got %b/%b/%h",v,expected_active,expected_video,expected_rgb,dut.panel_active,dut.video_on_delayed2,{VGA_R,VGA_G,VGA_B});
+        endcase
+    end
+endtask
+
 initial begin
     MAX10_CLK1_50=1'b0;KEY=2'b01;SW=9'd0;frame_write_count=0;cycle_count=0;ready_seen=0;tick_seen=0;
     repeat(4) @(negedge MAX10_CLK1_50);
@@ -177,7 +214,11 @@ initial begin
     sample_at(10'd524,10'd361,12'h0f0,"vertex swatch");
     sample_at(10'd520,10'd300,12'hfff,"panel border");
     sample_at(10'd520,10'd280,12'h000,"clear pixel above panel at right edge");
-    $display("TASK-047 TOP OVERLAY PASS: phase-2 prompt, real roots/vertex markers and label, numeric panel glyphs/swatches, opaque panel; graph masking covered by compositor priority test");
+    sample_panel_boundary(10'd299,1'b0,1'b1,12'h000);
+    sample_panel_boundary(10'd300,1'b1,1'b1,12'hfff);
+    sample_panel_boundary(10'd479,1'b1,1'b1,12'hfff);
+    sample_panel_boundary(10'd480,1'b0,1'b0,12'h000);
+    $display("TASK-048 TOP OVERLAY PASS: phase-2 prompt, real roots/vertex, panel content and y=299/300/479/480 boundaries");
     $finish;
 end
 endmodule

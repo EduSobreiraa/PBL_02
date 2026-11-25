@@ -137,7 +137,8 @@ static PLI_INT32 drive(p_cb_data cb){(void)cb;
     if(scenario==4){video_on=1;frame_ready=0;processing_done=1;put(handles[2],video_on);put(handles[3],frame_ready);put(handles[4],processing_done);x=520;y=300;put(handles[0],x);put(handles[1],y);scenario=5;schedule(check,1,1);return 0;}
     if(scenario==5){video_on=1;frame_ready=1;processing_done=0;put(handles[2],video_on);put(handles[3],frame_ready);put(handles[4],processing_done);x=532;y=320;put(handles[0],x);put(handles[1],y);scenario=6;schedule(check,1,1);return 0;}
     if(scenario==6){video_on=0;frame_ready=1;processing_done=1;put(handles[2],video_on);put(handles[3],frame_ready);put(handles[4],processing_done);x=639;y=479;put(handles[0],x);put(handles[1],y);scenario=7;schedule(check,1,1);return 0;}
-    if(scenario>=7){vpi_printf("TASK-046 PANEL PASS: %d full-window/reference pixel checks across valid, N/A and OFF cases plus readiness/video masking\n",checked);vpi_control(vpiFinish,0);return 0;}
+    if(scenario>=7 && scenario<=10){static const int boundary_y[4]={299,300,479,480};video_on=1;frame_ready=1;processing_done=1;put(handles[2],video_on);put(handles[3],frame_ready);put(handles[4],processing_done);x=520;y=boundary_y[scenario-7];put(handles[0],x);put(handles[1],y);scenario++;schedule(check,1,1);return 0;}
+    if(scenario>=11){vpi_printf("TASK-048 PANEL PASS: %d full-window/reference pixel checks across valid, N/A, OFF, gates and y=299/300/479/480 limits\n",checked);vpi_control(vpiFinish,0);return 0;}
     select_scenario(scenario<4?scenario:0);
     if(phase==0){
         video_on=1;frame_ready=1;processing_done=1;

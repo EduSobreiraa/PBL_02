@@ -4,7 +4,7 @@ Prioridade **ALTA** bloqueia decisões centrais; **MÉDIA** afeta arquitetura, i
 
 ## Decisões técnicas em aberto
 
-Nenhuma decisão arquitetural em aberto após DEC-072 CONSENSUS. Na branch `EduSobreiraa/PBL-03-Plus-Registers`, TASK-047 está BLOCKED: Quartus pós-sync passou, mas o painel herdado da base vaza pixels acima da caixa contratada (y=280 ativo, limite definido y=300). A correção do painel está protegida fora desta variante; a regressão de frame completo não pode ser aprovada até ser corrigida no escopo do painel. Isso não afeta branches aprovadas.
+Nenhuma decisão arquitetural em aberto após DEC-072 CONSENSUS. Na branch `EduSobreiraa/PBL-03-Plus-Registers`, TASK-048 corrigiu e auditou o limite do painel em y=300…479; TASK-047 foi reavaliada e aprovada na revisão combinada. Validação física em placa/monitor continua pendente como entrega de projeto.
 
 ## Evidências e obrigações ainda necessárias
 

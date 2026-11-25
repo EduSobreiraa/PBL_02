@@ -1,0 +1,3 @@
+TASK-048 TOP OVERLAY PASS: phase-2 prompt, real roots/vertex, panel content and y=299/300/479/480 boundaries
+/workspace/sim/tb_task046_top_overlays.v:222: $finish called at 16051000 (1ps)
+EXIT STATUS: 0

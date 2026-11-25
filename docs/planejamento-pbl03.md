@@ -70,6 +70,7 @@ Estas entregas dependem do hardware, do modelo do tutor e da equipe. Elas não s
 | TASK-044 | Pré-calcular 640 colunas, armazenar payload de 41 bits, alinhar leitura com VGA e controlar `frame_ready` | READY | DEC-065/068/066/067 |
 | TASK-045 | ROM estrutural 5×7 compartilhada e renderizador isolado do prompt | READY | DEC-066/068/069 |
 | TASK-046 | Renderizar quadro de raízes/vértices e integrar os dois overlays ao top/compositor | APPROVED: DEC-071 pipeline fixa/`vertex_ready` implementados; regressão full-frame e Quartus/TimeQuest passaram; validação física em placa/monitor pendente | TASK-044, TASK-045 e DEC-071 |
-| TASK-047 | Variante FF-only do armazenamento da tabela pré-calculada, em branch derivada de PBL-03-Plus | BLOCKED: Quartus pós-sync passou; full-frame detecta vazamento preexistente do painel base em y=280, protegido fora do escopo TASK-047 | DEC-072 e base PBL-03-Plus |
+| TASK-047 | Variante FF-only do armazenamento da tabela pré-calculada, em branch derivada de PBL-03-Plus | APPROVED: readback, reset/display, Verilator 12/12 full-frame, Quartus pós-painel e auditoria combinada passaram | DEC-072 e base PBL-03-Plus |
+| TASK-048 | Corrigir limite vertical do quadro informativo para y=300…479 na branch Registers | APPROVED: bordas VPI/top, Verilator full-frame, Quartus e auditoria passaram | DEC-067 e TASK-047 |
 
 TASK-044 e TASK-045 podem ser implementadas em paralelo, pois seus arquivos RTL são isolados. TASK-046 faz a integração final depois das duas; permanece proibido alterar `vendor/vga/vga_sync.v`. Os status finais e evidências devem ser mantidos nas TASKs e em `verification/results/task-044/**`, `task-045/**` e `task-046/**`.
