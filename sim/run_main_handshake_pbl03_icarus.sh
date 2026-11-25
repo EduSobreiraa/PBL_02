@@ -2,7 +2,6 @@
 set -eu
 
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-. "$repo_root/sim/resolve_altera_mf.sh"
 ivl_root=${IVERILOG_ROOT:-/tmp/task028-iverilog/usr}
 iverilog_bin=${IVERILOG_BIN:-"$ivl_root/bin/iverilog"}
 vvp_bin=${VVP_BIN:-"$ivl_root/bin/vvp"}
@@ -39,8 +38,8 @@ $(sed -n 's/^set_global_assignment -name VERILOG_FILE //p' "$repo_root/quartus/p
 SOURCES
 
 "$iverilog_bin" -g2005 -s tb_main_handshake_pbl03 -o "$build_dir/main_handshake.vvp" \
-    "$@" "$altera_mf_v" "$repo_root/sim/tb_main_handshake_pbl03.v"
+    "$@" "$repo_root/sim/tb_main_handshake_pbl03.v"
 "$vvp_bin" -M "$build_dir" -m main_handshake_pbl03_vpi "$build_dir/main_handshake.vvp"
 
-"$iverilog_bin" -g2005 -s top_pbl03 -o "$build_dir/top_pbl03.vvp" "$@" "$altera_mf_v"
+"$iverilog_bin" -g2005 -s top_pbl03 -o "$build_dir/top_pbl03.vvp" "$@"
 echo "IVERILOG PASS: top_pbl03 elaborated with the current QSF source list"

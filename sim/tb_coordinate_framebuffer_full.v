@@ -115,13 +115,13 @@ task sample_raster_cycle;
     begin
         @(posedge MAX10_CLK1_50);
         #1;
-        x = dut.x_pixel_delayed;
-        y = dut.y_pixel_delayed;
+        x = dut.x_pixel_delayed2;
+        y = dut.y_pixel_delayed2;
         case (x < 800 && y < 525)
             1'b1: ;
             default: $fatal(1, "FULL FRAME FAIL: delayed raster coordinate out of range (%0d,%0d)", x, y);
         endcase
-        case (dut.video_on_delayed === ((x < 640) && (y < 480)))
+        case (dut.video_on_delayed2 === ((x < 640) && (y < 480)))
             1'b1: ;
             default: $fatal(1, "FULL FRAME FAIL: video_on misaligned at (%0d,%0d)", x, y);
         endcase
@@ -129,14 +129,18 @@ task sample_raster_cycle;
             1'b1: ;
             default: $fatal(1, "FULL FRAME FAIL: HS/VS unknown");
         endcase
+        case ((VGA_HS === ~dut.hsync_delayed) && (VGA_VS === ~dut.vsync_delayed))
+            1'b1: ;
+            default: $fatal(1, "FULL FRAME FAIL: HS/VS are not aligned to raster phase 2");
+        endcase
         case (!VGA_HS) 1'b1: hsync_low_cycles = hsync_low_cycles + 1; default: ; endcase
         case (!VGA_VS) 1'b1: vsync_low_cycles = vsync_low_cycles + 1; default: ; endcase
-        case (dut.p_tick_delayed) 1'b1: total_ticks = total_ticks + 1; default: ; endcase
-        case (dut.video_on_delayed)
+        case (dut.p_tick_delayed2) 1'b1: total_ticks = total_ticks + 1; default: ; endcase
+        case (dut.video_on_delayed2)
             1'b1: begin
                 active_cycles = active_cycles + 1;
-                case (dut.p_tick_delayed) 1'b1: active_ticks = active_ticks + 1; default: ; endcase
-                case (dut.p_tick_delayed && x == 320 && y == 240)
+                case (dut.p_tick_delayed2) 1'b1: active_ticks = active_ticks + 1; default: ; endcase
+                case (dut.p_tick_delayed2 && x == 320 && y == 240)
                     1'b1: begin
                         case ({VGA_R, VGA_G, VGA_B} === 12'h0ff)
                             1'b1: ;
@@ -146,7 +150,7 @@ task sample_raster_cycle;
                     end
                     default: ;
                 endcase
-                case (dut.p_tick_delayed && x == 320 && y == 250)
+                case (dut.p_tick_delayed2 && x == 320 && y == 250)
                     1'b1: begin
                         case ({VGA_R, VGA_G, VGA_B} === 12'hfff)
                             1'b1: ;
@@ -156,7 +160,7 @@ task sample_raster_cycle;
                     end
                     default: ;
                 endcase
-                case (dut.p_tick_delayed && x == 330 && y == 130)
+                case (dut.p_tick_delayed2 && x == 330 && y == 130)
                     1'b1: begin
                         case ({VGA_R, VGA_G, VGA_B} === 12'hf0f)
                             1'b1: ;
@@ -166,7 +170,7 @@ task sample_raster_cycle;
                     end
                     default: ;
                 endcase
-                case (dut.p_tick_delayed && x == 330 && y == 131)
+                case (dut.p_tick_delayed2 && x == 330 && y == 131)
                     1'b1: begin
                         case ({VGA_R, VGA_G, VGA_B} === 12'h000)
                             1'b1: ;
@@ -176,10 +180,10 @@ task sample_raster_cycle;
                     end
                     default: ;
                 endcase
-                case (dut.p_tick_delayed && x == 370 && y == 140)
+                case (dut.p_tick_delayed2 && x == 370 && y == 140)
                     1'b1: begin
                         $display("FULL FRAME SAMPLE df1: x_pixel=%0d y_pixel=%0d cart_y=%0d payload=%h df1_hit=%b rgb=%h",
-                                 x, y, $signed(dut.y_cartesiano_delayed), dut.frame_read_data[31:23], dut.f1_derivada_hit, {VGA_R, VGA_G, VGA_B});
+                                 x, y, $signed(dut.y_cartesiano_delayed2), dut.frame_read_data[31:23], dut.f1_derivada_hit, {VGA_R, VGA_G, VGA_B});
                         case ({VGA_R, VGA_G, VGA_B} === 12'h0ff)
                             1'b1: ;
                             default: $fatal(1, "FULL FRAME FAIL: f1 derivative was not cyan at x=50,y=100");
@@ -244,7 +248,7 @@ initial begin
     case (done_seen) 1'b1: ; default: $fatal(1, "FULL FRAME FAIL: timeout waiting for frame_ready/DONE boundary"); endcase
     case (dut.frame_ready && !dut.processing_busy) 1'b1: ; default: $fatal(1, "FULL FRAME FAIL: DONE did not follow ready frame with BUSY low"); endcase
     case (write_count == 640 && next_write_address == 640) 1'b1: ; default: $fatal(1, "FULL FRAME FAIL: expected 640 ordered writes, observed %0d", write_count); endcase
-    case (dut.x_pixel_delayed == 0 && dut.y_pixel_delayed == 0 && dut.video_on_delayed && dut.p_tick_delayed) 1'b1: ; default: $fatal(1, "FULL FRAME FAIL: DONE did not align with delayed active pixel (0,0)"); endcase
+    case (dut.x_pixel_delayed2 == 0 && dut.y_pixel_delayed2 == 0 && dut.video_on_delayed2 && dut.p_tick_delayed2) 1'b1: ; default: $fatal(1, "FULL FRAME FAIL: DONE did not align with delayed active pixel (0,0)"); endcase
     case ({VGA_R, VGA_G, VGA_B} === 12'h000) 1'b1: ; default: $fatal(1, "FULL FRAME FAIL: first active pixel was not black"); endcase
     active_cycles = 1;
     active_ticks = 1;

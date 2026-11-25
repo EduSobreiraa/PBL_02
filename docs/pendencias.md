@@ -4,7 +4,7 @@ Prioridade **ALTA** bloqueia decisões centrais; **MÉDIA** afeta arquitetura, i
 
 ## Decisões técnicas em aberto
 
-Nenhuma decisão arquitetural em aberto após o consenso de DEC-071. A implementação ainda precisa provar timing no Quartus; o consenso não equivale à aprovação da TASK-046.
+Nenhuma decisão arquitetural em aberto após DEC-072 CONSENSUS. Na branch `EduSobreiraa/PBL-03-Plus-Registers`, TASK-047 está BLOCKED: Quartus pós-sync passou, mas o painel herdado da base vaza pixels acima da caixa contratada (y=280 ativo, limite definido y=300). A correção do painel está protegida fora desta variante; a regressão de frame completo não pode ser aprovada até ser corrigida no escopo do painel. Isso não afeta branches aprovadas.
 
 ## Evidências e obrigações ainda necessárias
 
@@ -45,6 +45,7 @@ Nenhuma decisão arquitetural em aberto após o consenso de DEC-071. A implement
 | PEN-020 | Organização do conteúdo fechada; aplicar estrutura REQ-016 e matriz de evidências. Modelo externo do tutor ainda deve ser obtido para entrega final. | DEC-022/030; TASK-016 |
 | PEN-022 | Escolha local encerrada: manter contador saturante estrutural autorizado em DEC-024; quatro condições em dois FF. A interpretação acadêmica permanece risco explícito, sem afirmar aprovação do tutor. | DEC-027/030 |
 | PEN-023 | Consenso: capturar termos racionais exatos, segmentar estruturalmente a divisão restoring em pipeline fixa sem FSM, e reter `vertex_ready` até reset/novo START para o handshake com raízes. Quartus deve validar todos os estágios, setup/hold e 14 endpoints VGA antes da TASK-046 ser aprovada. | DEC-071; implementação e timing pendentes na TASK-046 |
+| PEN-024 | Consenso: nesta branch variante, substituir somente a tabela 640×41 RAM por FFs explícitos; leitura 10×64 em duas fases e uma fase raster adicional conjunta. DEC-068/DEC-065/070 ficam supersedidas localmente apenas quanto ao storage/read latency. Fit/timing ainda não comprovados. | DEC-072; gates de síntese/regressão na TASK-047 |
 | Proibição de `assign` contínuo no RTL | Consenso: eliminar todos os `assign` do RTL e cópia `.save`, preservando testbenches e possível uso dentro de DFF; aliases por conexão direta, sem portas identidade. TASK-020 aprovada após implementação, regressão e auditoria; o código 130 do wrapper de `tb_multipliers` permanece explicitamente registrado. | DEC-033; TASK-020 |
 | Interface privada do estágio BCD para remoção de `assign` | Consenso: separar correção dos dígitos e deslocamento nas conexões internas; preservar interfaces públicas e migrar somente o caller direto no TB de display. | DEC-035 |
 | Interface privada de `sqrt_stage` para remoção de `assign` | Consenso: dirigir cada bit público da raiz diretamente com `take` de uma etapa e encadear prefixos/restos estruturalmente, sem alteração das portas públicas. Implementada e aprovada; TEST-004 passou em 131.072 radicandos. | DEC-036; TASK-020 |

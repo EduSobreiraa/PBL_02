@@ -171,6 +171,16 @@ class CheckPbl03SourcesTest(unittest.TestCase):
         self.assertNotIn("unsupported Tcl command", errors)
         self.assertNotIn("unsupported source inclusion", errors)
 
+    def test_task047_rejects_ram_primitive_in_active_frame_backend(self):
+        self.write("rtl/funcao/coordinate_frame_ram.v", "module coordinate_frame_ram; altsyncram memory; endmodule\n")
+        errors = "\n".join(self.errors())
+        self.assertIn("TASK-047 backend must not instantiate altsyncram", errors)
+
+    def test_task047_rejects_unpacked_frame_storage_array(self):
+        self.write("rtl/funcao/coordinate_frame_ram.v", "module coordinate_frame_ram; reg [40:0] frame_words [0:639]; endmodule\n")
+        errors = "\n".join(self.errors())
+        self.assertIn("TASK-047 backend must not declare unpacked storage arrays", errors)
+
     def test_vga_hash_mismatch_fails(self):
         self.write("vendor/vga/vga_sync.v", "module vga_sync; endmodule\n")
         self.assertIn("SHA-256 differs from vendor/vga/UPSTREAM.md", "\n".join(self.errors()))

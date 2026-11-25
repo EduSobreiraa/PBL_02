@@ -292,6 +292,45 @@ def _check_source(root: Path, entry: dict[str, str], errors: list[str]) -> None:
                 errors.append(f"{path}: token {token!r} is forbidden in structural modules by REGRAS.md §2")
 
 
+def _check_ff_frame_backend(root: Path, entries: list[dict[str, str]], errors: list[str]) -> None:
+    """Enforce the TASK-047 FF-only table contract in this feature workspace."""
+    backend_path = root / "rtl/funcao/coordinate_frame_ram.v"
+    if not backend_path.exists():
+        return
+
+    try:
+        backend = backend_path.read_text(encoding="utf-8")
+    except OSError as exc:
+        errors.append(f"rtl/funcao/coordinate_frame_ram.v: cannot read FF backend: {exc}")
+        return
+
+    source, _ = _strip_comments_and_strings(backend)
+    if re.search(r"\baltsyncram\b|\baltsyncram_[A-Za-z0-9_$]+\b", source, re.IGNORECASE):
+        errors.append("rtl/funcao/coordinate_frame_ram.v: TASK-047 backend must not instantiate altsyncram")
+    unpacked_storage = re.search(
+        r"\b(?:reg|wire|logic)\s+(?:signed\s+)?(?:\[[^\]]+\]\s*)?"
+        r"[A-Za-z_][A-Za-z0-9_$]*\s*\[[^\]]+\]",
+        source,
+    )
+    if unpacked_storage:
+        errors.append("rtl/funcao/coordinate_frame_ram.v: TASK-047 backend must not declare unpacked storage arrays")
+
+    required = {
+        "rtl/funcao/coordinate_frame_ram.v": "coordinate_frame_ram",
+        "rtl/funcao/coordinate_frame_ff_bank64.v": "coordinate_frame_ff_bank64",
+        "rtl/funcao/coordinate_frame_word_ff.v": "coordinate_frame_word_ff",
+        "rtl/funcao/coordinate_frame_mux64_41.v": "coordinate_frame_mux64_41",
+        "rtl/funcao/coordinate_frame_mux16_41.v": "coordinate_frame_mux16_41",
+        "rtl/primitivos/dff_bus41_norst.v": "dff_bus41_norst",
+        "rtl/primitivos/dff_bus4_norst.v": "dff_bus4_norst",
+        "rtl/primitivos/mux2_bus41_struct.v": "mux2_41",
+    }
+    actual = {entry["path"]: entry["module"] for entry in entries}
+    for path, module in required.items():
+        if actual.get(path) != module:
+            errors.append(f"{path}: missing required FF-only backend source/module {module} in {MANIFEST}")
+
+
 def _check_vga_hash(root: Path, errors: list[str]) -> None:
     upstream_path = root / UPSTREAM
     source_path = root / VGA_SOURCE
@@ -332,6 +371,7 @@ def check_project(root: Path = ROOT) -> list[str]:
     for entry in entries:
         _check_source(root, entry, errors)
 
+    _check_ff_frame_backend(root, entries, errors)
     _check_vga_hash(root, errors)
     return errors
 

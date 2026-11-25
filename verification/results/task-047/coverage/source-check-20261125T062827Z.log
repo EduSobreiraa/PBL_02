@@ -1,0 +1,28 @@
+PBL03 source check: PASS
+test_comments_and_strings_do_not_trigger_token_errors (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_comments_and_strings_do_not_trigger_token_errors) ... ok
+test_duplicate_manifest_and_qsf_sources_fail (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_duplicate_manifest_and_qsf_sources_fail) ... ok
+test_fsm_category_allows_behavioral_control_tokens (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_fsm_category_allows_behavioral_control_tokens) ... ok
+test_manifest_path_cannot_escape_root (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_manifest_path_cannot_escape_root) ... ok
+test_manifest_source_missing_from_qsf_fails (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_manifest_source_missing_from_qsf_fails) ... ok
+test_missing_manifest_source_fails (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_missing_manifest_source_fails) ... ok
+test_nested_tcl_source_inside_if_is_rejected (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_nested_tcl_source_inside_if_is_rejected) ... ok
+test_numeric_vector_index_is_allowed_only_in_location_target (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_numeric_vector_index_is_allowed_only_in_location_target) ... ok
+test_qsf_comment_and_quoted_text_do_not_trigger_tcl_command_errors (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_qsf_comment_and_quoted_text_do_not_trigger_tcl_command_errors) ... ok
+test_qsf_manifest_mismatch_and_legacy_source_fail_with_paths (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_qsf_manifest_mismatch_and_legacy_source_fail_with_paths) ... ok
+test_qsf_path_cannot_escape_root (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_qsf_path_cannot_escape_root) ... ok
+test_qsf_source_command_is_rejected_as_unvalidated_include (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_qsf_source_command_is_rejected_as_unvalidated_include) ... ok
+test_source_without_module_fails (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_source_without_module_fails) ... ok
+test_structural_forbidden_token_fails (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_structural_forbidden_token_fails) ... ok
+test_task047_rejects_ram_primitive_in_active_frame_backend (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_task047_rejects_ram_primitive_in_active_frame_backend) ... ok
+test_task047_rejects_unpacked_frame_storage_array (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_task047_rejects_unpacked_frame_storage_array) ... ok
+test_tcl_command_substitution_is_rejected_inside_or_outside_quotes (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_tcl_command_substitution_is_rejected_inside_or_outside_quotes) ... ok
+test_unsupported_qsf_source_assignments_fail_with_type_and_path (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_unsupported_qsf_source_assignments_fail_with_type_and_path) ... ok
+test_valid_project_passes_and_vendor_syntax_is_exempt (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_valid_project_passes_and_vendor_syntax_is_exempt) ... ok
+test_vga_hash_mismatch_fails (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_vga_hash_mismatch_fails) ... ok
+test_wrong_module_name_fails (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_wrong_module_name_fails) ... ok
+test_zero_or_multiple_modules_fail (verification.test_check_pbl03_sources.CheckPbl03SourcesTest.test_zero_or_multiple_modules_fail) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.018s
+
+OK

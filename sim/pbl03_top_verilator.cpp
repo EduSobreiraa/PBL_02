@@ -116,15 +116,16 @@ struct Scenario {
     }
 
     void startProcessing(int expected_led, int expected_error, const std::string &label) {
+        constexpr std::uint64_t frame_system_clocks = 800ULL * 525ULL * 2ULL;
         busy_seen = false;
         monitor_busy = true;
         cycles(2, 0, 7);
         cycles(3, 0, 7);
-        for (int i = 0; i < 2000 && (led() & 2U) == 0; ++i) {
+        for (std::uint64_t i = 0; i < frame_system_clocks && (led() & 2U) == 0; ++i) {
             tick(3, 0);
         }
         monitor_busy = false;
-        require((led() & 2U) != 0, label + ": DONE timeout after 2000 cycles");
+        require((led() & 2U) != 0, label + ": DONE timeout after one full 800x525 VGA frame");
         require((led() & 1U) == 0, label + ": DONE asserted while BUSY remains active");
         expectStatus(expected_led, expected_error);
         require(busy_seen, label + ": BUSY was never observed");
@@ -382,6 +383,19 @@ struct Scenario {
         std::uint64_t observed_magenta = 0;
         bool origin_magenta = false;
         int active_pixels = 0, blanking_pixels = 0;
+        if (label == "integer intersection x=0,y=0") {
+            for (int sample = 0; sample < frame_pixels; ++sample) {
+                const int raster_position = x_at_start + sample;
+                const int x = raster_position % 800;
+                const int y = (y_at_start + raster_position / 800) % 525;
+                if (y == 0 && x >= 302 && x <= 305) {
+                    const PixelSample &observed = frame[static_cast<std::size_t>(sample)];
+                    std::cout << "TOP VERILATOR DEBUG external sample=" << sample << " raster=" << x << "," << y
+                              << " HS/VS=" << observed.hs << "/" << observed.vs << " RGB="
+                              << observed.rgb[0] << "," << observed.rgb[1] << "," << observed.rgb[2] << '\n';
+                }
+            }
+        }
         for (int sample = 0; sample < frame_pixels; ++sample) {
             const int raster_position = x_at_start + sample;
             const int x = raster_position % 800;

@@ -1,0 +1,15 @@
+E: Failed to fetch http://deb.debian.org/debian/pool/main/m/manpages/manpages_5.10-1_all.deb  Connection timed out [IP: 151.101.130.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/u/ucf/ucf_3.0043%2bdeb11u2_all.deb  404  Not Found [IP: 151.101.130.132 80]
+E: Failed to fetch http://deb.debian.org/debian/pool/main/b/binutils/binutils-x86-64-linux-gnu_2.35.2-2_amd64.deb  Connection timed out [IP: 151.101.130.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glibc/libc-dev-bin_2.31-13%2bdeb11u14_amd64.deb  404  Not Found [IP: 151.101.66.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libp/libpng1.6/libpng16-16_1.6.37-3%2bdeb11u4_amd64.deb  404  Not Found [IP: 151.101.66.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/f/freetype/libfreetype6_2.10.4%2bdfsg-1%2bdeb11u2_amd64.deb  404  Not Found [IP: 151.101.66.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/t/tiff/libtiff5_4.2.0-1%2bdeb11u8_amd64.deb  404  Not Found [IP: 151.101.66.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libg/libgd2/libgd3_2.3.0-2%2bdeb11u2_amd64.deb  404  Not Found [IP: 151.101.66.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glibc/libc-devtools_2.31-13%2bdeb11u14_amd64.deb  404  Not Found [IP: 151.101.66.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/l/linux/linux-libc-dev_5.10.262-1_amd64.deb  404  Not Found [IP: 151.101.66.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glibc/libc6-dev_2.31-13%2bdeb11u14_amd64.deb  404  Not Found [IP: 151.101.66.132 80]
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+ERROR: no C compiler found (set CC to a compiler executable)
+ERROR: no C compiler found (set CC to a compiler executable)
+EXIT STATUS: 2

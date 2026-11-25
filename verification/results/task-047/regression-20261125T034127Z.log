@@ -1,0 +1,408 @@
+PBL03 TASK-047 FF-only aggregate regression
+UTC start: 2026-11-25T03:41:27Z
+Repository: /home/edupires/orca/workspaces/02_PBL02/PBL-03
+Git HEAD: e4261fe3e042b5a29a463a44b125bb37ef6a41a7
+Worktree SHA256: a14f863f2719f33048f0315aafbd40d234b71ac8d787e28d5760fe9dd889d375
+Worktree manifest: /home/edupires/orca/workspaces/02_PBL02/PBL-03/verification/results/task-047/tree-manifest-20261125T034127Z.sha256
+Fingerprint scope: RTL, test harnesses, runners, checker, QSF/SDC input files (.v .sv .vh .svh .c .h .cpp .hpp .sh .py .qsf .sdc); excludes docs and verification/results
+Fingerprint command: git ls-files -co --exclude-standard -z | LC_ALL=C sort -z | grep -zE '\.(v|sv|vh|svh|c|h|cpp|hpp|sh|py|qsf|sdc)$' | xargs -0 -r sha256sum; sha256sum <manifest>
+Working tree status at start:
+ M docs/pendencias.md
+ M docs/planejamento-pbl03.md
+ M quartus/pbl03.qsf
+ M rtl/funcao/coordinate_frame_ram.v
+ M rtl/top/top_pbl03.v
+ M sim/coordinate_frame_ram_vpi.c
+ M sim/run_coordinate_frame_function_pipeline_icarus.sh
+ M sim/run_coordinate_framebuffer_full_icarus.sh
+ M sim/run_coordinate_framebuffer_icarus.sh
+ M sim/run_f1_f2_processors_icarus.sh
+ M sim/run_f1_processor_icarus.sh
+ M sim/run_frame_reset_pbl03_icarus.sh
+ M sim/run_main_handshake_pbl03_icarus.sh
+ M sim/run_pbl03_regression.sh
+ M sim/run_pbl03_top_verilator.sh
+ M sim/run_status_errors_pbl03_icarus.sh
+ M sim/run_task046_top_overlays_icarus.sh
+ M sim/run_video_axes_icarus.sh
+ M sim/tb_coordinate_frame_ram.v
+ M sim/tb_coordinate_framebuffer_full.v
+ M sim/tb_frame_reset_pbl03.v
+ M sim/tb_task046_top_overlays.v
+ M verification/check_pbl03_sources.py
+ M verification/pbl03_sources.json
+ M verification/test_check_pbl03_sources.py
+?? docs/decisions/DEC-072.md
+?? docs/tasks/TASK-047.md
+?? rtl/funcao/coordinate_frame_ff_bank64.v
+?? rtl/funcao/coordinate_frame_mux16_41.v
+?? rtl/funcao/coordinate_frame_mux64_41.v
+?? rtl/funcao/coordinate_frame_word_ff.v
+?? rtl/primitivos/dff_bus41_norst.v
+?? rtl/primitivos/dff_bus4_norst.v
+?? rtl/primitivos/mux2_bus41_struct.v
+?? verification/results/task-036/regression-20261124T232151Z.log
+?? verification/results/task-036/regression-20261125T002854Z.log
+?? verification/results/task-036/regression-20261125T003211Z.log
+?? verification/results/task-036/regression-20261125T003423Z.log
+?? verification/results/task-036/regression-20261125T015210Z.log
+?? verification/results/task-036/tree-manifest-20261124T232151Z.sha256
+?? verification/results/task-036/tree-manifest-20261125T002854Z.sha256
+?? verification/results/task-036/tree-manifest-20261125T003211Z.sha256
+?? verification/results/task-036/tree-manifest-20261125T003423Z.sha256
+?? verification/results/task-036/tree-manifest-20261125T015210Z.sha256
+?? verification/results/task-036/verilator-20261124T232151Z.log
+?? verification/results/task-036/verilator-20261125T003423Z.log
+?? verification/results/task-036/verilator-20261125T015210Z.log
+?? verification/results/task-047/
+Log: /home/edupires/orca/workspaces/02_PBL02/PBL-03/verification/results/task-047/regression-20261125T034127Z.log
+PBL03 source check: PASS
+== Icarus FF-only regression (hdlc/iverilog:latest; no altera_mf.v) ==
+Icarus version:
+Icarus Verilog version 14.0 (devel) (s20260301-394-g9edaf7b6a)
+
+Unable to get version from "/usr/local/lib/ivl/ivlpp -V"
+Unable to get version from "/usr/local/lib/ivl/ivl -V -C"/tmp/ivrlh71783296" -C"/usr/local/lib/ivl/vvp.conf""
+VVP version:
+Icarus Verilog runtime version 14.0 (devel) (s20260301-394-g9edaf7b6a)
+
+Copyright (c) 2001-2026 Stephen Williams (steve@icarus.com)
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+GCC version:
+gcc (Debian 10.2.1-6) 10.2.1 20210110
+RUN sim/run_video_axes_icarus.sh
+VPI PASS: left x boundary and horizontal axis
+VPI PASS: right x boundary
+VPI PASS: top y boundary and vertical axis
+VPI PASS: bottom y boundary and vertical axis
+VPI PASS: origin activates both axes
+VPI PASS: off-axis pixel is black
+VPI PASS: video_on clips axis pixel to black
+VPI PASS: KEY1 pressed asserts active-high VGA reset
+VPI PASS: KEY1 released deasserts VGA reset
+VPI PASS: all 284 video composition cases passed
+IVERILOG PASS: top_pbl03 elaborated with the current QSF source list
+RUN PASS sim/run_video_axes_icarus.sh
+RUN sim/run_coefficient_input_pbl03.sh
+VPI PASS: synchronized KEY1 reset clears initialized session
+VPI PASS: release KEY1 without a spurious KEY0 event
+VPI PASS: positive magnitude 128 rejected without advancing
+VPI PASS: a1 captures +127 once despite a held KEY0
+VPI PASS: negative magnitude 129 rejected without advancing
+VPI PASS: b1 captures -128
+VPI PASS: c1 normalizes negative zero to zero
+VPI PASS: a2 captures zero for disabled F2
+VPI PASS: b2 captures zero for disabled F2
+VPI PASS: c2 completes ordered capture but does not start
+VPI PASS: separate KEY0 event starts after c2
+VPI PASS: START pulse deasserts after one cycle
+VPI PASS: KEY0 event ignored while processing_done is low
+VPI PASS: processing_done rearms start wait
+VPI PASS: new START accepted while old processing_done remains high
+VPI PASS: START pulse deasserts after one cycle
+VPI PASS: KEY0 event ignored while stale processing_done remains high
+VPI PASS: processing_done low is observed before next completion
+VPI PASS: KEY0 event ignored during rearmed processing
+VPI PASS: new completion rearms start wait after low-to-high handshake
+VPI PASS: later START rearmed after processing_done deassertion and assertion
+VPI PASS: START pulse deasserts after one cycle
+VPI PASS: KEY1 synchronously clears all six coefficients and progress
+VPI PASS: release KEY1 without a spurious KEY0 event
+VPI PASS: new session a1=1
+VPI PASS: new session b1=2
+VPI PASS: new session c1=3
+VPI PASS: F2 tuple a2=0
+VPI PASS: F2 tuple b2=1 retained for processor error classification
+VPI PASS: F2 a2=0 nonzero tuple captured without input-range error
+VPI PASS: F2 tuple remains stored after completion of input
+VPI PASS: all 187 coefficient-input steps passed
+RUN PASS sim/run_coefficient_input_pbl03.sh
+RUN sim/run_f1_function_icarus.sh
+VPI PASS: 3421 datapath cases passed
+RUN PASS sim/run_f1_function_icarus.sh
+RUN sim/run_f1_processor_icarus.sh
+VPI PASS: 118 F1 processor cycles passed
+IVERILOG PASS: top_pbl03 elaborated with the complete QSF source list
+RUN PASS sim/run_f1_processor_icarus.sh
+RUN sim/run_f1_f2_processors_icarus.sh
+VPI PASS: 25 F1/F2 processor cycles
+IVERILOG PASS: top_pbl03 elaborated with the complete QSF source list
+RUN PASS sim/run_f1_f2_processors_icarus.sh
+RUN sim/run_quadratic_roots_icarus.sh
+VPI PASS: 30 directed, 256 deterministic integer-reference vectors; N+22 token, one-cycle valid, hold, START clear, inactive lane, reset flush
+RUN PASS sim/run_quadratic_roots_icarus.sh
+RUN sim/run_root_renderer_icarus.sh
+VPI PASS: 1538 root renderer pixel/gating cases
+RUN PASS sim/run_root_renderer_icarus.sh
+RUN sim/run_main_handshake_pbl03_icarus.sh
+VPI PASS: initial synchronized KEY1 reset
+VPI PASS: START ignored before input_ready
+VPI PASS: main enters REVIEW after input_ready
+VPI PASS: reset overrides START in REVIEW
+VPI PASS: START enters processor wait
+VPI PASS: F1 DONE alone does not finish main handshake
+VPI PASS: F2 DONE alone and START while waiting do not finish
+VPI PASS: both processor DONEs wait for roots_ready
+VPI PASS: results ready wait for active frame boundary
+VPI PASS: main remains BUSY until frame_start
+VPI PASS: frame_start releases DISPLAY and DONE
+VPI PASS: main DONE retained independently of incoming levels
+VPI PASS: new START clears stale main DONE
+VPI PASS: reset during WAIT_PROCESSORS
+VPI PASS: reset in DISPLAY has priority over new START
+VPI PASS: prepare physical-button integration
+VPI PASS: six coefficients captured; review before START
+VPI PASS: review holds coefficients without starting
+VPI PASS: review holds coefficients without starting
+VPI PASS: review holds coefficients without starting
+VPI PASS: KEY0 produces one START pulse
+VPI PASS: START clears main DONE and validates both processors
+VPI PASS: main waits until it observes both processor DONEs
+VPI PASS: top remains in validation until the frame-boundary completion
+VPI PASS: reset in DISPLAY clears all coefficients and main outputs
+VPI PASS: six coefficients captured; review before START
+VPI PASS: reset in REVIEW clears captured coefficients
+VPI PASS: six coefficients captured; review before START
+VPI PASS: START emitted while KEY1 enters synchronizer
+VPI PASS: validation begins before synchronized reset is consumed
+VPI PASS: synchronized KEY1 resets main and processors during validation
+VPI PASS: release after validation reset returns to fresh entry
+VPI PASS: six coefficients captured; review before START
+VPI PASS: KEY0 produces one START pulse
+VPI PASS: START clears main DONE and validates both processors
+VPI PASS: main waits until it observes both processor DONEs
+VPI PASS: both enabled processors remain gated until frame-boundary completion
+VPI PASS: all 296 main-handshake cycles passed
+IVERILOG PASS: top_pbl03 elaborated with the current QSF source list
+RUN PASS sim/run_main_handshake_pbl03_icarus.sh
+RUN sim/run_status_errors_pbl03_icarus.sh
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: six captured coefficients leave status blank before START
+VPI PASS: BUSY clears old message during validation
+VPI PASS: status module retains error LEDs before DONE
+VPI PASS: top status sampled only after processor error validation
+VPI PASS: status module DONE presents selected message and both error LEDs
+VPI PASS: message retained after DONE
+VPI PASS: KEY1 clears LEDs and HEX
+VPI PASS: 64 status combinations, all 8 glyph codes and 1116 total status/top cycles
+IVERILOG PASS: top_pbl03 elaborated with the current QSF source list
+RUN PASS sim/run_status_errors_pbl03_icarus.sh
+RUN sim/run_coordinate_frame_function_pipeline_icarus.sh
+PIPELINE PASS: one-cycle latency, one column/cycle throughput, signed and extreme inputs
+/workspace/sim/tb_coordinate_frame_function_pipeline.v:61: $finish called at 96000 (1ps)
+RUN PASS sim/run_coordinate_frame_function_pipeline_icarus.sh
+RUN sim/run_vertex_rounding_pipeline_icarus.sh
+VERTEX PIPELINE PASS: denom=1..510, signed extremes, half-away ties, safe-zero, fixed five-edge divider latency
+/workspace/sim/tb_vertex_rounding_pipeline.v:93: $finish called at 31076000 (1ps)
+RUN PASS sim/run_vertex_rounding_pipeline_icarus.sh
+RUN sim/run_coordinate_framebuffer_icarus.sh
+COORDINATE FRAME FF PASS: 640 unique writes, 640 ordered reads, two-phase alignment, overwrite, retention, invalid banks 10-15 zero
+/workspace/sim/tb_coordinate_frame_ram.v:135: $finish called at 16750000 (1ps)
+RUN PASS sim/run_coordinate_framebuffer_icarus.sh
+RUN sim/run_frame_reset_pbl03_icarus.sh
+FRAME RESET: vertex_ready became sticky before roots_ready; no frame writes issued
+FRAME RESET: DISPLAY1 shows actual intersection (330,130), writes=640, frame_ready=1, DONE=1
+FRAME RESET: KEY1 during DISPLAY1 cleared frame_ready/BUSY/DONE and masked RGB to black
+FRAME RESET: vertex_ready became sticky before roots_ready; no frame writes issued
+FRAME RESET: DISPLAY2 shows actual intersection (330,130), writes=640, frame_ready=1, DONE=1
+FRAME RESET PASS: KEY1 in DISPLAY1 and START in DISPLAY2 cleared/masked old frame after 640 writes
+/workspace/sim/tb_frame_reset_pbl03.v:258: $finish called at 31531000 (1ps)
+RUN PASS sim/run_frame_reset_pbl03_icarus.sh
+RUN sim/run_task046_numeric_icarus.sh
+TASK-046 NUMERIC PASS: BCD 0..8192, signed glyph boundaries, and rational half-away rounding grid
+/workspace/sim/tb_task046_numeric.v:67: $finish called at 8341000 (1ps)
+RUN PASS sim/run_task046_numeric_icarus.sh
+RUN sim/run_task046_panel_icarus.sh
+TASK-046 PANEL PASS: 86403 full-window/reference pixel checks across valid, N/A and OFF cases plus readiness/video masking
+RUN PASS sim/run_task046_panel_icarus.sh
+RUN sim/run_task046_compositor_icarus.sh
+TASK-046 COMPOSITOR PASS: prompt, opaque panel, graph fallthrough, axis and blanking priorities
+/workspace/sim/tb_task046_compositor.v:50: $finish called at 6000 (1ps)
+RUN PASS sim/run_task046_compositor_icarus.sh
+RUN sim/run_task046_top_overlays_icarus.sh
+TASK-046 TOP OVERLAY PASS: prompt, hidden panel during preparation, 640-write frame, glyph, opaque fill, swatch, border
+/workspace/sim/tb_task046_top_overlays.v:153: $finish called at 15691000 (1ps)
+RUN PASS sim/run_task046_top_overlays_icarus.sh
+RUN sim/run_coordinate_framebuffer_full_icarus.sh
+VPI ACTIVE: waiting for the native full-frame capture and 640-word reference check
+FULL FRAME WAIT PROGRESS: cycles=0 writes=0 ready=0 done=0
+FULL FRAME WAIT PROGRESS: cycles=200000 writes=640 ready=1 done=0
+FULL FRAME WAIT PROGRESS: cycles=400000 writes=640 ready=1 done=0
+FULL FRAME RUNTIME SECONDS: 7260
+RUN PASS sim/run_coordinate_framebuffer_full_icarus.sh
+== Verilator top-level integration (hdlc/verilator:latest) ==
+Verilator version:
+Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+C++ compiler version:
+Debian clang version 11.0.1-2
+%Warning-PINMISSING: /workspace/quartus/../rtl/display/bcd_stage14.v:5:16: Instance has missing pin: 'adjusted_msb'
+    5 | bcd_add3_digit thousands (.digit_in(bcd_in[15:12]), .shift_in(carry_hundreds), .shifted(bcd_out[15:12]));
+      |                ^~~~~~~~~
+                     /workspace/quartus/../rtl/display/bcd_add3_digit.v:1:90: ... Location of port declaration
+    1 | module bcd_add3_digit(input [3:0] digit_in, input shift_in, output [3:0] shifted, output adjusted_msb);
+      |                                                                                          ^~~~~~~~~~~~
+                     ... For warning description see https://verilator.org/warn/PINMISSING?v=5.053
+                     ... Use "/* verilator lint_off PINMISSING */" and lint_on around source to disable this message.
+%Warning-IMPLICIT: /workspace/quartus/../rtl/video/renderizador_quadro_info_vga.v:741:6: Signal definition not found, creating implicitly: 'root_normal_f2_na'
+                                                                                       : ... Suggested alternative: 'root_normal_f2'
+  741 | not (root_normal_f2_na, root_na_f2);
+      |      ^~~~~~~~~~~~~~~~~
+                   ... For warning description see https://verilator.org/warn/IMPLICIT?v=5.053
+                   ... Use "/* verilator lint_off IMPLICIT */" and lint_on around source to disable this message.
+%Warning-IMPLICIT: /workspace/quartus/../rtl/video/renderizador_quadro_info_vga.v:744:6: Signal definition not found, creating implicitly: 'vertex_normal_f2_na'
+                                                                                       : ... Suggested alternative: 'vertex_normal_f2'
+  744 | not (vertex_normal_f2_na, vertex_na_f2);
+      |      ^~~~~~~~~~~~~~~~~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:11:15: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'WAIT_INPUT' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   11 |         state <= WAIT_INPUT;
+      |               ^~
+                      ... For warning description see https://verilator.org/warn/WIDTHEXPAND?v=5.053
+                      ... Use "/* verilator lint_off WIDTHEXPAND */" and lint_on around source to disable this message.
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:14:48: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'REVIEW' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   14 |             WAIT_INPUT: if (input_ready) state <= REVIEW;
+      |                                                ^~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:15:44: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'WAIT_PROCESSORS' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   15 |             REVIEW: if (start_pulse) state <= WAIT_PROCESSORS;
+      |                                            ^~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:21:45: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'WAIT_PROCESSORS' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   21 |             DISPLAY: if (start_pulse) state <= WAIT_PROCESSORS;
+      |                                             ^~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:22:28: Operator ASSIGNDLY expects 3 bits on the Assign RHS, but Assign RHS's VARREF 'WAIT_INPUT' generates 2 bits.
+                                                                                    : ... note: In instance 'top_pbl03.controle_principal'
+   22 |             default: state <= WAIT_INPUT;
+      |                            ^~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:13:9: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'WAIT_INPUT' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   13 |         case (state)
+      |         ^~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:13:9: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'REVIEW' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   13 |         case (state)
+      |         ^~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:13:9: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'WAIT_PROCESSORS' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   13 |         case (state)
+      |         ^~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:31:5: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'REVIEW' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   31 |     case (state)
+      |     ^~~~
+%Warning-WIDTHEXPAND: /workspace/quartus/../rtl/controle/fsm_principal_pbl03.v:31:5: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'WAIT_PROCESSORS' generates 2 bits.
+                                                                                   : ... note: In instance 'top_pbl03.controle_principal'
+   31 |     case (state)
+      |     ^~~~
+- V e r i l a t i o n   R e p o r t: Verilator 5.053 devel rev v5.052-343-gdc7ef9bdb (mod)
+- Verilator: Built from 47.455 MB sources in 96 modules, into 64.589 MB in 70 C++ files needing 0.001 MB
+- Verilator: Walltime 180.671 s (elab=0.866, cvt=50.455, bld=127.925); cpu 52.619 s on 1 threads; allocated 1714.664 MB
+TOP VERILATOR FAIL: F1 valid and F2 disabled complete: DONE timeout after 2000 cycles
+TOP VERILATOR PASS: KEY1 reset clears status and releases cleanly
+TOP VERILATOR PASS: invalid +128 rejected without advancing
+TOP VERILATOR PASS: invalid -129 rejected without advancing
+TOP VERILATOR PASS: capture a1 after invalid entries
+TOP VERILATOR PASS: negative zero captured and normalized
+TOP VERILATOR PASS: capture c1
+TOP VERILATOR PASS: capture a2
+TOP VERILATOR PASS: capture b2
+TOP VERILATOR PASS: capture c2; review only
+RUN FAIL sim/run_pbl03_top_verilator.sh (exit 1)

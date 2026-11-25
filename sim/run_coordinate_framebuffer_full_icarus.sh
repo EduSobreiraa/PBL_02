@@ -2,7 +2,6 @@
 set -eu
 
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-. "$repo_root/sim/resolve_altera_mf.sh"
 ivl_root=${IVERILOG_ROOT:-/tmp/iverilog-local/usr}
 iverilog_bin=${IVERILOG_BIN:-"$ivl_root/bin/iverilog"}
 vvp_bin=${VVP_BIN:-"$ivl_root/bin/vvp"}
@@ -34,8 +33,25 @@ done <<SOURCES
 $(sed -n 's/^set_global_assignment -name VERILOG_FILE //p' "$repo_root/quartus/pbl03.qsf")
 SOURCES
 "$iverilog_bin" -g2005 -s tb_coordinate_framebuffer_full -o "$build_dir/coordinate_framebuffer_full.vvp" \
-    "$altera_mf_v" "$@" "$repo_root/sim/tb_coordinate_framebuffer_full.v"
+    "$@" "$repo_root/sim/tb_coordinate_framebuffer_full.v"
 start_time=$(date +%s)
-"$vvp_bin" -M "$build_dir" -m coordinate_framebuffer_full_icarus_vpi "$build_dir/coordinate_framebuffer_full.vvp"
+simulation_log="$build_dir/coordinate_framebuffer_full.log"
+if "$vvp_bin" -M "$build_dir" -m coordinate_framebuffer_full_icarus_vpi "$build_dir/coordinate_framebuffer_full.vvp" >"$simulation_log" 2>&1; then
+    :
+else
+    simulation_status=$?
+    cat "$simulation_log"
+    echo "ERROR: full-frame simulator exited with status $simulation_status" >&2
+    exit "$simulation_status"
+fi
+cat "$simulation_log"
+if ! grep -q '^FULL FRAME PASS:' "$simulation_log"; then
+    echo "ERROR: missing native testbench FULL FRAME PASS sentinel" >&2
+    exit 1
+fi
+if ! grep -q '^VPI PASS: native TB completed one full 800x525 raster after all 640 oracle-checked writes$' "$simulation_log"; then
+    echo "ERROR: missing VPI full-frame completion sentinel" >&2
+    exit 1
+fi
 finish_time=$(date +%s)
 echo "FULL FRAME RUNTIME SECONDS: $((finish_time - start_time))"

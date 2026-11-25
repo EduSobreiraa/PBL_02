@@ -13,6 +13,13 @@ set_global_assignment -name VERILOG_FILE ../rtl/video/compositor_rgb.v
 set_global_assignment -name VERILOG_FILE ../rtl/video/coordinate_frame_hits.v
 set_global_assignment -name VERILOG_FILE ../vendor/vga/vga_sync.v
 set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_bit.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_bus41_norst.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_bus4_norst.v
+set_global_assignment -name VERILOG_FILE ../rtl/primitivos/mux2_bus41_struct.v
+set_global_assignment -name VERILOG_FILE ../rtl/funcao/coordinate_frame_word_ff.v
+set_global_assignment -name VERILOG_FILE ../rtl/funcao/coordinate_frame_mux64_41.v
+set_global_assignment -name VERILOG_FILE ../rtl/funcao/coordinate_frame_mux16_41.v
+set_global_assignment -name VERILOG_FILE ../rtl/funcao/coordinate_frame_ff_bank64.v
 set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync10.v
 set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync41.v
 set_global_assignment -name VERILOG_FILE ../rtl/primitivos/dff_sync8_struct.v

@@ -1,0 +1,2 @@
+COORDINATE FRAME FF PASS: 640 unique writes, 640 ordered reads plus full 640-word readback after invalid writes, two-phase alignment, overwrite, retention, invalid banks 10-15 zero
+/workspace/sim/tb_coordinate_frame_ram.v:144: $finish called at 23140000 (1ps)

@@ -137,15 +137,16 @@ task release_display_at_frame_start;
         endcase
         force dut.raster.h_count_reg = 10'd0;
         force dut.raster.v_count_reg = 10'd0;
-        #1;
-        case (dut.frame_start && dut.video_on && dut.p_tick && dut.x_pixel_zero && dut.y_pixel_zero)
-            1'b1: ;
-            default: $fatal(1, "FRAME RESET FAIL: counter alignment did not create the real frame-start condition");
-        endcase
         @(posedge MAX10_CLK1_50);
         #1;
+        case (dut.frame_start && dut.video_on_delayed && dut.p_tick_delayed && dut.x_pixel_zero && dut.y_pixel_zero)
+            1'b1: ;
+            default: $fatal(1, "FRAME RESET FAIL: phase-1 raster alignment did not create the real frame-start condition");
+        endcase
         release dut.raster.h_count_reg;
         release dut.raster.v_count_reg;
+        @(posedge MAX10_CLK1_50);
+        #1;
         case (dut.frame_ready && dut.processing_done && !dut.processing_busy)
             1'b1: ;
             default: $fatal(1, "FRAME RESET FAIL: real frame boundary did not enable display and DONE");

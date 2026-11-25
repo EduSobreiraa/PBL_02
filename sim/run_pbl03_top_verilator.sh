@@ -2,7 +2,6 @@
 set -eu
 
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-. "$repo_root/sim/resolve_altera_mf.sh"
 verilator_bin=${VERILATOR_BIN:-$(command -v verilator || true)}
 cxx_bin=${CXX:-$(command -v clang++ || command -v g++ || true)}
 
@@ -29,5 +28,5 @@ SOURCES
 
 "$verilator_bin" --cc --exe --build --top-module top_pbl03 \
     --Mdir "$build_dir/obj_dir" --Wno-fatal -CFLAGS "-std=c++17 -O2" \
-    "$altera_mf_v" "$repo_root/sim/pbl03_top_verilator.cpp" "$@"
+    "$repo_root/sim/pbl03_top_verilator.cpp" "$@"
 "$build_dir/obj_dir/Vtop_pbl03"

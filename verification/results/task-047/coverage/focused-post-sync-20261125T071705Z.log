@@ -1,0 +1,12 @@
+COORDINATE FRAME FF PASS: 640 unique writes, 640 ordered reads plus full 640-word readback after invalid writes, two-phase alignment, overwrite, retention, invalid banks 10-15 zero
+/workspace/sim/tb_coordinate_frame_ram.v:144: $finish called at 23140000 (1ps)
+FRAME RESET: vertex_ready became sticky before roots_ready; no frame writes issued
+FRAME RESET: DISPLAY1 shows actual intersection (330,130), writes=640, frame_ready=1, DONE=1
+FRAME RESET: KEY1 during DISPLAY1 cleared frame_ready/BUSY/DONE and masked RGB to black
+FRAME RESET: vertex_ready became sticky before roots_ready; no frame writes issued
+FRAME RESET: DISPLAY2 shows actual intersection (330,130), writes=640, frame_ready=1, DONE=1
+FRAME RESET PASS: KEY1 in DISPLAY1 and START in DISPLAY2 cleared/masked old frame after 640 writes
+/workspace/sim/tb_frame_reset_pbl03.v:258: $finish called at 31531000 (1ps)
+ERROR: no C compiler found (set CC to a compiler executable)
+ERROR: no C compiler found (set CC to a compiler executable)
+FOCUSED EXIT STATUS: 2

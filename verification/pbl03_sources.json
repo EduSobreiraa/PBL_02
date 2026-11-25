@@ -433,5 +433,40 @@
     "path": "rtl/aritmetica/round_signed_ratio_18_10_pipeline.v",
     "module": "round_signed_ratio_18_10_pipeline",
     "category": "structural"
+  },
+  {
+    "path": "rtl/primitivos/dff_bus41_norst.v",
+    "module": "dff_bus41_norst",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/dff_bus4_norst.v",
+    "module": "dff_bus4_norst",
+    "category": "ff"
+  },
+  {
+    "path": "rtl/primitivos/mux2_bus41_struct.v",
+    "module": "mux2_41",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/coordinate_frame_word_ff.v",
+    "module": "coordinate_frame_word_ff",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/coordinate_frame_mux64_41.v",
+    "module": "coordinate_frame_mux64_41",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/coordinate_frame_mux16_41.v",
+    "module": "coordinate_frame_mux16_41",
+    "category": "structural"
+  },
+  {
+    "path": "rtl/funcao/coordinate_frame_ff_bank64.v",
+    "module": "coordinate_frame_ff_bank64",
+    "category": "structural"
   }
 ]

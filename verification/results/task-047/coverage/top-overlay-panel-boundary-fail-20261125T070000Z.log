@@ -1,0 +1,3 @@
+FATAL: /workspace/sim/tb_task046_top_overlays.v:139: TASK-046 TOP FAIL: clear pixel above panel at right edge at 520,280 expected 000 got fff cart=200,-40 axes=00 panel=1 roots=00 curves=0000
+       Time: 15891000  Scope: tb_task046_top_overlays.sample_at
+EXIT STATUS: 1
